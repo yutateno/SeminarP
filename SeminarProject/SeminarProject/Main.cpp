@@ -1,244 +1,266 @@
-#include "DxLib.h"
-
-
+#include <Windows.h>
+#include <DirectXMath.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
 #include <fbxsdk.h>
-#include "Common.h"
 
-// Function prototypes.
-bool CreateScene(FbxManager* pSdkManager, FbxScene* pScene);
+using namespace DirectX;
 
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dcompiler.lib")
 
-bool CreateScene(FbxManager* /*pSdkManager*/, FbxScene* pScene)
-{
-	int i;
-	FbxTime lTime;
-	FbxAnimCurveKey key;
-	FbxAnimCurve* lCurve = NULL;
+// 一つの頂点情報を格納する構造体
+struct VERTEX {
+	XMFLOAT3 Pos;
+};
 
-	// Create one animation stack
-	FbxAnimStack* lAnimStack = FbxAnimStack::Create(pScene, "Stack001");
+// GPU(シェーダ側)へ送る数値をまとめた構造体
+struct CONSTANT_BUFFER {
+	XMMATRIX mWVP;
+};
 
-	// this stack animation range is limited from 0 to 1 second
-	lAnimStack->LocalStop = FBXSDK_TIME_ONE_SECOND;
-	lAnimStack->Description = "This is the animation stack description field.";
+#define WIN_STYLE WS_OVERLAPPEDWINDOW
+int CWIDTH;     // クライアント領域の幅
+int CHEIGHT;    // クライアント領域の高さ
 
-	// all animation stacks need, at least, one layer.
-	FbxAnimLayer* lAnimLayer = FbxAnimLayer::Create(pScene, "Base Layer");	// the AnimLayer object name is "Base Layer"
-	lAnimStack->AddMember(lAnimLayer);											// add the layer to the stack
+HWND WHandle;
+char *ClassName = (LPSTR)"Temp_Window";
 
-																				// Set and get the blend mode bypass of the layer
-	bool val;
-	lAnimLayer->SetBlendModeBypass(eFbxTypeCount, true);       // set the bypass to all the datatypes.
-	val = lAnimLayer->GetBlendModeBypass(eFbxBool);           // val = true
-	lAnimLayer->SetBlendModeBypass(eFbxBool, false);          // overwrite just for the bool datatype.
-	val = lAnimLayer->GetBlendModeBypass(eFbxBool);           // val = false
-	val = lAnimLayer->GetBlendModeBypass(eFbxChar);           // val = true
-	val = lAnimLayer->GetBlendModeBypass(eFbxDateTime);        // val = true
-	val = lAnimLayer->GetBlendModeBypass((EFbxType)-1);     // invalid type, val = false
-	val = lAnimLayer->GetBlendModeBypass((EFbxType)120);    // invalid type (>MAX_TYPES), val = false
+IDXGISwapChain *pSwapChain;
+ID3D11Device *pDevice;
+ID3D11DeviceContext *pDeviceContext;
 
+ID3D11RenderTargetView *pBackBuffer_RTV;
 
-															// we want to animate the layer's weight property.
-	FbxAnimCurveNode* wcn = lAnimLayer->CreateCurveNode(lAnimLayer->Weight);
-	if (wcn)
-	{
-		// the curve node from the Weight property already contains 1 channel (Weight).
-		i = wcn->GetChannelsCount();                            // i = 1
+ID3D11RasterizerState *pRasterizerState;
+ID3D11VertexShader *pVertexShader;
+ID3D11InputLayout *pVertexLayout;
+ID3D11PixelShader *pPixelShader;
+ID3D11Buffer *pConstantBuffer;
 
-																// Now, let's add a second channel to the animation node. Note that this code
-																// is useless and has only been provided to show the usage of the AddChannel and
-																// ResetChannels
-		bool ret;
-		ret = wcn->AddChannel<int>("MyAddedIntChannel", 99);    // this call will succed
-		i = wcn->GetChannelsCount();                            // i = 2
-		ret = wcn->AddChannel<int>("MyAddedIntChannel", 10);    // this call will fail, since the channel already exists.
-		i = wcn->GetChannelsCount();                            // i = 2
-		wcn->ResetChannels();                                   // remove any added channels
-		i = wcn->GetChannelsCount();                            // i = 1
-	}
+FbxManager *fbxManager = NULL;
+FbxScene *fbxScene = NULL;
+FbxMesh *mesh = NULL;
+ID3D11Buffer *VerBuffer = NULL;
+ID3D11Buffer *IndBuffer = NULL;
+VERTEX *vertices;
 
-	// get the Weight curve (and create it if it does not exist, wich is the case!)
-	lCurve = lAnimLayer->Weight.GetCurve(lAnimLayer, true);
-	if (lCurve)
-	{
-		// add two keys at time 0 sec and 1 sec with values 0 and 100 respectively.
-		lCurve->KeyModifyBegin();
-		for (i = 0; i < 2; i++)
-		{
-			lTime.SetSecondDouble((float)i);
-			key.Set(lTime, i*100.0f);
-			lCurve->KeyAdd(lTime, key);
+static float x = 0;
+
+LRESULT CALLBACK WinProc(HWND, UINT, WPARAM, LPARAM);
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine, int nCmdShow) {
+
+	// ウィンドウクラスを登録する
+	WNDCLASS wc = { 0 };
+	wc.lpfnWndProc = WinProc;
+	wc.hInstance = hInstance;
+	wc.lpszClassName = (LPCWSTR)ClassName;
+	RegisterClass(&wc);
+
+	// ウィンドウの作成
+	WHandle = CreateWindow((LPCWSTR)ClassName, (LPCWSTR)"FBXの読み込み(モデルデータ)", WIN_STYLE, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 800, NULL, NULL, hInstance, NULL);
+	if (WHandle == NULL) return 0;
+	ShowWindow(WHandle, nCmdShow);
+
+	// メッセージループの実行
+	MSG msg = { 0 };
+	while (msg.message != WM_QUIT) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
-		lCurve->KeyModifyEnd();
-	}
+		else {
+			// ----- DXの処理 -----
+			float clearColor[4] = { 0.1, 0.1, 0.1, 1 };
+			pDeviceContext->ClearRenderTargetView(pBackBuffer_RTV, clearColor);
 
-	//
-	// now create a 3 components curvenode and animate two of the three channels.
-	//
-	// first, we need a "dummy" property so we can call the CreateTypedCurveNode
-	FbxProperty p = FbxProperty::Create(pScene, FbxDouble3DT, "Vector3Property");
-	p.Set(FbxDouble3(1.1, 2.2, 3.3));
-	FbxAnimCurveNode* lCurveNode = FbxAnimCurveNode::CreateTypedCurveNode(p, pScene);
+			// パラメータの計算
+			XMVECTOR eye_pos = XMVectorSet(0.0f, 70.0f, 500.0f, 1.0f);
+			XMVECTOR eye_lookat = XMVectorSet(0.0f, 70.0f, 0.0f, 1.0f);
+			XMVECTOR eye_up = XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f);
+			XMMATRIX World = XMMatrixRotationY(x += 0.001);
+			XMMATRIX View = XMMatrixLookAtLH(eye_pos, eye_lookat, eye_up);
+			XMMATRIX Proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)CWIDTH / (FLOAT)CHEIGHT, 0.1f, 800.0f);
 
-	// let's make sure the curveNode is added to the animation layer.
-	lAnimLayer->AddMember(lCurveNode);
+			// パラメータの受け渡し
+			D3D11_MAPPED_SUBRESOURCE pdata;
+			CONSTANT_BUFFER cb;
+			cb.mWVP = XMMatrixTranspose(World * View * Proj);
+			pDeviceContext->Map(pConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);
+			memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));
+			pDeviceContext->Unmap(pConstantBuffer, 0);
 
-	// and to the "Vector3Property" since CreateTypedCurveNode does not make any connection
-	p.ConnectSrcObject(lCurveNode);
-
-	//Example of channel get value:
-	//double v1 = lCurveNode->GetChannelValue<double>(0U, 0.0);   // v1 = 1.1
-	//float  v2 = lCurveNode->GetChannelValue<float> (1U, 0.0f);  // v2 = 2.2
-	//int    v3 = lCurveNode->GetChannelValue<int>   (2U, 0);     // v3 = 3
-
-	//
-	// create two free curves (not connected to anything)
-	//
-
-	// first curve
-	lCurve = FbxAnimCurve::Create(pScene, "curve1");
-	if (lCurve)
-	{
-		// add two keys at time 0 sec and 1 sec with values 0 and 10 respectively.
-		lCurve->KeyModifyBegin();
-		for (i = 0; i < 2; i++)
-		{
-			lTime.SetSecondDouble((float)i);
-			key.Set(lTime, i*10.0f);
-			lCurve->KeyAdd(lTime, key);
+			// 描画実行
+			pDeviceContext->DrawIndexed(mesh->GetPolygonVertexCount(), 0, 0);
+			pSwapChain->Present(0, 0);
 		}
-		lCurve->KeyModifyEnd();
 	}
 
-	// connect it to the second channel
-	lCurveNode->ConnectToChannel(lCurve, 1);
-
-	// second curve
-	lCurve = FbxAnimCurve::Create(pScene, "curve2");
-	if (lCurve)
-	{
-		// add three keys at time 1, 2 and 3 sec with values 3.33, 6.66 and 9.99 respectively
-		lCurve->KeyModifyBegin();
-		for (i = 1; i < 4; i++)
-		{
-			lTime.SetSecondDouble((float)i);
-			key.Set(lTime, i*3.33f);
-			lCurve->KeyAdd(lTime, key);
-		}
-		lCurve->KeyModifyEnd();
-	}
-	// connect it to the third channel
-	lCurveNode->ConnectToChannel(lCurve, "Z"); // for backward compatibility, string identifier are still 
-											   // allowed for the X,Y,Z and W components or "0", "1", ... "9", "A", "B", ... "F" for the Matrix44 datatype
-
-
-											   // ======================================================================
-											   //
-											   // Add a second animation layer and evaluate using the FbxAnimEvaluator
-											   //
-											   // ======================================================================
-	lAnimLayer = FbxAnimLayer::Create(pScene, "Layer2");
-	lAnimStack->AddMember(lAnimLayer);
-
-	// get the number of animation layers in the stack
-	// int nbLayers = lAnimStack->GetMemberCount<FbxAnimLayer>();  // nblayers = 2
-	lAnimLayer = lAnimStack->GetMember<FbxAnimLayer>(1);      // get the second layer
-
-															  // set its blend mode to Additive
-	lAnimLayer->BlendMode.Set(FbxAnimLayer::eBlendAdditive);
-
-	// Now, let's animate the first channel of the "Vector3Property" (remember, we animated the second and
-	// third ones on the base layer - when we connected "curve1" and "curve2" on lCurveNode above)
-	// but first, make sure the property is animatable otherwise the creation of the curveNode is prohibited.
-	p.ModifyFlag(FbxPropertyFlags::eAnimatable, true);
-	lCurveNode = p.GetCurveNode(lAnimLayer, true); // create it since it does not exist yet
-
-												   // use "curve2" to animate it on channel 0
-	lCurveNode->ConnectToChannel(lCurve, 0U);
-
-	// and set the other two channels values
-	lCurveNode->SetChannelValue<double>(1U, 5.0);
-	lCurveNode->SetChannelValue<double>(2U, 0.0);
-
-	// evaluate the "Vector3Property" value at three different times
-	// with the use of the FbxAnimEvaluator so we take into account the two layers
-
-	// make sure the evaluator is using the correct context (context == animstack)
-	pScene->SetCurrentAnimationStack(lAnimStack);
-	for (i = 0; i < 3; i++)
-	{
-		lTime.SetSecondDouble((float)i);
-		FbxDouble3 value = p.EvaluateValue<FbxDouble3>(lTime);
-	}
-
-	/*
-	The base layer has a weight curve:
-
-	Time     |     0       |       1        |      2       |
-	Weight         +-------------+----------------+--------------|
-	Base Layer  |     0.0     |     100.0%     |    (100.0%)  |
-	Layer2      |   <100.0%>  |    <100.0%>    |    <100.0%>  |
-	+-------------+----------------+--------------|
-
-	() Querying values outside the first and/or last keys in a curve will return
-	the first/last key defined.
-	<> Since it has never been set, it defaults to the multiplication neutral element (in percent).
-
-	At the specified times each channel value on their respective layers is:
-
-	Time     |     0       |       1        |      2       |
-	Channel       +-------------+----------------+--------------|
-	0  Base   |     0*      |       1.1*     |    1.1*      |
-	Layer2 |    (3.33)   |      3.33      |    6.66      | (curve2)
-	+-------------+----------------+--------------|
-	1  Base   |     0*      |      10.0*     |    (10.0)    | (curve1)
-	Layer2 |    5.0      |       5.0      |     5.0      |
-	+-------------+----------------+--------------|
-	2  Base   |     0*      |      3.3*      |    6.66*     | (curve2)
-	Layer2 |    0.0      |      0.0       |    0.0       |
-	+-------------+----------------+--------------|
-
-	* key (or property, if not animated) value multiplied by the weight.
-	() same as value at time 1 since there is no key here.
-
-	therefore, considering that the second animation layer's blend mode is set
-	to additive, the evaluated values for v at 0, 1 and 2 seconds are:
-
-	time  |    0        |       1        |      2       |
-	v        +-------------+----------------+--------------|
-	0   |  3.33       |     4.43       |    7.76      |
-	1   |  5.0        |    15.00       |   15.00      |
-	2   |  0.0        |     3.33       |    6.66      |
-	+-------------+----------------+--------------|
-	*/
-	return true;
+	return 0;
 }
 
 
+LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
-// プログラムは WinMain から始まります
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	FbxManager* lSdkManager = NULL;
-	FbxScene* lScene = NULL;
-
-	// Prepare the FBX SDK.
-	InitializeSdkObjects(lSdkManager, lScene);
-
-	if (DxLib_Init() == -1 && !CreateScene(lSdkManager, lScene))		// ＤＸライブラリ初期化処理
+	switch (uMsg) {
+	case WM_CREATE:
 	{
-		FBXSDK_printf("\n\nAn error occurred while creating the scene...\n");
-		DestroySdkObjects(lSdkManager, false);
-		return -1;			// エラーが起きたら直ちに終了
+
+		// ----- パイプラインの準備 -----
+		RECT csize;
+		GetClientRect(hwnd, &csize);
+		CWIDTH = csize.right;
+		CHEIGHT = csize.bottom;
+
+		DXGI_SWAP_CHAIN_DESC scd = { 0 };
+		scd.BufferCount = 1;
+		scd.BufferDesc.Width = CWIDTH;
+		scd.BufferDesc.Height = CHEIGHT;
+		scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		scd.BufferDesc.RefreshRate.Numerator = 60;
+		scd.BufferDesc.RefreshRate.Denominator = 1;
+		scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		scd.OutputWindow = hwnd;
+		scd.SampleDesc.Count = 1;
+		scd.SampleDesc.Quality = 0;
+		scd.Windowed = TRUE;
+		D3D_FEATURE_LEVEL fl = D3D_FEATURE_LEVEL_11_0;
+		D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &fl, 1, D3D11_SDK_VERSION, &scd, &pSwapChain, &pDevice, NULL, &pDeviceContext);
+
+		ID3D11Texture2D *pbbTex;
+		pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pbbTex);
+		pDevice->CreateRenderTargetView(pbbTex, NULL, &pBackBuffer_RTV);
+		pbbTex->Release();
+
+		// ビューポートの設定
+		D3D11_VIEWPORT vp;
+		vp.Width = CWIDTH;
+		vp.Height = CHEIGHT;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+
+		// シェーダの設定
+		ID3DBlob *pCompileVS = NULL;
+		ID3DBlob *pCompilePS = NULL;
+		D3DCompileFromFile(L"shader.hlsl", NULL, NULL, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+		pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
+		D3DCompileFromFile(L"shader.hlsl", NULL, NULL, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+		pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
+
+		// 頂点レイアウト
+		D3D11_INPUT_ELEMENT_DESC layout[] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+		pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
+		pCompileVS->Release();
+		pCompilePS->Release();
+
+		// 定数バッファの設定
+		D3D11_BUFFER_DESC cb;
+		cb.ByteWidth = sizeof(CONSTANT_BUFFER);
+		cb.Usage = D3D11_USAGE_DYNAMIC;
+		cb.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		cb.MiscFlags = 0;
+		cb.StructureByteStride = 0;
+		pDevice->CreateBuffer(&cb, NULL, &pConstantBuffer);
+
+		// FBXの読み込み
+		fbxManager = FbxManager::Create();
+		fbxScene = FbxScene::Create(fbxManager, "fbxscene");
+		FbxString FileName("humanoid.fbx");
+		FbxImporter *fbxImporter = FbxImporter::Create(fbxManager, "imp");
+		fbxImporter->Initialize(FileName.Buffer(), -1, fbxManager->GetIOSettings());
+		fbxImporter->Import(fbxScene);
+		fbxImporter->Destroy();
+
+		// 頂点データの取り出し
+		for (int i = 0; i < fbxScene->GetRootNode()->GetChildCount(); i++) {
+			if (fbxScene->GetRootNode()->GetChild(i)->GetNodeAttribute()->GetAttributeType() == FbxNodeAttribute::eMesh) {
+				mesh = fbxScene->GetRootNode()->GetChild(i)->GetMesh();
+				break;
+			}
+		}
+		vertices = new VERTEX[mesh->GetControlPointsCount()];
+		for (int i = 0; i < mesh->GetControlPointsCount(); i++) {
+			vertices[i].Pos.x = (FLOAT)mesh->GetControlPointAt(i)[0];
+			vertices[i].Pos.y = (FLOAT)mesh->GetControlPointAt(i)[1];
+			vertices[i].Pos.z = (FLOAT)mesh->GetControlPointAt(i)[2];
+		}
+
+		// 頂点データ用バッファの設定
+		D3D11_BUFFER_DESC bd_vertex;
+		bd_vertex.ByteWidth = sizeof(VERTEX) * mesh->GetControlPointsCount();
+		bd_vertex.Usage = D3D11_USAGE_DEFAULT;
+		bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd_vertex.CPUAccessFlags = 0;
+		bd_vertex.MiscFlags = 0;
+		bd_vertex.StructureByteStride = 0;
+		D3D11_SUBRESOURCE_DATA data_vertex;
+		data_vertex.pSysMem = vertices;
+		pDevice->CreateBuffer(&bd_vertex, &data_vertex, &VerBuffer);
+
+		// インデックスデータの取り出しとバッファの設定
+		D3D11_BUFFER_DESC bd_index;
+		bd_index.ByteWidth = sizeof(int) * mesh->GetPolygonVertexCount();
+		bd_index.Usage = D3D11_USAGE_DEFAULT;
+		bd_index.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd_index.CPUAccessFlags = 0;
+		bd_index.MiscFlags = 0;
+		bd_index.StructureByteStride = 0;
+		D3D11_SUBRESOURCE_DATA data_index;
+		data_index.pSysMem = mesh->GetPolygonVertices();
+		pDevice->CreateBuffer(&bd_index, &data_index, &IndBuffer);
+
+		// ラスタライザの設定
+		D3D11_RASTERIZER_DESC rdc = {};
+		rdc.CullMode = D3D11_CULL_BACK;
+		rdc.FillMode = D3D11_FILL_SOLID;
+		rdc.FrontCounterClockwise = TRUE;
+		pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+
+		// オブジェクトの反映
+		UINT stride = sizeof(VERTEX);
+		UINT offset = 0;
+		pDeviceContext->IASetVertexBuffers(0, 1, &VerBuffer, &stride, &offset);
+		pDeviceContext->IASetIndexBuffer(IndBuffer, DXGI_FORMAT_R32_UINT, 0);
+		pDeviceContext->IASetInputLayout(pVertexLayout);
+		pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		pDeviceContext->VSSetConstantBuffers(0, 1, &pConstantBuffer);
+		pDeviceContext->PSSetConstantBuffers(0, 1, &pConstantBuffer);
+		pDeviceContext->VSSetShader(pVertexShader, NULL, 0);
+		pDeviceContext->PSSetShader(pPixelShader, NULL, 0);
+		pDeviceContext->RSSetState(pRasterizerState);
+		pDeviceContext->OMSetRenderTargets(1, &pBackBuffer_RTV, NULL);
+		pDeviceContext->RSSetViewports(1, &vp);
+
+		return 0;
 	}
+	case WM_DESTROY:
 
-	DrawPixel(320, 240, GetColor(255, 255, 255));	// 点を打つ
+		pSwapChain->Release();
+		pDeviceContext->Release();
+		pDevice->Release();
 
-	WaitKey();				// キー入力待ち
+		pBackBuffer_RTV->Release();
 
-	DxLib_End();				// ＤＸライブラリ使用の終了処理
-								// Destroy all objects created by the FBX SDK.
-	DestroySdkObjects(lSdkManager, true);
+		pRasterizerState->Release();
+		pVertexShader->Release();
+		pVertexLayout->Release();
+		pPixelShader->Release();
+		pConstantBuffer->Release();
+		VerBuffer->Release();
 
-	return 0;				// ソフトの終了 
+		fbxScene->Destroy();
+		fbxManager->Destroy();
+
+		delete[] vertices;
+
+		PostQuitMessage(0);
+		return 0;
+	}
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
