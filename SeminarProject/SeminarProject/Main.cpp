@@ -171,7 +171,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// FBX‚Ì“Ç‚Ýž‚Ý
 		fbxManager = FbxManager::Create();
 		fbxScene = FbxScene::Create(fbxManager, "fbxscene");
-		FbxString FileName("humanoid.fbx");
+		FbxString FileName("tkms_binary.fbx");
 		FbxImporter *fbxImporter = FbxImporter::Create(fbxManager, "imp");
 		fbxImporter->Initialize(FileName.Buffer(), -1, fbxManager->GetIOSettings());
 		fbxImporter->Import(fbxScene);

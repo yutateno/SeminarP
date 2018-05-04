@@ -1,9 +1,8 @@
 ﻿  Main.cpp
-c:\users\kingw\documents\seminarproject\seminarproject\seminarproject\main.cpp(75): warning C4838: 'double' から 'float' への変換には縮小変換が必要です
-c:\users\kingw\documents\seminarproject\seminarproject\seminarproject\main.cpp(75): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。
-c:\users\kingw\documents\seminarproject\seminarproject\seminarproject\main.cpp(82): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-c:\users\kingw\documents\seminarproject\seminarproject\seminarproject\main.cpp(138): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-c:\users\kingw\documents\seminarproject\seminarproject\seminarproject\main.cpp(139): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  LINK : 前回のインクリメンタル リンクで C:\Users\kingw\Documents\seminarproject\SeminarProject\x64\Debug\SeminarProject.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
-  SeminarProject.vcxproj -> C:\Users\kingw\Documents\seminarproject\SeminarProject\x64\Debug\SeminarProject.exe
-  SeminarProject.vcxproj -> C:\Users\kingw\Documents\seminarproject\SeminarProject\x64\Debug\SeminarProject.pdb (Full PDB)
+e:\documents\seminarproject\seminarproject\seminarproject\main.cpp(75): warning C4838: 'double' から 'float' への変換には縮小変換が必要です
+e:\documents\seminarproject\seminarproject\seminarproject\main.cpp(75): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。
+e:\documents\seminarproject\seminarproject\seminarproject\main.cpp(82): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+e:\documents\seminarproject\seminarproject\seminarproject\main.cpp(138): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+e:\documents\seminarproject\seminarproject\seminarproject\main.cpp(139): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+  SeminarProject.vcxproj -> E:\Documents\seminarproject\SeminarProject\x64\Debug\SeminarProject.exe
+  SeminarProject.vcxproj -> E:\Documents\seminarproject\SeminarProject\x64\Debug\SeminarProject.pdb (Full PDB)
