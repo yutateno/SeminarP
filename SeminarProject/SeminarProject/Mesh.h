@@ -66,7 +66,7 @@ class Mesh
 public:
 	Mesh();
 	~Mesh();
-	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LPSTR FileName);
+	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LPSTR FileName);		// èâä˙âª
 	HRESULT InitShader();
 	HRESULT LoadMaterialFromFile(LPSTR FileName, MY_MATERIAL** ppMaterial);
 	void Render(D3DXMATRIX& mView, D3DXMATRIX& mProj, D3DXVECTOR3& vLight, D3DXVECTOR3& vEye);
