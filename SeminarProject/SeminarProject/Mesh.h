@@ -66,5 +66,34 @@ class Mesh
 public:
 	Mesh();
 	~Mesh();
+	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LPSTR FileName);
+	HRESULT InitShader();
+	HRESULT LoadMaterialFromFile(LPSTR FileName, MY_MATERIAL** ppMaterial);
+	void Render(D3DXMATRIX& mView, D3DXMATRIX& mProj, D3DXVECTOR3& vLight, D3DXVECTOR3& vEye);
+
+	DWORD m_dwNumVert;
+	DWORD m_dwNumFace;
+	ID3D11Buffer* m_pVertexBuffer;
+	ID3D11Buffer** m_ppIndexBuffer;
+
+	ID3D11InputLayout* m_pVertexLayout;
+	ID3D11VertexShader* m_pVertexShader;
+	ID3D11PixelShader* m_pPixelShader;
+	ID3D11Buffer* m_pConstantBuffer0;
+	ID3D11Buffer* m_pConstantBuffer1;
+
+	DWORD m_dwNumMaterial;
+	MY_MATERIAL* m_pMaterial;
+	ID3D11SamplerState* m_pSampleLinear;
+	ID3D11ShaderResourceView* m_pTexture;
+
+	D3DXVECTOR3 m_vPos;
+	float m_fYaw, m_fPitch, m_fRoll;	// ヤーピッチロール
+	float m_fScale;
+
+private:
+	ID3D11Device* m_pDevice;
+	ID3D11DeviceContext* m_pDeviceContext;
+	HRESULT LoadStaticMesh(LPSTR FileName);
 };
 
