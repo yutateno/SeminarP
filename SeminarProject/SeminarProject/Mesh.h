@@ -16,7 +16,7 @@
 #define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
 #define SAFE_DELETE(x) if(x){delete x; x=0;}
 #define SAFE_DELETE_ARRAY(x) if(x){delete[] x; x=0;}
-#define MAX_LENGTH 100
+#define MAX_LIGHT 100
 
 // 頂点の構造体
 struct MY_VERTEX
@@ -31,7 +31,7 @@ struct SIMPLECONSTANT_BUFFER0
 {
 	D3DXMATRIX mW;	// ワールド座標
 	D3DXMATRIX mWVP;	// ワールドビューポジションの変換座標
-	D3DXVECTOR4 vLightPos[MAX_LENGTH];	// ライト位置
+	D3DXVECTOR4 vLightPos[MAX_LIGHT];	// ライト位置
 	D3DXVECTOR4 vEye;	// カメラ座標
 };
 struct SIMPLECONSTANT_BUFFER1

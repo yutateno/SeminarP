@@ -15,7 +15,7 @@
 //定数定義
 #define WINDOW_WIDTH 640 //ウィンドウ幅
 #define WINDOW_HEIGHT 480 //ウィンドウ高さ
-#define APP_NAME L"空サンプル　D3D初期化と基本シェーダーまで"
+#define APP_NAME L"DirectX11"
 //マクロ
 #define SAFE_RELEASE(x) if(x){x->Release(); x=NULL;}
 

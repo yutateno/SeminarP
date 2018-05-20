@@ -404,3 +404,93 @@ HRESULT Mesh::LoadStaticMesh(LPSTR FileName)
 
 	return S_OK;
 }
+
+void Mesh::Render(D3DXMATRIX& mView, D3DXMATRIX& mProj, D3DXVECTOR3& vLight, D3DXVECTOR3& vEye)
+{
+	D3DXMATRIX mWorld, mTran, mYaw, mPitch, mRoll, mScale;
+	// ワールド座標変換
+	D3DXMatrixScaling(&mScale, m_fScale, m_fScale, m_fScale);
+	D3DXMatrixRotationY(&mYaw, m_fYaw);
+	D3DXMatrixRotationX(&mPitch, m_fPitch);
+	D3DXMatrixRotationZ(&mRoll, m_fRoll);
+	D3DXMatrixTranslation(&mTran, m_vPos.x, m_vPos.y, m_vPos.z);
+
+	mWorld = mScale * mYaw * mPitch * mRoll * mTran;
+
+	// 使用するシェーダを登録
+	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
+	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
+
+	// シェーダーのコンスタントバッファーにデータを渡す
+	D3D11_MAPPED_SUBRESOURCE pData;
+	if (SUCCEEDED(m_pDeviceContext->Map(m_pConstantBuffer0, 0, D3D11_MAP_WRITE_DISCARD, 0, &pData)))
+	{
+		SIMPLECONSTANT_BUFFER0 sg;
+		// ワールド座標を渡す
+		sg.mW = mWorld;
+		D3DXMatrixTranspose(&sg.mW, &sg.mW);
+		// ワールド、カメラ、射影行列を渡す
+		D3DXMATRIX m = mWorld * mView * mProj;
+		D3DXMatrixTranspose(&m, &m);
+		sg.mWVP = m;
+		// ライトの位置を渡す
+		int row = sqrt((double)MAX_LIGHT);
+		for (int i = 0; i < row; i++)
+		{
+			for (int k = 0; k < row; k++)
+			{
+				sg.vLightPos[i*row + k] = D3DXVECTOR4(-row * 1.5 + k * 3, 1, -row * 1.5 + i * 3, 1.0f);
+			}
+		}
+		// 視点位置を渡す
+		sg.vEye = D3DXVECTOR4(vEye.x, vEye.y, vEye.z, 0);
+
+		memcpy_s(pData.pData, pData.RowPitch, (void*)&sg, sizeof(SIMPLECONSTANT_BUFFER0));
+		m_pDeviceContext->Unmap(m_pConstantBuffer0, 0);
+	}
+	// コンスタントバッファーを使うシェーダの登録
+	m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer0);
+	m_pDeviceContext->PSSetConstantBuffers(0, 1, &m_pConstantBuffer0);
+	// 頂点インプットレイアウトをセット
+	m_pDeviceContext->IASetInputLayout(m_pVertexLayout);
+	// プリミティブ・トポロジーをセット
+	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	// 頂点バッファ―をセット
+	UINT stride = sizeof(MY_VERTEX);
+	UINT offset = 0;
+	m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	// マテリアルの数だけ、それぞれのマテリアルのインデックスバッファーを描画
+	for (DWORD i = 0; i < m_dwNumMaterial; i++)
+	{
+		// 使用されないマテリアル対策
+		if (m_pMaterial[i].dwNumFace == 0)
+		{
+			continue;
+		}
+		// インデックスバッファーをセット
+		stride = sizeof(int);
+		offset = 0;
+		m_pDeviceContext->IASetIndexBuffer(m_ppIndexBuffer[i], DXGI_FORMAT_R32_UINT, 0);
+		// マテリアルの各要素をシェーダーに渡す
+		D3D11_MAPPED_SUBRESOURCE pData;
+		if (SUCCEEDED(m_pDeviceContext->Map(m_pConstantBuffer1, 0, D3D11_MAP_WRITE_DISCARD, 0, &pData)))
+		{
+			SIMPLECONSTANT_BUFFER1 sg;
+			sg.vAmbient = m_pMaterial[i].Ka;
+			sg.vDiffuse = m_pMaterial[i].Kd;
+			sg.vSpecular = m_pMaterial[i].Ks;
+			memcpy_s(pData.pData, pData.RowPitch, (void*)&sg, sizeof(SIMPLECONSTANT_BUFFER1));
+			m_pDeviceContext->Unmap(m_pConstantBuffer1, 0);
+		}
+		m_pDeviceContext->VSSetConstantBuffers(1, 1, &m_pConstantBuffer1);
+		m_pDeviceContext->PSSetConstantBuffers(1, 1, &m_pConstantBuffer1);
+		// テクスチャをシェーダーに渡す
+		if (m_pMaterial[i].szTextureName[0] != NULL)
+		{
+			m_pDeviceContext->PSSetSamplers(0, 1, &m_pSampleLinear);
+			m_pDeviceContext->PSSetShaderResources(0, 1, &m_pMaterial[i].pTexture);
+		}
+		// プリミティブをレンダリング
+		m_pDeviceContext->DrawIndexed(m_pMaterial[i].dwNumFace * 3, 0, 0);
+	}
+}
