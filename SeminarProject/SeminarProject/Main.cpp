@@ -1,58 +1,42 @@
-#include "MAIN.h"
-//グローバル変数
-MAIN* g_pMain = NULL;
-//関数プロトタイプの宣言
+#include "Main.h"
+
+Main* g_pMain = NULL;
+
+// 関数プロトタイプの宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-//
-//INT WINAPI WinMain(HINSTANCE hInstance,HINSTANCE,LPSTR,INT)
-//アプリケーションのエントリー関数 
+
+// アプリケーション
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, INT)
 {
-	g_pMain = new MAIN;
+	g_pMain = new Main;
 	if (g_pMain != NULL)
 	{
-		if (SUCCEEDED(g_pMain->InitWindow(hInstance, 0, 0, WINDOW_WIDTH,
-			WINDOW_HEIGHT, APP_NAME)))
+		if (SUCCEEDED(g_pMain->InitWindow(hInstance, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, APP_NAME)))
 		{
 			if (SUCCEEDED(g_pMain->InitD3D()))
 			{
+				// 内容
 				g_pMain->Loop();
 			}
 		}
-		//アプリ終了
+		// アプリ終了
 		g_pMain->DestroyD3D();
 		delete g_pMain;
 	}
 	return 0;
 }
-//
-//LRESULT CALLBACK WndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
-//OSから見たウィンドウプロシージャー（実際の処理はMAINクラスのプロシージャーで処理）
+
+// ウィンドウプロシージャ―
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	return g_pMain->MsgProc(hWnd, uMsg, wParam, lParam);
 }
-//
-//MAIN::MAIN()
-//コンストラクタ
-MAIN::MAIN()
+
+// ウィンドウ作成
+HRESULT Main::InitWindow(HINSTANCE hInstance, INT iX, INT iY, INT iWidth, INT iHeight, LPCWSTR WindowName)
 {
-	ZeroMemory(this, sizeof(MAIN));
-}
-//
-//MAIN::~MAIN()
-//デストラクタ
-MAIN::~MAIN()
-{
-}
-//
-//HRESULT MAIN::InitWindow(HINSTANCE hInstance,
-//ウィンドウ作成
-HRESULT MAIN::InitWindow(HINSTANCE hInstance,
-	INT iX, INT iY, INT iWidth, INT iHeight, LPCWSTR WindowName)
-{
-	// ウィンドウの定義
-	WNDCLASSEX  wc;
+	// ウィンドウ定義
+	WNDCLASSEX wc;
 	ZeroMemory(&wc, sizeof(wc));
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -64,23 +48,22 @@ HRESULT MAIN::InitWindow(HINSTANCE hInstance,
 	wc.lpszClassName = WindowName;
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	RegisterClassEx(&wc);
-	//ウィンドウの作成
-	m_hWnd = CreateWindow(WindowName, WindowName, WS_OVERLAPPEDWINDOW,
-		0, 0, iWidth, iHeight, 0, 0, hInstance, 0);
+
+	// ウィンドウ作成
+	m_hWnd = CreateWindow(WindowName, WindowName, WS_OVERLAPPEDWINDOW, 0, 0, iWidth, iHeight, 0, 0, hInstance, 0);
 	if (!m_hWnd)
 	{
 		return E_FAIL;
 	}
-	//ウインドウの表示
+	// ウィンドウの表示
 	ShowWindow(m_hWnd, SW_SHOW);
 	UpdateWindow(m_hWnd);
 
 	return S_OK;
 }
-//
-//LRESULT MAIN::MsgProc(HWND hWnd,UINT iMsg,WPARAM wParam,LPARAM lParam)
-//ウィンドウプロシージャー
-LRESULT MAIN::MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+
+// ウィンドウプロシージャ―のメイン
+LRESULT Main::MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
 	{
@@ -98,11 +81,16 @@ LRESULT MAIN::MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }
-//
-//void MAIN::Loop()
-//メッセージループとアプリケーション処理の入り口
-void MAIN::Loop()
+
+void Main::Loop()
 {
+	// メッシュ作成
+	m_pMesh = new Mesh;
+	if (FAILED(m_pMesh->Init(m_pDevice, m_pDeviceContext, "a_few_box.obj")))
+	{
+		return;
+	}
+
 	// メッセージループ
 	MSG msg = { 0 };
 	ZeroMemory(&msg, sizeof(msg));
@@ -115,23 +103,19 @@ void MAIN::Loop()
 		}
 		else
 		{
-			//アプリケーションの処理はここから飛ぶ。
+			// アプリケーションの処理
 			App();
 		}
 	}
-	//アプリケーションの終了
 }
-//
-//void MAIN::App()
-//アプリケーション処理。アプリのメイン関数。
-void MAIN::App()
+
+// アプリケーションの処理
+void Main::App()
 {
 	Render();
 }
-//
-//HRESULT MAIN::InitD3D()
-//Direct3D初期化
-HRESULT MAIN::InitD3D()
+
+HRESULT Main::InitD3D()
 {
 	// デバイスとスワップチェーンの作成
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -151,22 +135,18 @@ HRESULT MAIN::InitD3D()
 	D3D_FEATURE_LEVEL pFeatureLevels = D3D_FEATURE_LEVEL_11_0;
 	D3D_FEATURE_LEVEL* pFeatureLevel = NULL;
 
-	if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL,
-		0, &pFeatureLevels, 1, D3D11_SDK_VERSION, &sd, &m_pSwapChain, &m_pDevice,
-		pFeatureLevel, &m_pDeviceContext)))
+	if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &pFeatureLevels, 1, D3D11_SDK_VERSION, &sd, &m_pSwapChain, &m_pDevice, pFeatureLevel, &m_pDeviceContext)))
 	{
 		return FALSE;
 	}
-	//各種テクスチャーと、それに付帯する各種ビューを作成
 
-	//バックバッファーテクスチャーを取得（既にあるので作成ではない）
-	ID3D11Texture2D *pBackBuffer_Tex;
-	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer_Tex);
-	//そのテクスチャーに対しレンダーターゲットビュー(RTV)を作成
-	m_pDevice->CreateRenderTargetView(pBackBuffer_Tex, NULL, &m_pBackBuffer_TexRTV);
-	SAFE_RELEASE(pBackBuffer_Tex);
+	// レンダ―ターゲットビューの作成
+	ID3D11Texture2D* pBackBuffer;
+	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	m_pDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRTV);
+	SAFE_RELEASE(pBackBuffer);
 
-	//デプスステンシルビュー用のテクスチャーを作成
+	// 深度ステンシルビューの作成
 	D3D11_TEXTURE2D_DESC descDepth;
 	descDepth.Width = WINDOW_WIDTH;
 	descDepth.Height = WINDOW_HEIGHT;
@@ -179,14 +159,13 @@ HRESULT MAIN::InitD3D()
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	descDepth.CPUAccessFlags = 0;
 	descDepth.MiscFlags = 0;
-	m_pDevice->CreateTexture2D(&descDepth, NULL, &m_pBuckBuffer_DSTex);
-	//そのテクスチャーに対しデプスステンシルビュー(DSV)を作成
-	m_pDevice->CreateDepthStencilView(m_pBuckBuffer_DSTex, NULL, &m_pBuckBuffer_DSTexDSV);
+	m_pDevice->CreateTexture2D(&descDepth, NULL, &m_pDS);
+	m_pDevice->CreateDepthStencilView(m_pDS, NULL, &m_pDSV);
 
-	//レンダーターゲットビューとデプスステンシルビューをパイプラインにセット
-	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBuffer_TexRTV, m_pBuckBuffer_DSTexDSV);
+	// レンダ―ターゲットビューと深度ステンシルビューをパイプラインにバインド
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRTV, m_pDSV);
 
-	//ビューポートの設定
+	// ビューポートの設定
 	D3D11_VIEWPORT vp;
 	vp.Width = WINDOW_WIDTH;
 	vp.Height = WINDOW_HEIGHT;
@@ -195,7 +174,8 @@ HRESULT MAIN::InitD3D()
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	m_pDeviceContext->RSSetViewports(1, &vp);
-	//ラスタライズ設定
+
+	// ラスタライザの設定
 	D3D11_RASTERIZER_DESC rdc;
 	ZeroMemory(&rdc, sizeof(rdc));
 	rdc.CullMode = D3D11_CULL_NONE;
@@ -203,185 +183,51 @@ HRESULT MAIN::InitD3D()
 	ID3D11RasterizerState* pIr = NULL;
 	m_pDevice->CreateRasterizerState(&rdc, &pIr);
 	m_pDeviceContext->RSSetState(pIr);
-	//hlslファイル読み込み ブロブ作成　ブロブとはシェーダーの塊みたいなもの。XXシェーダーとして特徴を持たない。後で各種シェーダーに成り得る。
-	ID3DBlob *pCompiledShader = NULL;
-	//バーテックスシェーダー作成
-	if (FAILED(MakeShader("Simple.hlsl", "VS", "vs_5_0", (void**)&m_pVertexShader, &pCompiledShader))) return E_FAIL;
-	//頂点インプットレイアウトを定義	
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	UINT numElements = sizeof(layout) / sizeof(layout[0]);
-	//頂点インプットレイアウトを作成
-	if (FAILED(m_pDevice->CreateInputLayout(layout, numElements, pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), &m_pVertexLayout)))
-	{
-		return FALSE;
-	}
-	SAFE_RELEASE(pCompiledShader);
-	//ピクセルシェーダー作成
-	if (FAILED(MakeShader("Simple.hlsl", "PS", "ps_5_0", (void**)&m_pPixelShader, &pCompiledShader))) return E_FAIL;
-	SAFE_RELEASE(pCompiledShader);
-	//コンスタントバッファー作成　ここでは変換行列渡し用
-	D3D11_BUFFER_DESC cb;
-	cb.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	cb.ByteWidth = sizeof(D3DXMATRIX);
-	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	cb.MiscFlags = 0;
-	cb.StructureByteStride = 0;
-	cb.Usage = D3D11_USAGE_DYNAMIC;
-
-	if (FAILED(m_pDevice->CreateBuffer(&cb, NULL, &m_pConstantBuffer)))
-	{
-		return E_FAIL;
-	}
-
-	//ポポリゴン、メッシュなどのジオメトリ関連を作成
-	if (FAILED(InitModel()))
-	{
-		return E_FAIL;
-	}
 
 	return S_OK;
 }
-//
-//HRESULT MAIN::MakeShader(LPSTR szFileName,LPSTR szFuncName,LPSTR szProfileName,void** ppShader,ID3DBlob** ppBlob)
-//hlslファイルを読み込みシェーダーを作成する
-HRESULT MAIN::MakeShader(LPSTR szFileName, LPSTR szFuncName, LPSTR szProfileName, void** ppShader, ID3DBlob** ppBlob)
+
+void Main::DestroyD3D()
 {
-	ID3DBlob *pErrors = NULL;
-	if (FAILED(D3DX11CompileFromFileA(szFileName, NULL, NULL, szFuncName, szProfileName, D3D10_SHADER_DEBUG | D3D10_SHADER_SKIP_OPTIMIZATION, 0, NULL, ppBlob, &pErrors, NULL)))
-	{
-		char*p = (char*)pErrors->GetBufferPointer();
-		MessageBoxA(0, p, 0, MB_OK);
-		return E_FAIL;
-	}
-	SAFE_RELEASE(pErrors);
-	char szProfile[3] = { 0 };
-	memcpy(szProfile, szProfileName, 2);
-	if (strcmp(szProfile, "vs") == 0)//Vertex Shader
-	{
-		if (FAILED(m_pDevice->CreateVertexShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11VertexShader**)ppShader))) return E_FAIL;
-	}
-	if (strcmp(szProfile, "ps") == 0)//Pixel Shader
-	{
-		if (FAILED(m_pDevice->CreatePixelShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11PixelShader**)ppShader))) return E_FAIL;
-	}
-	if (strcmp(szProfile, "gs") == 0)//Geometry Shader
-	{
-		if (FAILED(m_pDevice->CreateGeometryShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11GeometryShader**)ppShader))) return E_FAIL;
-	}
-	if (strcmp(szProfile, "hs") == 0)//Hull Shader
-	{
-		if (FAILED(m_pDevice->CreateHullShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11HullShader**)ppShader))) return E_FAIL;
-	}
-	if (strcmp(szProfile, "ds") == 0)//Domain Shader
-	{
-		if (FAILED(m_pDevice->CreateDomainShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11DomainShader**)ppShader))) return E_FAIL;
-	}
-	if (strcmp(szProfile, "cs") == 0)//Compute Shader
-	{
-		if (FAILED(m_pDevice->CreateComputeShader((*ppBlob)->GetBufferPointer(), (*ppBlob)->GetBufferSize(), NULL, (ID3D11ComputeShader**)ppShader))) return E_FAIL;
-	}
-	return S_OK;
-}
-
-//
-//HRESULT MAIN::InitModel()
-//ポリゴン、メッシュなどのジオメトリ関連を初期化
-HRESULT MAIN::InitModel()
-{
-	//バーテックスバッファー作成
-	SimpleVertex vertices[] =
-	{
-		D3DXVECTOR3(0.0f, 0.5f, 0.0f),
-		D3DXVECTOR3(0.5f, -0.5f, 0.0f),
-		D3DXVECTOR3(-0.5f, -0.5f, 0.0f),
-	};
-	D3D11_BUFFER_DESC bd;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * 3;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-	bd.MiscFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA InitData;
-	InitData.pSysMem = vertices;
-	if (FAILED(m_pDevice->CreateBuffer(&bd, &InitData, &m_pVertexBuffer)))
-	{
-		return E_FAIL;
-	}
-	//バーテックスバッファーをセット
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-
-	return S_OK;
-}
-//
-//void MAIN::Render()
-//シーンを画面にレンダリング
-void MAIN::Render()
-{
-	//画面クリア
-	float ClearColor[4] = { 0,0,0.5,1 };// クリア色作成　RGBAの順
-	m_pDeviceContext->ClearRenderTargetView(m_pBackBuffer_TexRTV, ClearColor);//カラーバッファクリア
-	m_pDeviceContext->ClearDepthStencilView(m_pBuckBuffer_DSTexDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);//デプスステンシルバッファクリア
-
-	D3DXMATRIX World;
-	D3DXMATRIX View;
-	D3DXMATRIX Proj;
-	//ワールドトランスフォーム
-	D3DXMatrixRotationY(&World, timeGetTime() / 100.0f);//単純にyaw回転させる
-														// ビュートランスフォーム
-	D3DXVECTOR3 vEyePt(0.0f, 1.0f, -2.0f); //視点位置
-	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);//注視位置
-	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);//上方位置
-	D3DXMatrixLookAtLH(&View, &vEyePt, &vLookatPt, &vUpVec);
-	// プロジェクショントランスフォーム
-	D3DXMatrixPerspectiveFovLH(&Proj, D3DX_PI / 4, (FLOAT)WINDOW_WIDTH / (FLOAT)WINDOW_HEIGHT, 0.1f, 100.0f);
-	//使用するシェーダーのセット
-	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
-	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
-	//シェーダーのコンスタントバッファーに各種データを渡す
-	D3D11_MAPPED_SUBRESOURCE pData;
-	SIMPLESHADER_CONSTANT_BUFFER cb;
-	if (SUCCEEDED(m_pDeviceContext->Map(m_pConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &pData)))
-	{
-		//ワールド、カメラ、射影行列を渡す
-		D3DXMATRIX m = World * View*Proj;
-		D3DXMatrixTranspose(&m, &m);
-		cb.mWVP = m;
-
-		memcpy_s(pData.pData, pData.RowPitch, (void*)(&cb), sizeof(cb));
-		m_pDeviceContext->Unmap(m_pConstantBuffer, 0);
-	}
-	//このコンスタントバッファーをどのシェーダーで使うか
-	m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
-	m_pDeviceContext->PSSetConstantBuffers(0, 1, &m_pConstantBuffer);
-	//頂点インプットレイアウトをセット
-	m_pDeviceContext->IASetInputLayout(m_pVertexLayout);
-	//プリミティブ・トポロジーをセット
-	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//プリミティブをレンダリング
-	m_pDeviceContext->Draw(3, 0);
-
-	m_pSwapChain->Present(0, 0);//画面更新（バックバッファをフロントバッファに）
-}
-//
-//void MAIN::DestroyD3D()
-//Direct3Dオブジェクトをリリース
-void MAIN::DestroyD3D()
-{
-	SAFE_RELEASE(m_pConstantBuffer);
-	SAFE_RELEASE(m_pVertexShader);
-	SAFE_RELEASE(m_pPixelShader);
-	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pVertexLayout);
+	SAFE_DELETE(m_pMesh);
 	SAFE_RELEASE(m_pSwapChain);
-	SAFE_RELEASE(m_pBackBuffer_TexRTV);
-	SAFE_RELEASE(m_pBuckBuffer_DSTexDSV);
-	SAFE_RELEASE(m_pBuckBuffer_DSTex);
-	SAFE_RELEASE(m_pDeviceContext);
+	SAFE_RELEASE(m_pRTV);
+	SAFE_RELEASE(m_pDSV);
+	SAFE_RELEASE(m_pDS);
 	SAFE_RELEASE(m_pDevice);
+}
+
+// シーンを画面にレンダリングする
+void Main::Render()
+{
+	D3DXMATRIX mView;
+	D3DXMATRIX mProj;
+	// 画面クリア
+	float ClearColor[4] = { 0,0,1,1 };
+	m_pDeviceContext->ClearRenderTargetView(m_pRTV, ClearColor);	// 画面クリア
+	m_pDeviceContext->ClearDepthStencilView(m_pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);	// 深度バッファクリア
+	// 視点座標変換
+	D3DXVECTOR3 vEyePt(0.0f, 1.0f, -3.5f);	// カメラ位置
+	D3DXVECTOR3 vLookAtPt(0.0f, 1.0f, 0.0f);	// 注視位置
+	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);	// 上方位置
+	D3DXMatrixLookAtLH(&mView, &vEyePt, &vLookAtPt, &vUpVec);
+	// 射影変換
+	D3DXMatrixPerspectiveFovLH(&mProj, D3DX_PI / 4, (FLOAT)WINDOW_WIDTH / (FLOAT)WINDOW_HEIGHT, 0.1f, 100.0f);
+	// レンダリング
+	m_pMesh->Render(mView, mProj, D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, -1));
+	m_pMesh->m_fYaw += 0.001;
+	// 画面更新
+	m_pSwapChain->Present(0, 0);
+	// FPS計算表示
+	static DWORD time = 0;
+	static int frame = 0;
+	frame++;
+	char str[50];
+	sprintf(str, "fps=%d", frame);
+	if (timeGetTime() - time > 1000)
+	{
+		time = timeGetTime();
+		frame = 0;
+		SetWindowTextA(m_hWnd, str);
+	}
 }

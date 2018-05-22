@@ -1,29 +1,29 @@
-//グローバル
-cbuffer global
-{
-	matrix g_WVP; //ワールドから射影までの変換行列
-};
-
+////グローバル
+//cbuffer global
+//{
+//	matrix g_WVP; //ワールドから射影までの変換行列
+//};
 //
+////
+////
+////バーテックスシェーダー
+//float4 VS(float4 Pos : POSITION) : SV_POSITION
+//{
+//	Pos = mul(Pos,g_WVP);
+//return Pos;
+//}
 //
-//バーテックスシェーダー
-float4 VS(float4 Pos : POSITION) : SV_POSITION
-{
-	Pos = mul(Pos,g_WVP);
-return Pos;
-}
-
-//
-//
-//ピクセルシェーダー
-float4 PS(float4 Pos : SV_POSITION) : SV_Target
-{
-	return float4(1,1,1,1);
-}
+////
+////
+////ピクセルシェーダー
+//float4 PS(float4 Pos : SV_POSITION) : SV_Target
+//{
+//	return float4(1,1,1,1);
+//}
 
 // 他書き終えたらこれに変えて、たぶん大丈夫
 // 書き換えてない状態でやるとメモリ破綻起こしそう
-/*#define MAX_LIGHT 100
+#define MAX_LIGHT 100
 #define ATTENU 2
 
 Texture2D g_texColor : register(t0);
@@ -67,7 +67,7 @@ VS_OUTPUT VS(float4 Pos : POSITION, float4 Norm : NORMAL, float2 Tex : TEXCOORD)
 }
 
 // ライトの明るさ減衰
-float4 PLight(float3 Pos, float3 LPos, float3 Normal, float2 UV, float3 vEyeVector, float4 LightColor)
+float4 PLight(float3 Pos, float3 LPos, float3 Normal, float2 UV, float3 vEyeVector, float3 LightColor)
 {
 	float3 vLightDir = LPos - Pos;
 	float Distance = length(vLightDir);
@@ -95,9 +95,9 @@ float4 PS(VS_OUTPUT input) : SV_Target
 	{
 		if (length(g_vLightPos[i] - input.vWorldPos) < ATTENU * 2)
 		{
-			FinalColor += PLight(input.vWorldPos[i], input.Normal, input.Tex, normalize(g_vEye - input.vWorldPos), input.Tex.yxy);
+			FinalColor += PLight(input.vWorldPos[i], g_vLightPos[i], input.Normal, input.Tex, normalize(g_vEye - input.vWorldPos), input.Tex.yxy);
 		}
 	}
 
 	return FinalColor;
-}*/
+}
