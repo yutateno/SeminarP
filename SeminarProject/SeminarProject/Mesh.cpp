@@ -30,11 +30,11 @@ HRESULT Mesh::Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LPSTR F
 		MessageBox(0, L"メッシュ用シェーダ作成失敗", NULL, MB_OK);
 		return E_FAIL;
 	}
-	/*if (FAILED(LoadStaticMesh(FileName)))
+	if (FAILED(LoadStaticMesh(FileName)))
 	{
 		MessageBox(0, L"メッシュ作成失敗", NULL, MB_OK);
 		return E_FAIL;
-	}*/
+	}
 
 	return S_OK;
 }

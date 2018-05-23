@@ -214,7 +214,9 @@ void Main::Render()
 	// 射影変換
 	D3DXMatrixPerspectiveFovLH(&mProj, D3DX_PI / 4, (FLOAT)WINDOW_WIDTH / (FLOAT)WINDOW_HEIGHT, 0.1f, 100.0f);
 	// レンダリング
-	m_pMesh->Render(mView, mProj, D3DXVECTOR3(1, 1, 1), D3DXVECTOR3(0, 0, -1));
+	D3DXVECTOR3 vmyLight(1.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 vmyEye(0.0f, 0.0f, -1.0f);
+	m_pMesh->Render(mView, mProj, vmyLight, vmyEye);
 	m_pMesh->m_fYaw += 0.001;
 	// 画面更新
 	m_pSwapChain->Present(0, 0);

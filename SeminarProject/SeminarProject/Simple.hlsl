@@ -1,50 +1,27 @@
-////グローバル
-//cbuffer global
-//{
-//	matrix g_WVP; //ワールドから射影までの変換行列
-//};
-//
-////
-////
-////バーテックスシェーダー
-//float4 VS(float4 Pos : POSITION) : SV_POSITION
-//{
-//	Pos = mul(Pos,g_WVP);
-//return Pos;
-//}
-//
-////
-////
-////ピクセルシェーダー
-//float4 PS(float4 Pos : SV_POSITION) : SV_Target
-//{
-//	return float4(1,1,1,1);
-//}
-
-// 他書き終えたらこれに変えて、たぶん大丈夫
-// 書き換えてない状態でやるとメモリ破綻起こしそう
 #define MAX_LIGHT 100
 #define ATTENU 2
 
-Texture2D g_texColor : register(t0);
+//グローバル
+Texture2D g_texColor: register(t0);
 SamplerState g_samLinear : register(s0);
 
-cbuffer global_0 : register(b0)
+//グローバル
+cbuffer global_0:register(b0)
 {
-	matrix g_mW;
-	matrix g_mWVP;
-	float4 g_vLightPos[MAX_LIGHT];
-	float4 g_vEye;
+	matrix g_mW;//ワールド行列
+	matrix g_mWVP; //ワールドから射影までの変換行列
+	float4 g_vLightPos[MAX_LIGHT];//ポイントライト情報（ライトの位置）
+	float4 g_vEye;//カメラ位置
 };
 
-cbuffer global_1 : register(b1)
+cbuffer global_1:register(b1)
 {
-	float4 g_Ambient = float4(0, 0, 0, 0);
-	float4 g_Diffuse = float4(1, 0, 0, 0);
-	float4 g_Specular = float4(1, 1, 1, 1);
+	float4 g_Ambient = float4(0, 0, 0, 0);//アンビエント光
+	float4 g_Diffuse = float4(1, 0, 0, 0); //拡散反射(色）
+	float4 g_Specular = float4(1, 1, 1, 1);//鏡面反射
 };
 
-// 頂点シェーダの出力
+//バーテックスシェーダー出力構造体
 struct VS_OUTPUT
 {
 	float4 Pos : SV_POSITION;
@@ -52,8 +29,9 @@ struct VS_OUTPUT
 	float3 Normal : TEXCOORD1;
 	float2 Tex : TEXCOORD3;
 };
-
-// 頂点シェーダ
+//
+//バーテックスシェーダー
+//
 VS_OUTPUT VS(float4 Pos : POSITION, float4 Norm : NORMAL, float2 Tex : TEXCOORD)
 {
 	VS_OUTPUT output = (VS_OUTPUT)0;
@@ -65,10 +43,12 @@ VS_OUTPUT VS(float4 Pos : POSITION, float4 Norm : NORMAL, float2 Tex : TEXCOORD)
 
 	return output;
 }
-
-// ライトの明るさ減衰
+//
+//
+//
 float4 PLight(float3 Pos, float3 LPos, float3 Normal, float2 UV, float3 vEyeVector, float3 LightColor)
 {
+	//
 	float3 vLightDir = LPos - Pos;
 	float Distance = length(vLightDir);
 	vLightDir = normalize(vLightDir);
@@ -80,22 +60,23 @@ float4 PLight(float3 Pos, float3 LPos, float3 Normal, float2 UV, float3 vEyeVect
 	float4 FinalColor;
 	FinalColor.rgb = vDiffuseIntensity * (vDiffuse + LightColor) + vSpecularIntensity * g_Specular;
 	FinalColor.a = 1;
-
-	FinalColor *= pow(saturate(ATTENU / Distance), 4);
+	//減衰
+	FinalColor *= pow(saturate(ATTENU / Distance), 4);//減衰開始
 
 	return FinalColor;
 }
-
-// ピクセルシェーダ
+//
+//ピクセルシェーダー
+//
 float4 PS(VS_OUTPUT input) : SV_Target
 {
 	float4 FinalColor = (float4)0;
 
-	for (int i = 0; i < MAX_LIGHT; i++)
+	for (int i = 0; i<MAX_LIGHT; i++)
 	{
-		if (length(g_vLightPos[i] - input.vWorldPos) < ATTENU * 2)
+		if (length(g_vLightPos[i] - input.vWorldPos)<ATTENU * 2)
 		{
-			FinalColor += PLight(input.vWorldPos[i], g_vLightPos[i], input.Normal, input.Tex, normalize(g_vEye - input.vWorldPos), input.Tex.yxy);
+			FinalColor += PLight(input.vWorldPos,g_vLightPos[i],input.Normal,input.Tex,normalize(g_vEye - input.vWorldPos),input.Tex.yxy);
 		}
 	}
 

@@ -13,7 +13,8 @@
 #pragma comment(lib,"d3dx11.lib")
 #pragma comment(lib,"d3dCompiler.lib")
 //警告非表示
-//#pragma warning(disable : 4305)
+#pragma warning(disable : 4305)
+#pragma warning(disable : 4996)
 //定数定義
 #define WINDOW_WIDTH 640 //ウィンドウ幅
 #define WINDOW_HEIGHT 480 //ウィンドウ高さ
@@ -24,8 +25,6 @@
 class Main
 {
 public:
-	Main();
-	~Main();
 	HRESULT InitWindow(HINSTANCE, INT, INT, INT, INT, LPCWSTR);
 	HRESULT InitD3D();
 	LRESULT MsgProc(HWND, UINT, WPARAM, LPARAM);
