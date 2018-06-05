@@ -155,26 +155,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CD3DXMESH.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CD3DXMesh.cpp" />
+    <ClCompile Include="CD3DXMesh_Anim.cpp" />
+    <ClCompile Include="CD3DXSkinMesh.cpp" />
+    <ClCompile Include="Direct3D11.cpp" />
+    <ClCompile Include="Director.cpp" />
+    <ClCompile Include="Director_Stage1.cpp" />
+    <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Simple.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CD3DXMESH.h" />
-    <ClInclude Include="Main.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CD3DXMesh.h" />
+    <ClInclude Include="CD3DXMesh_Anim.h" />
+    <ClInclude Include="CD3DXSkinMesh.h" />
+    <ClInclude Include="Direct3D11.h" />
+    <ClInclude Include="Director.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
