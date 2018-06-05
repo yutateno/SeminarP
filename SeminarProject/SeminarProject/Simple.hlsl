@@ -1,6 +1,3 @@
-#define MAX_LIGHT 100
-#define ATTENU 2
-
 //グローバル
 Texture2D g_texColor: register(t0);
 SamplerState g_samLinear : register(s0);
@@ -10,7 +7,7 @@ cbuffer global_0:register(b0)
 {
 	matrix g_mW;//ワールド行列
 	matrix g_mWVP; //ワールドから射影までの変換行列
-	float4 g_vLightPos[MAX_LIGHT];//ポイントライト情報（ライトの位置）
+	float4 g_vLightDir;  //ライトの方向ベクトル
 	float4 g_vEye;//カメラ位置
 };
 
@@ -25,8 +22,10 @@ cbuffer global_1:register(b1)
 struct VS_OUTPUT
 {
 	float4 Pos : SV_POSITION;
-	float3 vWorldPos : POSITION;
+	float4 Color : COLOR0;
+	float3 Light : TEXCOORD0;
 	float3 Normal : TEXCOORD1;
+	float3 EyeVector : TEXCOORD2;
 	float2 Tex : TEXCOORD3;
 };
 //
@@ -35,50 +34,39 @@ struct VS_OUTPUT
 VS_OUTPUT VS(float4 Pos : POSITION, float4 Norm : NORMAL, float2 Tex : TEXCOORD)
 {
 	VS_OUTPUT output = (VS_OUTPUT)0;
-
-	output.Normal = normalize(mul(Norm, (float3x3)g_mW));
+	//射影変換（ワールド→ビュー→プロジェクション）
+	//法線をワールド空間に
+	output.Normal = mul(Norm, (float3x3)g_mW);
 	output.Pos = mul(Pos, g_mWVP);
-	output.vWorldPos = mul(Pos, g_mW);
+	//ライト方向
+	output.Light = g_vLightDir;
+	//視線ベクトル
+	float3 PosWorld = mul(Pos, g_mW);
+	output.EyeVector = g_vEye - PosWorld;
+
+	float3 Normal = normalize(output.Normal);
+	float3 LightDir = normalize(output.Light);
+	float3 ViewDir = normalize(output.EyeVector);
+	float4 NL = saturate(dot(Normal, LightDir));
+
+	float3 Reflect = normalize(2 * NL * Normal - LightDir);
+	float4 specular = pow(saturate(dot(Reflect, ViewDir)), 4);
+
+	output.Color = g_Diffuse * NL + specular * g_Specular;
+
+	//テクスチャー座標
 	output.Tex = Tex;
 
 	return output;
 }
-//
-//
-//
-float4 PLight(float3 Pos, float3 LPos, float3 Normal, float2 UV, float3 vEyeVector, float3 LightColor)
-{
-	//
-	float3 vLightDir = LPos - Pos;
-	float Distance = length(vLightDir);
-	vLightDir = normalize(vLightDir);
 
-	float4 vDiffuse = g_texColor.Sample(g_samLinear, UV);
-	float3 vDiffuseIntensity = saturate(dot(vLightDir, Normal));
-	float3 vSpecularIntensity = pow(max(0, dot(vEyeVector, reflect(-vLightDir, Normal))), 2);
-
-	float4 FinalColor;
-	FinalColor.rgb = vDiffuseIntensity * (vDiffuse + LightColor) + vSpecularIntensity * g_Specular;
-	FinalColor.a = 1;
-	//減衰
-	FinalColor *= pow(saturate(ATTENU / Distance), 4);//減衰開始
-
-	return FinalColor;
-}
 //
 //ピクセルシェーダー
 //
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-	float4 FinalColor = (float4)0;
+	float4 color = g_texColor.Sample(g_samLinear, input.Tex);
+	color += input.Color / 2;
 
-	for (int i = 0; i<MAX_LIGHT; i++)
-	{
-		if (length(g_vLightPos[i] - input.vWorldPos)<ATTENU * 2)
-		{
-			FinalColor += PLight(input.vWorldPos,g_vLightPos[i],input.Normal,input.Tex,normalize(g_vEye - input.vWorldPos),input.Tex.yxy);
-		}
-	}
-
-	return FinalColor;
+	return color;
 }
