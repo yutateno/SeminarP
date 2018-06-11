@@ -18,6 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F6E51F1F-D58E-4871-B3C9-5F0C51F24727}</ProjectGuid>
@@ -154,30 +157,6 @@
       <AdditionalDependencies>libfbxsdk-md.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Base.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CD3DXMesh.cpp" />
-    <ClCompile Include="CD3DXMesh_Anim.cpp" />
-    <ClCompile Include="CD3DXSkinMesh.cpp" />
-    <ClCompile Include="Direct3D11.cpp" />
-    <ClCompile Include="Director.cpp" />
-    <ClCompile Include="Director_Stage1.cpp" />
-    <ClCompile Include="Entry.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Base.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CD3DXMesh.h" />
-    <ClInclude Include="CD3DXMesh_Anim.h" />
-    <ClInclude Include="CD3DXSkinMesh.h" />
-    <ClInclude Include="Direct3D11.h" />
-    <ClInclude Include="Director.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="Window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
