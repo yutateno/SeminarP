@@ -4,6 +4,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	int ModelHandle, AttachIndex;
 	float TotalTime, PlayTime;
+	int Direct3DVersion;
 
 	ChangeWindowMode(true);
 
@@ -16,10 +17,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ３Ｄモデルの読み込み
 	ModelHandle = MV1LoadModel("media\\姫_変身体\\モーション\\TestYvee.fbx");
-	DrawFormatString(0, 0, 255, "%d", ModelHandle);
 
 	// 描画先を裏画面に変更
 	SetDrawScreen(DX_SCREEN_BACK);
+	
+	// 使用している Direct3D のバージョンを取得
+	Direct3DVersion = GetUseDirect3DVersion();
 
 	// 画面に映る位置に３Ｄモデルを移動
 	MV1SetPosition(ModelHandle, VGet(320.0f, 70.0f, -70.0f));
@@ -53,6 +56,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// ３Ｄモデルの描画
 		MV1DrawModel(ModelHandle);
+
+		DrawFormatString(0, 100, 255, "%d", ModelHandle);
+
+		// 使用バージョンが Direct3D 9Ex かどうかをチェック
+		if (Direct3DVersion == DX_DIRECT3D_9EX)
+		{
+			DrawString(0, 0, "Direct3D 9Ex を使用しています", GetColor(255, 255, 255));
+		}
+		else if (Direct3DVersion == DX_DIRECT3D_11)
+		{
+			DrawString(0, 0, "Direct3D 11 を使用しています", GetColor(255, 255, 255));
+		}
+		else
+		{
+			DrawString(0, 0, "Direct3D  を使用して", GetColor(255, 255, 255));
+		}
 
 		// 裏画面の内容を表画面に反映
 		ScreenFlip();
