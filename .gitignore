@@ -1,3 +1,6 @@
 FlySoundGameDemo/.vs/
+FlySoundGameDemo/.vs/*
+FlySoundGameDemo/Debug/
+FlySoundGameDemo/Debug/*
 
 *.vs/
