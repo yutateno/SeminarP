@@ -169,7 +169,8 @@
     <ClCompile Include="DxLibSource\Windows\DxUseCStrmBaseFilter.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWinAPI.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWindow.cpp" />
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="temp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxArchive_.h" />
