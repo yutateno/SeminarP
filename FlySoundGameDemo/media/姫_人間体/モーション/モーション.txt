@@ -1,4 +1,0 @@
-[idle.fbx] = 立ちモーション
-[walk.fbx] = 移動モーション
-[death.fbx] = 死亡する瞬間
-[death_now.fbx] = 死んでいる時
