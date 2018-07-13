@@ -169,6 +169,8 @@
     <ClCompile Include="DxLibSource\Windows\DxUseCStrmBaseFilter.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWinAPI.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWindow.cpp" />
+    <ClCompile Include="InputPad.cpp" />
+    <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="temp.cpp" />
   </ItemGroup>
@@ -242,6 +244,8 @@
     <ClInclude Include="DxLibSource\Windows\DxUseCStrmBaseFilter.h" />
     <ClInclude Include="DxLibSource\Windows\DxWinAPI.h" />
     <ClInclude Include="DxLibSource\Windows\DxWindow.h" />
+    <ClInclude Include="InputPad.hpp" />
+    <ClInclude Include="InputKey.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt" />

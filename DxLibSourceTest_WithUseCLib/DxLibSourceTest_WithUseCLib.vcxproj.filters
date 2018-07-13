@@ -7,6 +7,12 @@
     <Filter Include="DxLib\Windows">
       <UniqueIdentifier>{40ba168a-cf31-4e51-89d4-e45833b8b3f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダーファイル">
+      <UniqueIdentifier>{3402180e-594b-49d0-af49-8f74ce2d4d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル">
+      <UniqueIdentifier>{13649d66-c2b6-4ee6-bac1-718aafb2f76b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DxLibSource\DxUseCLibOgg.cpp">
@@ -252,8 +258,18 @@
     <ClCompile Include="DxLibSource\Windows\DxShaderCodeBin_Base3D_D3D11.cpp">
       <Filter>DxLib\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="temp.cpp" />
+    <ClCompile Include="InputPad.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKey.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="temp.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -462,6 +478,12 @@
     </ClInclude>
     <ClInclude Include="DxLibSource\Windows\DxUseCStrmBaseFilter.h">
       <Filter>DxLib\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPad.hpp">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKey.hpp">
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
