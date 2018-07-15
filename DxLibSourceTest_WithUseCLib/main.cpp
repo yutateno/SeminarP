@@ -15,6 +15,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	ChangeWindowMode(TRUE);			// ウィンドウズモードにさせるかどうか
 
+	SetEnableXAudioFlag(TRUE);			// XAudioを使用するようにする
+
 	SetGraphMode(640, 480, 32);					// 画像に合わせて画面サイズを変更
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
