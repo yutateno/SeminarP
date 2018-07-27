@@ -172,7 +172,6 @@
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="temp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxArchive_.h" />
