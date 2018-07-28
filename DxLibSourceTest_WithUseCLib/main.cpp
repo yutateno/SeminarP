@@ -12,12 +12,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	SetWindowText("SeminarProject");	// メインウインドウのウインドウタイトルを変更する
+
+	SetUseDirect3DVersion(DX_DIRECT3D_11);			// Direct3D11を使用する
 	
 	ChangeWindowMode(TRUE);			// ウィンドウズモードにさせるかどうか
 
 	SetEnableXAudioFlag(TRUE);			// XAudioを使用するようにする
 
-	SetGraphMode(640, 480, 32);					// 画像に合わせて画面サイズを変更
+	SetGraphMode(1920, 1080, 32);					// 画面サイズを変更
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -45,8 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 再生時間の初期化
 	float PlayTime = 0.0f;
 
-	float turn = DX_PI_F / 90;
 	float circru = 0.0f;
+	int deg = 0;
+	bool degflag = false;
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && KeyData::CheckEnd() != 0)
 	{
@@ -65,29 +68,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//// 再生時間をセットする
 		//MV1SetAttachAnimTime(model, AttachIndex, PlayTime);
 
-		if (KeyData::Get(KEY_INPUT_W) >= 1)
-		{
-			area.z += 10.0f;
-		}
-		if (KeyData::Get(KEY_INPUT_A) >= 1)
-		{
-			area.x += -10.0f;
-		}
-		if (KeyData::Get(KEY_INPUT_S) >= 1)
-		{
-			area.z += -10.0f;
-		}
-		if (KeyData::Get(KEY_INPUT_D) >= 1)
-		{
-			area.x += 10.0f;
-		}
-		circru += turn;
+		// 正弦波回転
+		circru = MYINPUTPAD::sinf(deg * DX_PI_F / 180) * 2;
+		(deg > 360) ? deg = 0 : deg++;
 		MV1SetRotationXYZ(model, VGet(circru, circru, circru));
 
 		MV1SetPosition(model, area);
 
 		// ３Ｄモデルの描画
 		MV1DrawModel(model);
+
+#ifdef _DEBUG
+		DrawFormatString(0, 0, 255, "%f", circru);
+		DrawFormatString(0, 20, 255, "%d", deg);
+#endif // _DEBUG
+
+
 	}
 
 	// モデルハンドルの削除
