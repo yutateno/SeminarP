@@ -48,8 +48,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	float PlayTime = 0.0f;
 
 	float circru = 0.0f;
-	int deg = 0;
-	bool degflag = false;
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && KeyData::CheckEnd() != 0)
 	{
@@ -68,9 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//// Ä¶ŽžŠÔ‚ðƒZƒbƒg‚·‚é
 		//MV1SetAttachAnimTime(model, AttachIndex, PlayTime);
 
-		// ³Œ·”g‰ñ“]
-		circru = MYINPUTPAD::sinf(deg * DX_PI_F / 180) * 2;
-		(deg > 360) ? deg = 0 : deg++;
+		circru += DX_PI_F / 90;
 		MV1SetRotationXYZ(model, VGet(circru, circru, circru));
 
 		MV1SetPosition(model, area);
@@ -80,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #ifdef _DEBUG
 		DrawFormatString(0, 0, 255, "%f", circru);
-		DrawFormatString(0, 20, 255, "%d", deg);
+		DrawFormatString(0, 20, 255, "%d", 11);
 #endif // _DEBUG
 
 
