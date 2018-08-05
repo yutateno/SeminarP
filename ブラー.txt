@@ -1,0 +1,90 @@
+#include "DxLib.h"
+
+struct BlurScreen
+{
+	int screen[2];
+	int current;
+	int alpha;
+	int screenWidth, screenHeight;
+	int offsetX1, offsetX2, offsetY1, offsetY2;
+};
+
+void InitBlurScreen(BlurScreen *blur, int alpha,
+	int offsetX1, int offsetY1, int offsetX2, int offsetY2)
+{
+	if (!blur) return;
+
+	int depth;
+	GetScreenState(&blur->screenWidth, &blur->screenHeight, &depth);
+	for (int n = 0; n<2; ++n)
+		blur->screen[n] = MakeScreen(blur->screenWidth, blur->screenHeight);
+	blur->current = 0;
+	blur->alpha = alpha;
+	blur->offsetX1 = offsetX1;
+	blur->offsetX2 = offsetX2;
+	blur->offsetY1 = offsetY1;
+	blur->offsetY2 = offsetY2;
+}
+
+void DestroyBlurScreen(BlurScreen *blur)
+{
+	if (!blur) return;
+	for (int n = 0; n<2; ++n)
+		DeleteGraph(blur->screen[n]);
+}
+
+void PreRenderBlurScreen(BlurScreen *blur)
+{
+	if (!blur) return;
+
+	SetDrawScreen(blur->screen[blur->current]);
+	ClearDrawScreen();
+}
+
+void PostRenderBlurScreen(BlurScreen *blur)
+{
+	if (!blur) return;
+
+	int drawMode = GetDrawMode();
+	SetDrawMode(DX_DRAWMODE_BILINEAR);
+
+	int brendMode, blendParam;
+	GetDrawBlendMode(&brendMode, &blendParam);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blur->alpha);
+
+	DrawExtendGraph(
+		blur->offsetX1, blur->offsetY1,
+		blur->screenWidth + blur->offsetX2,
+		blur->screenHeight + blur->offsetY2,
+		blur->screen[1 - blur->current], FALSE);
+	SetDrawBlendMode(brendMode, blendParam);
+	SetDrawMode(drawMode);
+
+	SetDrawScreen(DX_SCREEN_BACK);
+	DrawGraph(0, 0, blur->screen[blur->current], FALSE);
+	blur->current = 1 - blur->current;
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	ChangeWindowMode(TRUE);
+	if (DxLib_Init() == -1) return 0;
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	BlurScreen blur;
+	InitBlurScreen(&blur, 240, -2, -2, 2, 2);
+
+	while (!ProcessMessage())
+	{
+		PreRenderBlurScreen(&blur);
+		DrawBox(100, 100, 200, 200, GetColor(255, 180, 255), TRUE);
+		DrawBox(270, 190, 370, 290, GetColor(255, 255, 255), TRUE);
+		DrawBox(440, 280, 540, 380, GetColor(255, 255, 180), TRUE);
+		PostRenderBlurScreen(&blur);
+		ScreenFlip();
+	}
+
+	DestroyBlurScreen(&blur);
+	DxLib_End();
+	return 0;
+}

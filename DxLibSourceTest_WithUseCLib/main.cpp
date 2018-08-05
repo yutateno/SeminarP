@@ -1,6 +1,5 @@
-#include "DxLib.h"
-#include "InputPad.hpp"
-#include "InputKey.hpp"
+#include "Character.hpp"
+#include "Camera.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -13,13 +12,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetWindowText("SeminarProject");	// メインウインドウのウインドウタイトルを変更する
 
+	//SetBackgroundColor(255, 255, 255);
+
 	SetUseDirect3DVersion(DX_DIRECT3D_11);			// Direct3D11を使用する
-	
+
 	ChangeWindowMode(TRUE);			// ウィンドウズモードにさせるかどうか
 
 	SetEnableXAudioFlag(TRUE);			// XAudioを使用するようにする
 
-	SetGraphMode(1920, 1080, 32);					// 画面サイズを変更
+	SetGraphMode(1920, 1080, 32);					// 1920x1080x32bit
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -28,64 +29,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
 
-	MYINPUTPAD::Input::Input();
-	MYINPUTPAD::Input::Update();
+	// コントローラーとキーボードの初期化
+	MYINPUTPAD::InputPad::InputPad();
+	MYINPUTPAD::InputPad::Update();
 	KeyData::UpDate();
-	int model = MV1LoadModel("media\\剣\\sword.fbx");
 
-	VECTOR area = VGet(320.0f, 50.0f, 330.0f);
-
-	// 画面に映る位置に３Ｄモデルを移動
-	MV1SetPosition(model, area);
-
-	// ３Ｄモデルの０番目のアニメーションをアタッチする
-	int AttachIndex = MV1AttachAnim(model, 0, -1, FALSE);
-
-	// アタッチしたアニメーションの総再生時間を取得する
-	float TotalTime = MV1GetAttachAnimTotalTime(model, AttachIndex);
-
-	// 再生時間の初期化
-	float PlayTime = 0.0f;
-
-	float circru = 0.0f;
+	// new
+	Character* character = new Character();
+	Camera* camera = new Camera(character->GetArea());
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && KeyData::CheckEnd() != 0)
 	{
 		KeyData::UpDate();
-		MYINPUTPAD::Input::Update();
+		MYINPUTPAD::InputPad::Update();
 
-		//// 再生時間を進める
-		//PlayTime += 0.5f;
+		character->Process();
+		character->Draw();
+		camera->Process(character->GetArea());
 
-		//// 再生時間がアニメーションの総再生時間に達したら再生時間を０に戻す
-		//if (PlayTime >= TotalTime)
-		//{
-		//	PlayTime = 0.0f;
-		//}
-
-		//// 再生時間をセットする
-		//MV1SetAttachAnimTime(model, AttachIndex, PlayTime);
-
-		circru += DX_PI_F / 90;
-		MV1SetRotationXYZ(model, VGet(circru, circru, circru));
-
-		MV1SetPosition(model, area);
-
-		// ３Ｄモデルの描画
-		MV1DrawModel(model);
-
-#ifdef _DEBUG
-		DrawFormatString(0, 0, 255, "%f", circru);
-		DrawFormatString(0, 20, 255, "%d", 11);
-#endif // _DEBUG
-
-
+		printfDx("%s\n", "Debug");
 	}
 
-	// モデルハンドルの削除
-	MV1DeleteModel(model);
+	// 削除
+	delete camera;
+	delete character;
 
-	DxLib::DxLib_End();
+	DxLib::DxLib_End();		// DXライブラリの後始末
 
 	return 0;
 }

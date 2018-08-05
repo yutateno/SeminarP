@@ -88,6 +88,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="DxLibSource\DxArchive_.cpp" />
     <ClCompile Include="DxLibSource\DxASyncLoad.cpp" />
     <ClCompile Include="DxLibSource\DxBaseFunc.cpp" />
@@ -174,6 +176,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Character.hpp" />
     <ClInclude Include="DxLibSource\DxArchive_.h" />
     <ClInclude Include="DxLibSource\DxASyncLoad.h" />
     <ClInclude Include="DxLibSource\DxBaseFunc.h" />

@@ -1,1 +1,0 @@
-mat1.001 = {majin.png]（カラー）[ems.png](エミッション)

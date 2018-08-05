@@ -1,12 +1,10 @@
 #pragma once
+#ifndef _MY_INPUTPAD_H
+#define _MY_INPUTPAD_H
+
 
 namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 {
-
-#ifndef _MY_INPUTPAD_H
-
-#define _MY_INPUTPAD_H
-
 #include <Windows.h>
 #include <Xinput.h>
 #include <math.h>
@@ -67,7 +65,7 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		short RIGHT_AXIS_Y_DOWN = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 	};
 
-	class Input
+	class InputPad
 	{
 	private:
 		static unsigned __int8 controllerNum;		// 接続している最大の個数
@@ -75,13 +73,13 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		static int button[4][16];					// wButtonの対応
 		static int stick[4][4];						// stickの対応(公式だとthumb)
 
-		static _XINPUT_STATE state[4];				// xinputの中身
+		static XINPUT_STATE state[4];				// xinputの中身
 
 		static XINPUT_STICK_MY_DEADZONE stickDeadZone;			// スティックのデッドゾーン値
 
 	public:
-		Input();		// コンストラクタ
-		~Input();		// デストラクタ
+		InputPad();		// コンストラクタ
+		~InputPad();		// デストラクタ
 
 		static void Update();		// 操作更新
 
@@ -94,6 +92,6 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 			, short rightPad_right = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_left = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
 			, short rightPad_up = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_down = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);		// デッドゾーンの設定値変更  // (ある程度楽したいので一応デフォルト引数乱用)
 	};
+}
 
 #endif // !_MY_INPUTPAD_H
-}

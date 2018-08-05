@@ -1,5 +1,0 @@
-AfterChange＝人間体から変身した後のモーション
-BeforeChange=人間体に変身するときのモーション
-idle = 立ちモーション
-attack = 攻撃モーション
-walk = 移動モーション

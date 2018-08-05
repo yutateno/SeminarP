@@ -1,0 +1,10 @@
+********マテリアル*********
+
+wear = [CLPH_wear.png]
+mat2 = [CLPH_face.png]
+mat3 = [CLPH_hair.png]
+mat1 = [CLPH_ex.png]
+
+*********モーション**********
+
+[CLPH_idle.fbx] = 待機モーション
