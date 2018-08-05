@@ -29,6 +29,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
 
+	SetBackgroundColor(128, 128, 128);	// 背景の色を灰色にする
+
+	// 床に線を引くためのもの----------------------------------------------
+	int i;
+	VECTOR Pos1;
+	VECTOR Pos2;
+	float LINE_AREA_SIZE;
+	int LINE_NUM;
+	LINE_AREA_SIZE = 2000.0f;
+	LINE_NUM = 50;
+	// ---------------------------------------------------------------------
+
 	// コントローラーとキーボードの初期化
 	MYINPUTPAD::InputPad::InputPad();
 	MYINPUTPAD::InputPad::Update();
@@ -46,6 +58,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		character->Process();
 		character->Draw();
 		camera->Process(character->GetArea());
+
+		// 床に線を引く--------------------------------------------------------
+		SetUseZBufferFlag(TRUE);
+		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+		Pos2 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, LINE_AREA_SIZE / 2.0f);
+		for (i = 0; i <= LINE_NUM; i++)
+		{
+			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
+			Pos1.x += LINE_AREA_SIZE / LINE_NUM;
+			Pos2.x += LINE_AREA_SIZE / LINE_NUM;
+		}
+
+		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+		Pos2 = VGet(LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+		for (i = 0; i < LINE_NUM; i++)
+		{
+			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
+			Pos1.z += LINE_AREA_SIZE / LINE_NUM;
+			Pos2.z += LINE_AREA_SIZE / LINE_NUM;
+		}
+		SetUseZBufferFlag(FALSE);
+		// ---------------------------------------------------------------------
 
 		printfDx("%s\n", "Debug");
 	}

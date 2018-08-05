@@ -8,15 +8,15 @@ class Camera
 {
 private:
 	// それぞれの位置に関して
-	VECTOR area;		// カメラの位置
-	VECTOR view;		// 注視する方向
-	VECTOR chara;		// キャラ位置
+	VECTOR cameraArea;		// カメラの位置
+	VECTOR viewArea;		// 注視する方向
+	VECTOR charaArea;		// キャラ位置
 	float angle;		// キャラクターのアングル
 
 	// カメラのズームや回転の動きに関して
 	float speed;					// 回転スピード
 	bool moveflag;					// カメラ動き中かどうか
-	VECTOR RLrotate(float speed);	// 回転を行う関数
+	void RLrotate(float speed, VECTOR* p_cameraArea);	// 回転を行う関数
 	
 public:
 	Camera(VECTOR charaarea);				// キャラの位置を引数に取ったコンストラクタ
