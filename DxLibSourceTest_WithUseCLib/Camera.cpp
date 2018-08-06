@@ -51,3 +51,8 @@ void Camera::RLrotate(float speed, VECTOR* p_cameraArea)
 	p_cameraArea->x = tempX *cosf(speed) + p_cameraArea->z *sinf(speed);
 	p_cameraArea->z = -tempX * sinf(speed) + p_cameraArea->z * cosf(speed);
 }
+
+float Camera::GetAngle()
+{
+	return angle;
+}

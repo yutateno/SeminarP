@@ -15,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetWindowText("SeminarProject");	// メインウインドウのウインドウタイトルを変更する
 
-	//SetBackgroundColor(255, 255, 255);
+	SetBackgroundColor(128, 128, 128);
 
 	SetUseDirect3DVersion(DX_DIRECT3D_11);			// Direct3D11を使用する
 
@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			controllNumber = 0;
 			firstControll = true;
 		}
-		// コントローラーが０ないし２つ以上の時
+		// コントローラーが２つ以上の時
 		if (!firstControll)
 		{
 			// 範囲外に投げといたまま
@@ -129,7 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #ifdef _DEBUG
 			KeyData::UpDate();
 #endif
-			character->Process(controllNumber);
+			character->Process(controllNumber, camera->GetAngle());
 			character->Draw();
 			camera->Process(character->GetArea(), controllNumber);
 
@@ -154,6 +154,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 			SetUseZBufferFlag(FALSE);
 			// ---------------------------------------------------------------------
+
+			DrawCapsule3D(character->GetArea(), VGet(character->GetArea().x, character->GetArea().y + 180, character->GetArea().z), 40.0f, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
 		}
 	}
 

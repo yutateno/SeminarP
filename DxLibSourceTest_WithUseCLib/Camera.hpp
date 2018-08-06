@@ -23,4 +23,6 @@ public:
 	~Camera();																// デストラクタ
 
 	void Process(VECTOR charaarea, unsigned __int8 controllNumber);		// キャラの位置を引数に取ったプロセス
+
+	float GetAngle();				// キャラクターのアングル
 };
