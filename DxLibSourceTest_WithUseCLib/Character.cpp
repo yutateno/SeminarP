@@ -163,7 +163,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	{
 		area.x += MYINPUTPAD::cosf(-angle) * walkSpeed;
 		area.z += MYINPUTPAD::sinf(-angle) * walkSpeed;
-		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / -BASIC::MAX_STICK_MINUS;		// デッドゾーン範囲で困ったことになってる
+		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / -BASIC::MAX_STICK_MINUS;
 		if (direYAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
