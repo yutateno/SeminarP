@@ -29,8 +29,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
 
-	SetBackgroundColor(128, 128, 128);	// 背景の色を灰色にする
-
 	// 床に線を引くためのもの----------------------------------------------
 	int i;
 	VECTOR Pos1;
@@ -50,38 +48,105 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Character* character = new Character();
 	Camera* camera = new Camera(character->GetArea());
 
-	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && KeyData::CheckEnd() != 0)
+	// 最初にコントローラーを設定するための確認コマンド
+	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう
+	unsigned __int8 controllNumber = 5;			// 押されたコントローラーの番号
+	int controllCount = 0;							// コマンドに関する時間
+	bool noTouch = true;							// コマンドを押されない時間経過次第で再起動を促すよう処理
+	const int COUNT = 200;							// コマンド時間の数値
+
+	// ゲームの核
+	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-		KeyData::UpDate();
 		MYINPUTPAD::InputPad::Update();
-
-		character->Process();
-		character->Draw();
-		camera->Process(character->GetArea());
-
-		// 床に線を引く--------------------------------------------------------
-		SetUseZBufferFlag(TRUE);
-		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		Pos2 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, LINE_AREA_SIZE / 2.0f);
-		for (i = 0; i <= LINE_NUM; i++)
+		if (MYINPUTPAD::InputPad::GetPadNum() == 1)		// 一つの場合は確認しない
 		{
-			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-			Pos1.x += LINE_AREA_SIZE / LINE_NUM;
-			Pos2.x += LINE_AREA_SIZE / LINE_NUM;
+			controllNumber = 0;
+			firstControll = true;
 		}
-
-		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		Pos2 = VGet(LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		for (i = 0; i < LINE_NUM; i++)
+		if (!firstControll)
 		{
-			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-			Pos1.z += LINE_AREA_SIZE / LINE_NUM;
-			Pos2.z += LINE_AREA_SIZE / LINE_NUM;
-		}
-		SetUseZBufferFlag(FALSE);
-		// ---------------------------------------------------------------------
+			if (controllNumber == 5)
+			{
+				controllCount++;
+				DrawFormatString(940, 500, GetColor(255, 255, 255), "コントローラーのAボタンを押してください。\nそれを認証します。\n");
+				if (MYINPUTPAD::InputPad::GetPadButtonData(0, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)
+				{
+					controllNumber = 0;
+					controllCount = 0;
+				}
+				if (MYINPUTPAD::InputPad::GetPadButtonData(1, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)
+				{
+					controllNumber = 1;
+					controllCount = 0;
+				}
+				if (MYINPUTPAD::InputPad::GetPadButtonData(2, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)
+				{
+					controllNumber = 2;
+					controllCount = 0;
+				}
+				if (MYINPUTPAD::InputPad::GetPadButtonData(3, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)
+				{
+					controllNumber = 3;
+					controllCount = 0;
+				}
 
-		printfDx("%s\n", "Debug");
+				if (controllCount >= COUNT && controllCount < COUNT + 400)
+				{
+					DrawFormatString(940, 600, GetColor(255, 255, 255), "入力を一定時間確認できません。再起動してみてください。\n");
+				}
+				else if (controllCount >= COUNT + 400 && controllCount < COUNT + 550)		// 何かしら問題があると判断して終了させる
+				{
+					DrawFormatString(940, 600, GetColor(255, 255, 255), "ゲームを終了します。\n");
+				}
+				else if (controllCount >= COUNT + 550)
+				{
+					break;
+				}
+			}
+			else
+			{
+				controllCount++;
+				DrawFormatString(940, 500, GetColor(255, 255, 255), "コントローラーナンバー：%d を確認しました。ゲームを開始します。\n", (controllNumber + 1));
+				if (controllCount >= 100)
+				{
+					firstControll = true;
+				}
+			}
+		}
+		else
+		{
+#ifdef _DEBUG
+			KeyData::UpDate();
+#endif
+			character->Process(controllNumber);
+			character->Draw();
+			camera->Process(character->GetArea(), controllNumber);
+
+			// 床に線を引く--------------------------------------------------------
+			SetUseZBufferFlag(TRUE);
+			Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+			Pos2 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, LINE_AREA_SIZE / 2.0f);
+			for (i = 0; i <= LINE_NUM; i++)
+			{
+				DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
+				Pos1.x += LINE_AREA_SIZE / LINE_NUM;
+				Pos2.x += LINE_AREA_SIZE / LINE_NUM;
+			}
+
+			Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+			Pos2 = VGet(LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
+			for (i = 0; i < LINE_NUM; i++)
+			{
+				DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
+				Pos1.z += LINE_AREA_SIZE / LINE_NUM;
+				Pos2.z += LINE_AREA_SIZE / LINE_NUM;
+			}
+			SetUseZBufferFlag(FALSE);
+			// ---------------------------------------------------------------------
+
+			printfDx("%s\n", "Debug");
+		}
 	}
 
 	// 削除

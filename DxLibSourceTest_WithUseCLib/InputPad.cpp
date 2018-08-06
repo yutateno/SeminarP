@@ -12,8 +12,15 @@ XINPUT_STICK_MY_DEADZONE InputPad::stickDeadZone;
 InputPad::InputPad()
 {
 	// コントローラ分ループ
-	controllerNum = 4;
-	for (int i = 0; i != controllerNum; ++i)
+	InputPad::controllerNum = 0;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (XInputGetState(i, &InputPad::state[i]) == ERROR_SUCCESS)
+		{
+			InputPad::controllerNum++;
+		}
+	}
+	for (int i = 0; i != InputPad::controllerNum; ++i)
 	{
 		ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
 		// ボタンを0に初期化(スティックはデッドゾーンの関係で行わない)
@@ -26,7 +33,7 @@ InputPad::InputPad()
 
 InputPad::~InputPad()
 {
-	for (int i = 0; i != controllerNum; ++i)
+	for (int i = 0; i != InputPad::controllerNum; ++i)
 	{
 		ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
 	}
@@ -110,7 +117,6 @@ void InputPad::Update()
 		else	// 接続されていない
 		{
 			ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
-			InputPad::controllerNum = i;		// その時点でコントローラの最大個数を決める
 		}
 	}
 }

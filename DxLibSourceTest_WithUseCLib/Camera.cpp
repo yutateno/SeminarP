@@ -23,17 +23,19 @@ Camera::~Camera()
 
 }
 
-void Camera::Process(VECTOR charaarea)
+void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 {
 	charaArea = charaarea;					// キャラの位置を更新し続ける
 
 	// 左に回転中
-	if (KeyData::Get(KEY_INPUT_LEFT) >= 1)
+	if (KeyData::Get(KEY_INPUT_LEFT) >= 1
+		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_X) < 0)
 	{
 		RLrotate(speed, &cameraArea);	// 回転処理
 	}
 	// 右に回転中
-	if (KeyData::Get(KEY_INPUT_RIGHT) >= 1)
+	if (KeyData::Get(KEY_INPUT_RIGHT) >= 1
+		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_X) > 0)
 	{
 		RLrotate(-speed, &cameraArea);	// 回転処理
 	}

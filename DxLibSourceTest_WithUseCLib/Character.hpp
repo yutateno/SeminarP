@@ -17,7 +17,7 @@ public:
 	~Character();																// デストラクタ
 
 	void Draw();		// 描画
-	void Process();		// プロセス
+	void Process(unsigned __int8 controllNumber);		// プロセス
 
 	VECTOR GetArea();
 };

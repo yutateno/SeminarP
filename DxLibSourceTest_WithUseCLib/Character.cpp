@@ -16,7 +16,7 @@ Character::~Character()
 	}
 }
 
-void Character::Process()
+void Character::Process(unsigned __int8 controllNumber)
 {
 	// 指定位置にモデルを配置
 	MV1SetPosition(charamodelhandle, area);
