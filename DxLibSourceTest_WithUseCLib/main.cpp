@@ -38,8 +38,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	VECTOR Pos2;
 	float LINE_AREA_SIZE;
 	int LINE_NUM;
-	LINE_AREA_SIZE = 2000.0f;
-	LINE_NUM = 50;
+	LINE_AREA_SIZE = 20000.0f;
+	LINE_NUM = 100;
 	// ---------------------------------------------------------------------
 
 	// コントローラーとキーボードの初期化

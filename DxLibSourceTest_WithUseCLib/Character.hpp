@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "InputPad.hpp"
 #include "InputKey.hpp"
+#include "Basic.hpp"
 
 class Character
 {
@@ -9,9 +10,10 @@ private:
 	// それぞれの位置に関して
 	VECTOR area;	// キャラ位置
 	float angle;	// アングル
+	float direYAngle;		// 前後のキャラ向きを扱う変数
+	float direXAngle;		// 左右のキャラ向きを扱う変数
 
 	// 動きに関して
-	float turnSpeed;	// 回転スピード
 	float walkSpeed;	// 移動スピード
 	float animSpeed;	// モーションスピード
 
@@ -31,7 +33,7 @@ private:
 	
 	void Player_PlayAnim(int attach);		// モーション変更
 	void Player_AnimProcess();				// モーション動作
-		
+			
 public:
 	Character();	// コンストラクタ
 	~Character();																// デストラクタ
@@ -43,3 +45,10 @@ public:
 
 	VECTOR GetArea();
 };
+
+
+/*
+キャラの向きについて
+スティックをはじくと最後の入力を占有してしまうため少しいびつになる
+スティックの動きが過激すぎる場合を処理させる
+*/

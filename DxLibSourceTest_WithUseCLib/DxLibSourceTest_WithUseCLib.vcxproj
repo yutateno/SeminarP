@@ -176,6 +176,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Basic.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="DxLibSource\DxArchive_.h" />

@@ -36,16 +36,15 @@ void Character::Player_PlayAnim(int attach)
 	}
 }
 
-
 void Character::Player_AnimProcess()
 {
 	// ブレンド率が１以下の場合は１に近づける
 	if (motionBlendTime < 1.0)
 	{
-		motionBlendTime += 0.1;
-		if (motionBlendTime >= 1.0)
+		motionBlendTime += 0.1f;
+		if (motionBlendTime >= 1.0f)
 		{
-			motionBlendTime = 1.0;
+			motionBlendTime = 1.0f;
 		}
 	}
 
@@ -62,7 +61,7 @@ void Character::Player_AnimProcess()
 		// 再生時間が総時間に到達していたらループさせる
 		if (nowPlayTime >= totalTime)
 		{
-			nowPlayTime = MYINPUTPAD::fmod(nowPlayTime, totalTime);
+			nowPlayTime = MYINPUTPAD::fmodf(nowPlayTime, totalTime);
 		}
 
 		// 変更した再生時間をモデルに反映させる
@@ -84,7 +83,7 @@ void Character::Player_AnimProcess()
 		// 再生時間が総時間に到達していたら再生時間をループさせる
 		if (preMotionPlayTime > totalTime)
 		{
-			preMotionPlayTime = MYINPUTPAD::fmod(preMotionPlayTime, totalTime);
+			preMotionPlayTime = MYINPUTPAD::fmodf(preMotionPlayTime, totalTime);
 		}
 
 		// 変更した再生時間をモデルに反映させる
@@ -111,10 +110,11 @@ Character::Character()
 	modelWigth = 40.0f;
 
 	area = VGet(0, 0, 0);
-	angle = 0;
+	angle = 0.0f;
+	direXAngle = 0.0f;
+	direYAngle = 0.0f;
 
 	// それぞれの速度
-	turnSpeed = DX_PI_F / 90;
 	walkSpeed = 3.0f;
 	animSpeed = 1.0f;
 
@@ -148,31 +148,49 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	{
 		area.x += MYINPUTPAD::sinf(angle) * -walkSpeed;
 		area.z += MYINPUTPAD::cosf(angle) * -walkSpeed;
+		direYAngle = 0.0f;
 	}
 	// 左スティックが後ろに押されたら後退する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) < 0)
 	{
 		area.x += MYINPUTPAD::sinf(angle) * walkSpeed;
 		area.z += MYINPUTPAD::cosf(angle) * walkSpeed;
+		direYAngle = DX_PI_F;
 	}
+
 	// 左スティックが左に押されたら左に移動する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) < 0)
 	{
 		area.x += MYINPUTPAD::cosf(-angle) * walkSpeed;
 		area.z += MYINPUTPAD::sinf(-angle) * walkSpeed;
+		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / -BASIC::MAX_STICK_MINUS;		// デッドゾーン範囲で困ったことになってる
+		if (direYAngle != 0.0f)
+		{
+			direXAngle = -direXAngle;
+		}
 	}
 	// 左スティックが右に押されたら右に移動する
-	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) > 0)
+	else if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) > 0)
 	{
 		area.x += MYINPUTPAD::cosf(-angle) * -walkSpeed;
 		area.z += MYINPUTPAD::sinf(-angle) * -walkSpeed;
+		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / BASIC::MAX_STICK_PLUS;
+		if (direYAngle != 0.0f)
+		{
+			direXAngle = -direXAngle;
+		}
+	}
+	// キャラの前後の向きを気持ちよくするため
+	else
+	{
+		direXAngle = 0.0f;
 	}
 
 	// モーションの実態
 	Player_AnimProcess();
 
 	// 第二引数の回転角度をセット
-	MV1SetRotationXYZ(charamodelhandle, VGet(0.0f, angle, 0.0f));
+	MV1SetRotationXYZ(charamodelhandle, VGet(0.0f, angle + direXAngle + direYAngle, 0.0f));
 	// 指定位置にモデルを配置
 	MV1SetPosition(charamodelhandle, area);
 }

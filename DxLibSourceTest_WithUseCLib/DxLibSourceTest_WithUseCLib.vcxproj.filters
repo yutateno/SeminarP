@@ -494,6 +494,9 @@
     <ClInclude Include="Camera.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Basic.hpp">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt">
