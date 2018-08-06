@@ -8,16 +8,22 @@ int InputPad::button[4][16];
 int InputPad::stick[4][4];
 XINPUT_STATE InputPad::state[4];
 XINPUT_STICK_MY_DEADZONE InputPad::stickDeadZone;
+bool InputPad::setControll[4];
 
 InputPad::InputPad()
 {
 	// コントローラ分ループ
 	InputPad::controllerNum = 0;
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i != 4; ++i)
 	{
 		if (XInputGetState(i, &InputPad::state[i]) == ERROR_SUCCESS)
 		{
 			InputPad::controllerNum++;
+			InputPad::setControll[i] = true;
+		}
+		else
+		{
+			InputPad::setControll[i] = false;
 		}
 	}
 	for (int i = 0; i != InputPad::controllerNum; ++i)
@@ -42,11 +48,12 @@ InputPad::~InputPad()
 void InputPad::Update()
 {
 	// コントローラの数だけ行う
-	for (int i = 0; i < controllerNum; i++)
+	for (int i = 0; i != InputPad::controllerNum; ++i)
 	{
-		ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
-		if (XInputGetState(i, &InputPad::state[i]) == ERROR_SUCCESS)		// 接続されている
+		if (InputPad::setControll[i])		// 接続されているコントローラーのみ判断するように
 		{
+			ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
+			XInputGetState(i, &InputPad::state[i]);
 			// ボタン操作
 			for (int j = 0; j != 16; ++j)
 			{
@@ -113,10 +120,6 @@ void InputPad::Update()
 			{
 				InputPad::stick[i][XINPUT_PAD::STICK_RIGHT_AXIS_Y] = 0;
 			}
-		}
-		else	// 接続されていない
-		{
-			ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
 		}
 	}
 }

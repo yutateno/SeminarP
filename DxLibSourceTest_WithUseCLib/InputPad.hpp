@@ -69,6 +69,7 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 	{
 	private:
 		static unsigned __int8 controllerNum;		// 接続している最大の個数
+		static bool setControll[4];
 
 		static int button[4][16];					// wButtonの対応
 		static int stick[4][4];						// stickの対応(公式だとthumb)
