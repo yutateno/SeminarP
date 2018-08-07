@@ -195,7 +195,7 @@ void Character::StageHit()
 		{
 			int j, k;
 			// 判定数を32とする
-			for (int i = 0; i != 32; ++i)
+			for (int i = 0; i != 64; ++i)
 			{
 				// 壁ポリゴンの数だけ繰り返し
 				for (j = 0; j != wallNum; ++j)
@@ -208,7 +208,9 @@ void Character::StageHit()
 						continue;
 					}
 
-					area = VAdd(area, VScale(mainPoly->Normal, walkSpeed / 3.0f));		// 当たっていたら規定距離文プレイヤーを壁の法線方向に移動させる
+					VECTOR slideVec = VCross(VSub(area, preArea), mainPoly->Normal);
+					slideVec = VCross(mainPoly->Normal, slideVec);
+					area = VAdd(preArea, slideVec);
 
 					for (k = 0; k != wallNum; ++k)
 					{
@@ -307,6 +309,7 @@ Character::Character()
 
 	// モデルの向きと位置
 	area = VGet(282.0f, 0.0f, 0.0f);
+	preArea = area;
 	angle = 0.0f;
 	direXAngle = 0.0f;
 	direYAngle = 0.0f;
@@ -319,7 +322,7 @@ Character::Character()
 	maxYHit = 0.0f;
 
 	// それぞれの速度
-	walkSpeed = 10.0f;
+	walkSpeed = 30.0f;
 	animSpeed = 1.0f;
 
 	// モーション関連
@@ -352,6 +355,7 @@ void Character::Process(unsigned __int8 controllNumber)
 
 void Character::Process(unsigned __int8 controllNumber, float getAngle)
 {
+	preArea = area;
 	angle = getAngle;
 
 	// 左スティックが前に押されたら前進する
@@ -423,6 +427,8 @@ void Character::Draw()
 	MV1DrawModel(charamodelhandle);
 
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
+
+	printfDx("%f\n", area.y);
 }
 
 VECTOR Character::GetArea()

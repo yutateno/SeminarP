@@ -9,6 +9,7 @@ class Character
 private:
 	// それぞれの位置に関して
 	VECTOR area;	// キャラ位置
+	VECTOR preArea;	// 移動前の直前のキャラ位置
 	float angle;	// アングル
 	float direYAngle;		// 前後のキャラ向きを扱う変数
 	float direXAngle;		// 左右のキャラ向きを扱う変数
