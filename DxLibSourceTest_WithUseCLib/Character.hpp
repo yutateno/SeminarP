@@ -30,9 +30,22 @@ private:
 	float motionBlendTime;		// ブレンド時間
 	int preAttach;				// 直前のモーションアタッチ
 	float preMotionPlayTime;	// 直前のモーション時間
-	
 	void Player_PlayAnim(int attach);		// モーション変更
 	void Player_AnimProcess();				// モーション動作
+
+	// 当たり判定
+	int stageHandle;					// ステージハンドル
+	int wallNum;						// 判定する壁の数
+	int floorNum;						// 判定する床の数
+	bool hitFlag;						// 当たっているかどうか
+	bool moveFlag;						// 動いているかどうか
+	float maxYHit;						// 当たっているY座標の最大
+	MV1_COLL_RESULT_POLY_DIM hitDim;			// 周囲のポリゴンを代入する構造体
+	MV1_COLL_RESULT_POLY* wallPoly[2048];		// 壁用のポリゴンの構造体
+	MV1_COLL_RESULT_POLY* floorPoly[2048];		// 床用のポリゴンの構造体
+	MV1_COLL_RESULT_POLY* mainPoly;				// ポリゴンの構造体にアクセスする構造体
+	HITRESULT_LINE lineResult;					// 線分との判定を代入する構造体
+	void StageHit();							// 当たり判定を行う
 			
 public:
 	Character();	// コンストラクタ

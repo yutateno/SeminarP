@@ -1,5 +1,6 @@
 #include "Character.hpp"
 #include "Camera.hpp"
+#include "Stage.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -52,6 +53,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// new
 	Character* character = new Character();
 	Camera* camera = new Camera(character->GetArea());
+	Stage* stage = new Stage();
 
 	// 最初にコントローラーを設定するための確認コマンド
 	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう
@@ -129,6 +131,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #ifdef _DEBUG
 			KeyData::UpDate();
 #endif
+			stage->Draw();
 			character->Process(controllNumber, camera->GetAngle());
 			character->Draw();
 			camera->Process(character->GetArea(), controllNumber);
@@ -154,12 +157,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 			SetUseZBufferFlag(FALSE);
 			// ---------------------------------------------------------------------
-
-			DrawCapsule3D(character->GetArea(), VGet(character->GetArea().x, character->GetArea().y + 180, character->GetArea().z), 40.0f, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
 		}
 	}
 
 	// 削除
+	delete stage;
 	delete camera;
 	delete character;
 
