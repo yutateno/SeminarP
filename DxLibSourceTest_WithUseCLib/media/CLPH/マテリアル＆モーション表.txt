@@ -8,3 +8,6 @@ mat1 = [CLPH_ex.png]
 *********モーション**********
 
 [CLPH_idle.fbx] = 待機モーション
+[CLPH_dash.fbx] = 移動モーション
+[CLPH_walk.fbx] = 歩きモーション
+[CLPH_motionALL.fbx] =上3つを一つのファイルにまとめたもの（実験） 

@@ -294,10 +294,10 @@ Character::Character()
 	MV1RefreshCollInfo(stageHandle, -1);								// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
 
 	// ３Ｄモデルの読み込み
-	charamodelhandle = MV1LoadModel("media\\CLPH\\motion\\CLPH_idle.fbx");
+	charamodelhandle = MV1LoadModel("media\\CLPH\\motion\\CLPH_motionALL.fbx");
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
-	attachNum = 0;
+	attachNum = MOTION::idle;
 	attachMotion = MV1AttachAnim(charamodelhandle, attachNum, -1, FALSE);
 
 	// アタッチしたアニメーションの総再生時間を取得する
@@ -365,6 +365,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 		area.z += MYINPUTPAD::cosf(angle) * -walkSpeed;
 		direYAngle = 0.0f;
 		moveFlag = true;
+		Player_PlayAnim(MOTION::walk);
 	}
 	// 左スティックが後ろに押されたら後退する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) < 0)
@@ -373,6 +374,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 		area.z += MYINPUTPAD::cosf(angle) * walkSpeed;
 		direYAngle = DX_PI_F;
 		moveFlag = true;
+		Player_PlayAnim(MOTION::walk);
 	}
 
 	// 左スティックが左に押されたら左に移動する
@@ -386,6 +388,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
+		Player_PlayAnim(MOTION::walk);
 	}
 	// 左スティックが右に押されたら右に移動する
 	else if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) > 0)
@@ -398,6 +401,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
+		Player_PlayAnim(MOTION::walk);
 	}
 	// キャラの前後の向きを気持ちよくするため
 	else
@@ -406,6 +410,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 		if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) == 0)
 		{
 			moveFlag = false;
+			Player_PlayAnim(MOTION::idle);
 		}
 	}
 

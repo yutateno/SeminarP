@@ -24,6 +24,7 @@ private:
 	float modelWigth;
 
 	// モーションに関して
+	enum MOTION{run, idle, walk};
 	int attachMotion;			// モーションのアタッチ
 	int attachNum;				// 現在のモーション番号
 	float totalTime;			// モーションの総合時間
