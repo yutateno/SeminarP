@@ -61,7 +61,7 @@ void Character::Player_AnimProcess()
 		// 再生時間が総時間に到達していたらループさせる
 		if (nowPlayTime >= totalTime)
 		{
-			nowPlayTime = MYINPUTPAD::fmodf(nowPlayTime, totalTime);
+			nowPlayTime = fmodf(nowPlayTime, totalTime);
 		}
 
 		// 変更した再生時間をモデルに反映させる
@@ -83,7 +83,7 @@ void Character::Player_AnimProcess()
 		// 再生時間が総時間に到達していたら再生時間をループさせる
 		if (preMotionPlayTime > totalTime)
 		{
-			preMotionPlayTime = MYINPUTPAD::fmodf(preMotionPlayTime, totalTime);
+			preMotionPlayTime = fmodf(preMotionPlayTime, totalTime);
 		}
 
 		// 変更した再生時間をモデルに反映させる
@@ -361,8 +361,9 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが前に押されたら前進する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) > 0)
 	{
-		area.x += MYINPUTPAD::sinf(angle) * -walkSpeed;
-		area.z += MYINPUTPAD::cosf(angle) * -walkSpeed;
+		direXAngle = 0.0f;
+		area.x += sinf(angle) * -walkSpeed;
+		area.z += cosf(angle) * -walkSpeed;
 		direYAngle = 0.0f;
 		moveFlag = true;
 		Player_PlayAnim(MOTION::walk);
@@ -370,8 +371,9 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが後ろに押されたら後退する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) < 0)
 	{
-		area.x += MYINPUTPAD::sinf(angle) * walkSpeed;
-		area.z += MYINPUTPAD::cosf(angle) * walkSpeed;
+		direXAngle = 0.0f;
+		area.x += sinf(angle) * walkSpeed;
+		area.z += cosf(angle) * walkSpeed;
 		direYAngle = DX_PI_F;
 		moveFlag = true;
 		Player_PlayAnim(MOTION::walk);
@@ -380,8 +382,8 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが左に押されたら左に移動する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) < 0)
 	{
-		area.x += MYINPUTPAD::cosf(-angle) * walkSpeed;
-		area.z += MYINPUTPAD::sinf(-angle) * walkSpeed;
+		area.x += cosf(-angle) * walkSpeed;
+		area.z += sinf(-angle) * walkSpeed;
 		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / -BASIC::MAX_STICK_MINUS;
 		if (direYAngle != 0.0f)
 		{
@@ -393,8 +395,8 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが右に押されたら右に移動する
 	else if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) > 0)
 	{
-		area.x += MYINPUTPAD::cosf(-angle) * -walkSpeed;
-		area.z += MYINPUTPAD::sinf(-angle) * -walkSpeed;
+		area.x += cosf(-angle) * -walkSpeed;
+		area.z += sinf(-angle) * -walkSpeed;
 		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / BASIC::MAX_STICK_PLUS;
 		if (direYAngle != 0.0f)
 		{
@@ -406,7 +408,6 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// キャラの前後の向きを気持ちよくするため
 	else
 	{
-		direXAngle = 0.0f;
 		if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) == 0)
 		{
 			moveFlag = false;
@@ -433,7 +434,7 @@ void Character::Draw()
 
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
 
-	printfDx("%f\n", area.y);
+	printfDx("%f\n", direXAngle);
 }
 
 VECTOR Character::GetArea()

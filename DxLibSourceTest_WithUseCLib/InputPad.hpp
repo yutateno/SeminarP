@@ -2,12 +2,12 @@
 #ifndef _MY_INPUTPAD_H
 #define _MY_INPUTPAD_H
 
+#include <Windows.h>
+#include <math.h>
 
 namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 {
-#include <Windows.h>
 #include <Xinput.h>
-#include <math.h>
 
 #pragma comment(lib, "xinput.lib")
 
