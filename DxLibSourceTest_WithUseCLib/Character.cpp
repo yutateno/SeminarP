@@ -274,10 +274,6 @@ void Character::StageHit()
 		{
 			area.y = maxYHit;
 		}
-		else
-		{
-
-		}
 	}
 
 	// 検出した情報を解放する
@@ -287,14 +283,14 @@ void Character::StageHit()
 Character::Character()
 {
 	// ステージのコリジョン情報の更新
-	stageHandle = MV1LoadModel("media\\TESTROOM1\\ROOM1_hantei.fbx");	// 当たり判定用ステージの読み込み
+	LoadFile::MyLoad("media\\TESTROOM1\\ROOM1_hantei.fyn", stageHandle, ELOADFILE::mv1model);
 	MV1SetupCollInfo(stageHandle, -1);									// モデルのコリジョン情報をセットアップ(-1による全体フレーム)
 	MV1SetPosition(stageHandle, VGet(0.0f, 0.0f, 0.0f));				// ステージの座標を更新
 	MV1SetFrameVisible(stageHandle, -1, false);							// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
 	MV1RefreshCollInfo(stageHandle, -1);								// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
 
 	// ３Ｄモデルの読み込み
-	charamodelhandle = MV1LoadModel("media\\CLPH\\motion\\CLPH_motionALL.fbx");
+	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.fyn", charamodelhandle, ELOADFILE::mv1model);
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
 	attachNum = MOTION::idle;
@@ -432,9 +428,7 @@ void Character::Draw()
 {
 	MV1DrawModel(charamodelhandle);
 
-	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
-
-	printfDx("%f\n", direXAngle);
+	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
 }
 
 VECTOR Character::GetArea()

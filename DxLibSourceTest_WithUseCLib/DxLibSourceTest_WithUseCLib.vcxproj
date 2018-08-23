@@ -173,6 +173,7 @@
     <ClCompile Include="DxLibSource\Windows\DxWindow.cpp" />
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="InputKey.cpp" />
+    <ClCompile Include="LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
@@ -251,6 +252,7 @@
     <ClInclude Include="DxLibSource\Windows\DxWindow.h" />
     <ClInclude Include="InputPad.hpp" />
     <ClInclude Include="InputKey.hpp" />
+    <ClInclude Include="LoadFile.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>
   <ItemGroup>

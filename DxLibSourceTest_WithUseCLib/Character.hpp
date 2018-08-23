@@ -3,6 +3,7 @@
 #include "InputPad.hpp"
 #include "InputKey.hpp"
 #include "Basic.hpp"
+#include "LoadFile.hpp"
 
 class Character
 {

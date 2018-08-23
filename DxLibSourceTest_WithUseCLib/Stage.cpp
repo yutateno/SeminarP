@@ -3,7 +3,7 @@
 Stage::Stage()
 {
 	// ステージの読み込み
-	stageHandle = MV1LoadModel("media\\TESTROOM1\\ROOM1_Graph.fbx");
+	LoadFile::MyLoad("media\\TESTROOM1\\ROOM1_Graph.fyn", stageHandle, ELOADFILE::mv1model);
 
 	// 座標を指定
 	MV1SetPosition(stageHandle, VGet(0, 0, 0));

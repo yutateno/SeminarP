@@ -276,6 +276,9 @@
     <ClCompile Include="Stage.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="LoadFile.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -501,6 +504,9 @@
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="Stage.hpp">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadFile.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
