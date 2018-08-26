@@ -134,9 +134,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	// íœ
-	delete stage;
 	delete camera;
 	delete character;
+	delete stage;
 
 	DxLib::DxLib_End();		// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌŒãn––
 

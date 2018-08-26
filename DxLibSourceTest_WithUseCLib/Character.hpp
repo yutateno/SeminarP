@@ -23,6 +23,16 @@ private:
 	int charamodelhandle;	// モデルのハンドル
 	float modelHeight;
 	float modelWigth;
+	
+	// 足元の影
+	MV1_COLL_RESULT_POLY_DIM ShadowHitResDim;
+	MV1_COLL_RESULT_POLY *ShadowHitRes;
+	VERTEX3D ShadowVertex[3];
+	VECTOR ShadowSlideVec;
+	int PLAYER_SHADOW_HEIGHT;
+	float PLAYER_SHADOW_SIZE;
+	int shadowhandle;
+	void ShadowFoot();
 
 	// モーションに関して
 	enum MOTION{run, idle, walk};
