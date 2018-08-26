@@ -51,7 +51,7 @@ private:
 	void StageHit();							// 当たり判定を行う
 			
 public:
-	Character();	// コンストラクタ
+	Character(int collStageHandle);	// コンストラクタ
 	~Character();																// デストラクタ
 
 	void Draw();		// 描画

@@ -280,10 +280,10 @@ void Character::StageHit()
 	MV1CollResultPolyDimTerminate(hitDim);
 }
 
-Character::Character()
+Character::Character(int collStageHandle)
 {
 	// ステージのコリジョン情報の更新
-	LoadFile::MyLoad("media\\TESTROOM1\\ROOM1_hantei.fyn", stageHandle, ELOADFILE::mv1model);
+	stageHandle = collStageHandle;
 	MV1SetupCollInfo(stageHandle, -1);									// モデルのコリジョン情報をセットアップ(-1による全体フレーム)
 	MV1SetPosition(stageHandle, VGet(0.0f, 0.0f, 0.0f));				// ステージの座標を更新
 	MV1SetFrameVisible(stageHandle, -1, false);							// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
@@ -318,7 +318,7 @@ Character::Character()
 	maxYHit = 0.0f;
 
 	// それぞれの速度
-	walkSpeed = 30.0f;
+	walkSpeed = 0.0f;
 	animSpeed = 1.0f;
 
 	// モーション関連
@@ -357,9 +357,9 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが前に押されたら前進する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) > 0)
 	{
-		direXAngle = 0.0f;
 		area.x += sinf(angle) * -walkSpeed;
 		area.z += cosf(angle) * -walkSpeed;
+		direXAngle = 0.0f;
 		direYAngle = 0.0f;
 		moveFlag = true;
 		Player_PlayAnim(MOTION::walk);
@@ -367,9 +367,9 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	// 左スティックが後ろに押されたら後退する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) < 0)
 	{
-		direXAngle = 0.0f;
 		area.x += sinf(angle) * walkSpeed;
 		area.z += cosf(angle) * walkSpeed;
+		direXAngle = 0.0f;
 		direYAngle = DX_PI_F;
 		moveFlag = true;
 		Player_PlayAnim(MOTION::walk);
@@ -380,7 +380,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	{
 		area.x += cosf(-angle) * walkSpeed;
 		area.z += sinf(-angle) * walkSpeed;
-		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / -BASIC::MAX_STICK_MINUS;
+		direXAngle = ((float)MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2.0f)) / (float)-BASIC::MAX_STICK_MINUS;
 		if (direYAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -393,7 +393,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	{
 		area.x += cosf(-angle) * -walkSpeed;
 		area.z += sinf(-angle) * -walkSpeed;
-		direXAngle = (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2)) / BASIC::MAX_STICK_PLUS;
+		direXAngle = ((float)MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2.0f)) / (float)BASIC::MAX_STICK_PLUS;
 		if (direYAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -408,6 +408,22 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 		{
 			moveFlag = false;
 			Player_PlayAnim(MOTION::idle);
+		}
+	}
+
+	// スムーズに動かせる
+	if (moveFlag)
+	{
+		if (walkSpeed != 20.0f)
+		{
+			walkSpeed += 2.5f;
+		}
+	}
+	else
+	{
+		if (walkSpeed != 0.0f)
+		{
+			walkSpeed -= 5.0f;
 		}
 	}
 
@@ -429,6 +445,8 @@ void Character::Draw()
 	MV1DrawModel(charamodelhandle);
 
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
+
+	printfDx("X:%f\n", direXAngle);
 }
 
 VECTOR Character::GetArea()

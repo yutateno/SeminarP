@@ -5,12 +5,14 @@
 class Stage
 {
 private:
-	int stageHandle;		// ステージ
-	int test;
+	int drawStageHandle;		// ステージ
+	int collStageHandle;
 
 public:
 	Stage();
 	~Stage();
 
 	void Draw();
+
+	int GetCollStageHandle();
 };

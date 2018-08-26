@@ -2,17 +2,17 @@
 #include "Camera.hpp"
 #include "Stage.hpp"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+// ウィンドウサイズ
+int winWidth = 1920;
+int winHeight = 1080;
+
+void ProjectInit()
 {
 #ifdef _DEBUG
 	SetOutApplicationLogValidFlag(TRUE);	// ログテキスト出力する
 #elif NDEBUG
 	SetOutApplicationLogValidFlag(FALSE);	// ログテキスト出力しない
 #endif
-
-	// ウィンドウサイズ
-	int winWidth = 1920;
-	int winHeight = 1080;
 
 	SetWindowText("SeminarProject");	// メインウインドウのウインドウタイトルを変更する
 
@@ -25,6 +25,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetEnableXAudioFlag(TRUE);			// XAudioを使用するようにする
 
 	SetGraphMode(winWidth, winHeight, 32);					// 1920x1080x32bit
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	ProjectInit();		// DXライブラリ初期化前初期化
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -32,7 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
-
+	
 	// コントローラーとキーボードの初期化
 	MYINPUTPAD::InputPad::InputPad();
 	MYINPUTPAD::InputPad::Update();
@@ -41,9 +46,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	// new
-	Character* character = new Character();
-	Camera* camera = new Camera(character->GetArea());
 	Stage* stage = new Stage();
+	Character* character = new Character(stage->GetCollStageHandle());
+	Camera* camera = new Camera(character->GetArea(), -1);
 
 	// 最初にコントローラーを設定するための確認コマンド
 	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう

@@ -2,10 +2,12 @@
 
 using namespace MYINPUTPAD;
 
-Camera::Camera(VECTOR charaarea)
+Camera::Camera(VECTOR charaarea, int collStageHandle)
 {
-	cameraArea = VGet(0, 620, 800);
-	viewArea = VGet(0, 90, 0);
+	stageHandle = collStageHandle;
+
+	cameraArea = VGet(0, 350, 500);
+	viewArea = VGet(0, 150, 0);
 
 	charaArea = charaarea;
 	moveflag = false;
@@ -13,7 +15,7 @@ Camera::Camera(VECTOR charaarea)
 	speed = DX_PI_F / 90;
 	angle = 0.0f;
 
-	SetCameraNearFar(100.0f, 3000.0f);	// カメラの描画範囲を指定
+	SetCameraNearFar(100.0f, 15000.0f);	// カメラの描画範囲を指定
 
 	// 第一引数の視点から第二引数のターゲットを見る角度にカメラを設置
 	SetCameraPositionAndTarget_UpVecY(VAdd(cameraArea, charaArea), VAdd(viewArea, charaArea));
@@ -41,6 +43,28 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 	{
 		RLrotate(-speed, &cameraArea);	// 回転処理
 		angle -= speed;
+	}
+
+	// 上キーが押されていたら下から見上げる
+	if (KeyData::Get(KEY_INPUT_UP) >= 1
+		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_Y) > 0)
+	{
+		// 制限
+		if (cameraArea.y > 240)
+		{
+			cameraArea = VAdd(cameraArea, VScale(VNorm(cameraArea), -10));	// 単位ベクトル化してマイナスかけて同一方向に減らす
+		}
+	}
+
+	// 下キーが押されていたら上から見下ろす
+	if (KeyData::Get(KEY_INPUT_DOWN) >= 1
+		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_Y) < 0)
+	{
+		// 制限
+		if (cameraArea.y < 400)
+		{
+			cameraArea = VAdd(cameraArea, VScale(VNorm(cameraArea), 10));	// VScaleいらない
+		}
 	}
 
 	// 第一引数の視点から第二引数のターゲットを見る角度にカメラを設置
