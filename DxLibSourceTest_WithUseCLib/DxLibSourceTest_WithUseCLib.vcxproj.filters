@@ -279,6 +279,10 @@
     <ClCompile Include="LoadFile.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="BasicActor.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMove1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -509,6 +513,10 @@
     <ClInclude Include="LoadFile.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
+    <ClInclude Include="BasicActor.hpp">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMove1.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt">

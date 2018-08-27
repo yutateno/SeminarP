@@ -6,6 +6,9 @@ Stage::Stage()
 	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", drawStageHandle, ELOADFILE::mv1model);
 	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", collStageHandle, ELOADFILE::mv1model);
 
+	MV1SetScale(drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
+	MV1SetScale(collStageHandle, VGet(1.75f, 1.0f, 1.75f));
+
 	// 座標を指定
 	MV1SetPosition(drawStageHandle, VGet(0, 0, 0));
 }

@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicActor.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DxLibSource\DxArchive_.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="DxLibSource\Windows\DxUseCStrmBaseFilter.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWinAPI.cpp" />
     <ClCompile Include="DxLibSource\Windows\DxWindow.cpp" />
+    <ClCompile Include="EnemyMove1.cpp" />
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="LoadFile.cpp" />
@@ -179,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.hpp" />
+    <ClInclude Include="BasicActor.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="DxLibSource\DxArchive_.h" />
@@ -250,6 +253,7 @@
     <ClInclude Include="DxLibSource\Windows\DxUseCStrmBaseFilter.h" />
     <ClInclude Include="DxLibSource\Windows\DxWinAPI.h" />
     <ClInclude Include="DxLibSource\Windows\DxWindow.h" />
+    <ClInclude Include="EnemyMove1.hpp" />
     <ClInclude Include="InputPad.hpp" />
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="LoadFile.hpp" />

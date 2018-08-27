@@ -1,6 +1,7 @@
 #include "Character.hpp"
 #include "Camera.hpp"
 #include "Stage.hpp"
+#include "EnemyMove1.hpp"
 
 // ウィンドウサイズ
 int winWidth = 1920;
@@ -49,6 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Stage* stage = new Stage();
 	Character* character = new Character(stage->GetCollStageHandle());
 	Camera* camera = new Camera(character->GetArea(), -1);
+	EnemyMove1* enemyMove1 = new EnemyMove1(stage->GetCollStageHandle());
 
 	// 最初にコントローラーを設定するための確認コマンド
 	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう
@@ -130,10 +132,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			character->Process(controllNumber, camera->GetAngle());
 			character->Draw();
 			camera->Process(character->GetArea(), controllNumber);
+			enemyMove1->Draw();
+			enemyMove1->Process();
 		}
 	}
 
 	// 削除
+	delete enemyMove1;
 	delete camera;
 	delete character;
 	delete stage;
