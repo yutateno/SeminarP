@@ -13,6 +13,42 @@
     <Filter Include="ソースファイル">
       <UniqueIdentifier>{13649d66-c2b6-4ee6-bac1-718aafb2f76b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダーファイル\MoveLevel">
+      <UniqueIdentifier>{65c58f74-72f5-4894-9f86-0bb178d0f8a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\MoveLevel">
+      <UniqueIdentifier>{e252c33e-1c02-4441-90cd-6a8ae2eaa1d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Actor">
+      <UniqueIdentifier>{10828b38-f150-4fcf-ac02-c1b5b8197fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Actor">
+      <UniqueIdentifier>{67c6ad20-b65d-4f51-b439-0d960df7c02d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Operation">
+      <UniqueIdentifier>{0abae9d0-fe4b-48b4-b2db-377a2f00de64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Operation">
+      <UniqueIdentifier>{aed4f8c7-bf3b-473d-8383-517975ab690e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Actor\Creature">
+      <UniqueIdentifier>{f79dc619-5282-4035-a74c-c52a093dcc03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Actor\Creature\Character">
+      <UniqueIdentifier>{49339e60-b549-45fd-887c-64000fa0636a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Actor\Creature\Enemy">
+      <UniqueIdentifier>{ccb19143-a000-46a3-945f-5dddfa248b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Actor\Creature">
+      <UniqueIdentifier>{0b3d701d-320c-403d-9904-a43ddb6864f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Actor\Creature\Character">
+      <UniqueIdentifier>{9cbc6934-f631-4847-ac78-87da2b5a02bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Actor\Creature\Enemy">
+      <UniqueIdentifier>{3d88c578-4c4d-4189-80fd-491f68c998ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DxLibSource\DxUseCLibOgg.cpp">
@@ -258,31 +294,36 @@
     <ClCompile Include="DxLibSource\Windows\DxShaderCodeBin_Base3D_D3D11.cpp">
       <Filter>DxLib\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="InputPad.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="InputKey.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="LoadFile.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BasicActor.cpp">
-      <Filter>ソースファイル</Filter>
+    <ClCompile Include="EnemyMove1.cpp">
+      <Filter>ソースファイル\Actor\Creature\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMove1.cpp" />
+    <ClCompile Include="MainMove1.cpp">
+      <Filter>ソースファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>ソースファイル\Actor\Creature\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKey.cpp">
+      <Filter>ソースファイル\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="InputPad.cpp">
+      <Filter>ソースファイル\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソースファイル\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicActor.cpp">
+      <Filter>ソースファイル\Actor\Creature</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -492,31 +533,36 @@
     <ClInclude Include="DxLibSource\Windows\DxUseCStrmBaseFilter.h">
       <Filter>DxLib\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="InputPad.hpp">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="InputKey.hpp">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.hpp">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="Basic.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.hpp">
-      <Filter>ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="LoadFile.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BasicActor.hpp">
-      <Filter>ヘッダーファイル</Filter>
+    <ClInclude Include="EnemyMove1.hpp">
+      <Filter>ヘッダーファイル\Actor\Creature\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMove1.hpp" />
+    <ClInclude Include="MainMove1.hpp">
+      <Filter>ヘッダーファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>ヘッダーファイル\Actor\Creature\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKey.hpp">
+      <Filter>ヘッダーファイル\Operation</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPad.hpp">
+      <Filter>ヘッダーファイル\Operation</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicActor.hpp">
+      <Filter>ヘッダーファイル\Actor\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.hpp">
+      <Filter>ヘッダーファイル\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt">

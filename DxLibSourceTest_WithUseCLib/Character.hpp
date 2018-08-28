@@ -13,13 +13,14 @@ private:
 
 	// モーションに関して
 	enum MOTION { run, idle, walk };
-			
+
+	// 動きに関して
+	void MoveProcess(unsigned __int8 controllNumber);
+	
 public:
 	Character(int collStageHandle);	// コンストラクタ
 	~Character();					// デストラクタ
 	
 	void Draw();
 	void Process(unsigned __int8 controllNumber, float getAngle);
-
-	VECTOR GetArea();
 };

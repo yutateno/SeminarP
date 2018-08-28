@@ -177,6 +177,7 @@
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMove1.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +258,7 @@
     <ClInclude Include="InputPad.hpp" />
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="LoadFile.hpp" />
+    <ClInclude Include="MainMove1.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>
   <ItemGroup>

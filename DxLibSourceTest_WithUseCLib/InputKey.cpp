@@ -1,15 +1,5 @@
 #include "InputKey.hpp"
 
-KeyData::KeyData()
-{
-
-}
-
-KeyData::~KeyData()
-{
-
-}
-
 int KeyData::key[256];
 char KeyData::tmpKey[256];
 

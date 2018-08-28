@@ -66,5 +66,6 @@ public:
 	~BasicActor();
 
 	void Draw();		// •`‰æ
-};
 
+	VECTOR GetArea();
+};

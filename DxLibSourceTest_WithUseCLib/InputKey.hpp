@@ -8,8 +8,8 @@ private:
 	static char tmpKey[256];	// 現在のキーの入力状態を格納する
 
 public:
-	KeyData();
-	~KeyData();
+	KeyData() {};
+	~KeyData() {};
 
 	static void UpDate();			// キー入力の状態更新
 	static int Get(int KeyCode);	// キー入力状態取得

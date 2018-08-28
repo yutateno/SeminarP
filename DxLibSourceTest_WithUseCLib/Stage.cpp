@@ -1,5 +1,6 @@
 #include "Stage.hpp"
 
+// コンストラクタ
 Stage::Stage()
 {
 	// ステージの読み込み
@@ -7,17 +8,25 @@ Stage::Stage()
 	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", collStageHandle, ELOADFILE::mv1model);
 
 	MV1SetScale(drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
-	MV1SetScale(collStageHandle, VGet(1.75f, 1.0f, 1.75f));
 
 	// 座標を指定
 	MV1SetPosition(drawStageHandle, VGet(0, 0, 0));
 }
 
+// デストラクタ
 Stage::~Stage()
 {
 	MV1DeleteModel(drawStageHandle);
 }
 
+
+// 要らないロードの削除処理
+void Stage::LoadInit()
+{
+	MV1DeleteModel(collStageHandle);
+}
+
+// 描画
 void Stage::Draw()
 {
 	MV1DrawModel(drawStageHandle);
@@ -51,6 +60,7 @@ void Stage::Draw()
 	SetUseZBufferFlag(FALSE);
 }
 
+// 当たり判定モデルを渡す用ゲッター
 int Stage::GetCollStageHandle()
 {
 	return collStageHandle;

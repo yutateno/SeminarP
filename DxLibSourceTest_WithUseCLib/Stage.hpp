@@ -12,6 +12,8 @@ public:
 	Stage();
 	~Stage();
 
+	void LoadInit();		// 保持する必要のないロードモデルを削除
+
 	void Draw();
 
 	int GetCollStageHandle();

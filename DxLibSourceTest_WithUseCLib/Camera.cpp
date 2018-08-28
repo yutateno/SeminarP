@@ -2,6 +2,8 @@
 
 using namespace MYINPUTPAD;
 
+
+// コンストラクタ
 Camera::Camera(VECTOR charaarea, int collStageHandle)
 {
 	stageHandle = collStageHandle;
@@ -21,11 +23,14 @@ Camera::Camera(VECTOR charaarea, int collStageHandle)
 	SetCameraPositionAndTarget_UpVecY(VAdd(cameraArea, charaArea), VAdd(viewArea, charaArea));
 }
 
+// デストラクタ
 Camera::~Camera()
 {
 
 }
 
+
+// メインプロセス
 void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 {
 	charaArea = charaarea;					// キャラの位置を更新し続ける
@@ -79,6 +84,7 @@ void Camera::RLrotate(float speed, VECTOR* p_cameraArea)
 	p_cameraArea->z = -tempX * sinf(speed) + p_cameraArea->z * cosf(speed);
 }
 
+// カメラのアングルを渡すゲッター
 float Camera::GetAngle()
 {
 	return angle;

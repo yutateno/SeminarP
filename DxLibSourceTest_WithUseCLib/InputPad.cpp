@@ -10,6 +10,8 @@ XINPUT_STATE InputPad::state[4];
 XINPUT_STICK_MY_DEADZONE InputPad::stickDeadZone;
 bool InputPad::setControll[4];
 
+
+// コンストラクタ
 InputPad::InputPad()
 {
 	// コントローラ分ループ
@@ -37,6 +39,7 @@ InputPad::InputPad()
 	}
 }
 
+// デストラクタ
 InputPad::~InputPad()
 {
 	for (int i = 0; i != InputPad::controllerNum; ++i)
@@ -45,6 +48,8 @@ InputPad::~InputPad()
 	}
 }
 
+
+// 更新
 void InputPad::Update()
 {
 	// コントローラの数だけ行う
@@ -124,16 +129,20 @@ void InputPad::Update()
 	}
 }
 
+
+// コントローラーの繋がっている数
 int InputPad::GetPadNum()
 {
 	return (int)InputPad::controllerNum;
 }
 
+// ボタン入力取得
 int InputPad::GetPadButtonData(unsigned __int8 use_padnum, unsigned __int8 use_button)
 {
 	return InputPad::button[use_padnum][use_button];
 }
 
+// トリガー入力取得
 int InputPad::GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerLeft)
 {
 	if (use_Is_triggerLeft)
@@ -146,11 +155,13 @@ int InputPad::GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerL
 	}
 }
 
+// スティック入力取得
 int InputPad::GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_stick)
 {
 	return InputPad::stick[use_padnum][use_stick];
 }
 
+// スティックのデッドゾーン設定
 void InputPad::SetPadDeadZone(short leftPad_right, short leftPad_left
 	, short leftPad_up, short leftPad_down, short rightPad_right, short rightPad_left, short rightPad_up, short rightPad_down)
 {

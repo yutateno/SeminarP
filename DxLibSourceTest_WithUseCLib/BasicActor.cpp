@@ -1,5 +1,6 @@
 #include "BasicActor.hpp"
 
+// 足の影
 void BasicActor::ShadowFoot()
 {
 	// ライティングを無効にする
@@ -78,6 +79,7 @@ void BasicActor::ShadowFoot()
 	SetUseZBuffer3D(FALSE);
 }
 
+// 使うアニメーション管理
 void BasicActor::Player_PlayAnim(int attach)
 {
 	// 今のモーションが違うものだったら
@@ -114,6 +116,7 @@ void BasicActor::Player_PlayAnim(int attach)
 	}
 }
 
+// 全てのアニメーションの管理
 void BasicActor::Player_AnimProcess()
 {
 	// ブレンド率が１以下の場合は１に近づける
@@ -172,6 +175,7 @@ void BasicActor::Player_AnimProcess()
 	}
 }
 
+// ステージのあたり判定処理
 void BasicActor::StageHit()
 {
 	// プレイヤーをカプセルとしてステージとのコリジョン情報を調べる(OBB形式)
@@ -358,13 +362,16 @@ void BasicActor::StageHit()
 	MV1CollResultPolyDimTerminate(hitDim);
 }
 
+
+// コンストラクタ
 BasicActor::BasicActor(int collStageHandle)
 {
 	// 影の読み込み
 	LoadFile::MyLoad("media\\Shadow.tyn", shadowHandle, ELOADFILE::graph);
 
 	// ステージのコリジョン情報の更新
-	stageHandle = collStageHandle;
+	stageHandle = MV1DuplicateModel(collStageHandle);
+	MV1SetScale(stageHandle, VGet(1.75f, 1.0f, 1.75f));
 	MV1SetupCollInfo(stageHandle, -1);									// モデルのコリジョン情報をセットアップ(-1による全体フレーム)
 	MV1SetPosition(stageHandle, VGet(0.0f, 0.0f, 0.0f));				// ステージの座標を更新
 	MV1SetFrameVisible(stageHandle, -1, false);							// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
@@ -386,7 +393,7 @@ BasicActor::BasicActor(int collStageHandle)
 	angle = 0.0f;
 }
 
-
+// デストラクタ
 BasicActor::~BasicActor()
 {
 	if (shadowHandle != -1)
@@ -400,9 +407,17 @@ BasicActor::~BasicActor()
 	}
 }
 
+
+// 描画
 void BasicActor::Draw()
 {
 	MV1DrawModel(modelHandle);
 
 	ShadowFoot();
+}
+
+// 今の座標を渡す用ゲッター
+VECTOR BasicActor::GetArea()
+{
+	return area;
 }
