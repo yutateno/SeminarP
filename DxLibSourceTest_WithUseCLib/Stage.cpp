@@ -4,8 +4,8 @@
 Stage::Stage()
 {
 	// ステージの読み込み
-	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", drawStageHandle, ELOADFILE::mv1model);
-	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", collStageHandle, ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", drawStageHandle, ELOADFILE::fbxmodel);
+	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", collStageHandle, ELOADFILE::fbxmodel);
 
 	MV1SetScale(drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
 

@@ -45,7 +45,7 @@ void EnemyMove1::MoveProcess()
 EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ) : BasicActor(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
-	LoadFile::MyLoad("media\\光る玉\\sphere.fyn", modelHandle, ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\光る玉\\sphere.fyn", modelHandle, ELOADFILE::fbxmodel);
 	
 	// モデルの基本情報
 	modelHeight = 10.0f;
@@ -80,16 +80,19 @@ void EnemyMove1::Draw()
 {
 	BasicActor::Draw();		// 基本的なものを引っ張ってくる
 
-#ifdef _DEBUG
+#ifdef _MODEL_DEBUG
 	VECTOR viewArea = VAdd(area, VGet(0.0f, 60.0f, 0.0f));		// モデルの初期Y座標が浮いているので調整
 
 	DrawCapsule3D(viewArea, VAdd(viewArea, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
-#endif // _DEBUG
+#endif // _MODEL_DEBUG
 }
 
 // メインプロセス
 void EnemyMove1::Process()
 {
+	MV1SetMaterialDifColor(modelHandle, 0, GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
+	MV1SetMaterialEmiColor(modelHandle, 0, GetColorF(1.0f, 1.0f, 1.0f, 0.0f));
+
 	// 動きのプロセス
 	MoveProcess();
 

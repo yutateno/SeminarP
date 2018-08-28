@@ -324,6 +324,9 @@
     <ClCompile Include="BasicActor.cpp">
       <Filter>ソースファイル\Actor\Creature</Filter>
     </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -563,6 +566,10 @@
     <ClInclude Include="Stage.hpp">
       <Filter>ヘッダーファイル\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="PointLight.hpp">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMacro.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt">

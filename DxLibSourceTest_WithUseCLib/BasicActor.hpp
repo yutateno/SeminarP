@@ -1,6 +1,8 @@
 #pragma once
 #include "DxLib.h"
 #include "LoadFile.hpp"
+#include "Basic.hpp"
+#include "BaseMacro.h"
 
 class BasicActor
 {

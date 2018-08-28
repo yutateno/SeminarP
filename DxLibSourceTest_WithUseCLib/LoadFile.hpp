@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 
-enum class ELOADFILE { graph, soundmem, mv1model };
+enum class ELOADFILE { graph, soundmem, fbxmodel, mv1model };
 
 class LoadFile
 {

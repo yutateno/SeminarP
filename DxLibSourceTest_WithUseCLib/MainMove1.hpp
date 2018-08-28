@@ -3,6 +3,7 @@
 #include "Character.hpp"
 #include "EnemyMove1.hpp"
 #include "Camera.hpp"
+#include "PointLight.hpp"
 
 class MainMove1
 {
@@ -11,6 +12,7 @@ private:
 	Character* character;
 	EnemyMove1* enemy;
 	Camera* camera;
+	PointLight* light;
 
 	void ActorHit();
 

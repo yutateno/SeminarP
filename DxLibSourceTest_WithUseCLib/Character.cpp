@@ -104,7 +104,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 Character::Character(int collStageHandle) : BasicActor(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
-	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.fyn", modelHandle, ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.fyn", modelHandle, ELOADFILE::fbxmodel);
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
 	attachNum = MOTION::idle;
@@ -171,7 +171,7 @@ void Character::Draw()
 {
 	BasicActor::Draw();		// 基本的なものを引っ張ってくる
 
-#ifdef _DEBUG
+#ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
-#endif // _DEBUG
+#endif // _MODEL_DEBUG
 }

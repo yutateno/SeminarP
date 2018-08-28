@@ -1,7 +1,6 @@
 #pragma once
 #include "InputPad.hpp"
 #include "InputKey.hpp"
-#include "Basic.hpp"
 #include "BasicActor.hpp"
 
 class Character : public BasicActor

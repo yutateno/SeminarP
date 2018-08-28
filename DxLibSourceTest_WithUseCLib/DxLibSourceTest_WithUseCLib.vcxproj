@@ -178,9 +178,11 @@
     <ClCompile Include="LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMove1.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseMacro.h" />
     <ClInclude Include="Basic.hpp" />
     <ClInclude Include="BasicActor.hpp" />
     <ClInclude Include="Camera.hpp" />
@@ -259,6 +261,7 @@
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="LoadFile.hpp" />
     <ClInclude Include="MainMove1.hpp" />
+    <ClInclude Include="PointLight.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>
   <ItemGroup>
