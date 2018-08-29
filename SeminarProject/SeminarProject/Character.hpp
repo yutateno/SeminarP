@@ -1,9 +1,9 @@
 #pragma once
 #include "InputPad.hpp"
 #include "InputKey.hpp"
-#include "BasicActor.hpp"
+#include "BasicCreature.hpp"
 
-class Character : public BasicActor
+class Character : public BasicCreature
 {
 private:
 	// ‚»‚ê‚¼‚ê‚ÌˆÊ’u‚ÉŠÖ‚µ‚Ä

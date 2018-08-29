@@ -1,7 +1,7 @@
-#include "BasicActor.hpp"
+#include "BasicCreature.hpp"
 
 // 足の影
-void BasicActor::ShadowFoot()
+void BasicCreature::ShadowFoot()
 {
 	// ライティングを無効にする
 	SetUseLighting(FALSE);
@@ -80,7 +80,7 @@ void BasicActor::ShadowFoot()
 }
 
 // 使うアニメーション管理
-void BasicActor::Player_PlayAnim(int attach)
+void BasicCreature::Player_PlayAnim(int attach)
 {
 	// 今のモーションが違うものだったら
 	if (attachNum != attach)
@@ -117,7 +117,7 @@ void BasicActor::Player_PlayAnim(int attach)
 }
 
 // 全てのアニメーションの管理
-void BasicActor::Player_AnimProcess()
+void BasicCreature::Player_AnimProcess()
 {
 	// ブレンド率が１以下の場合は１に近づける
 	if (motionBlendTime < 1.0)
@@ -176,7 +176,7 @@ void BasicActor::Player_AnimProcess()
 }
 
 // ステージのあたり判定処理
-void BasicActor::StageHit()
+void BasicCreature::StageHit()
 {
 	// プレイヤーをカプセルとしてステージとのコリジョン情報を調べる(OBB形式)
 	hitDim = MV1CollCheck_Capsule(stageHandle, -1, area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth);
@@ -364,7 +364,7 @@ void BasicActor::StageHit()
 
 
 // コンストラクタ
-BasicActor::BasicActor(int collStageHandle)
+BasicCreature::BasicCreature(int collStageHandle)
 {
 	// 影の読み込み
 	LoadFile::MyLoad("media\\Shadow.tyn", shadowHandle, ELOADFILE::graph);
@@ -394,7 +394,7 @@ BasicActor::BasicActor(int collStageHandle)
 }
 
 // デストラクタ
-BasicActor::~BasicActor()
+BasicCreature::~BasicCreature()
 {
 	if (shadowHandle != -1)
 	{
@@ -409,13 +409,13 @@ BasicActor::~BasicActor()
 
 
 // 描画
-void BasicActor::Draw()
+void BasicCreature::Draw()
 {
 	MV1DrawModel(modelHandle);
 }
 
 // 今の座標を渡す用ゲッター
-VECTOR BasicActor::GetArea()
+VECTOR BasicCreature::GetArea()
 {
 	return area;
 }

@@ -3,7 +3,7 @@
 #include "LoadFile.hpp"
 #include "Basic.hpp"
 
-class BasicActor
+class BasicCreature
 {
 protected:
 	// ˆÊ’u‚É‚Â‚¢‚Ä
@@ -63,8 +63,8 @@ private:
 	HITRESULT_LINE lineResult;					// ü•ª‚Æ‚Ì”»’è‚ğ‘ã“ü‚·‚é\‘¢‘Ì
 
 public:
-	BasicActor(int collStageHandle);
-	virtual ~BasicActor();
+	BasicCreature(int collStageHandle);
+	virtual ~BasicCreature();
 
 	void Draw();		// •`‰æ
 

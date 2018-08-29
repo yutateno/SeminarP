@@ -42,7 +42,7 @@ void EnemyMove1::MoveProcess()
 
 
 // コンストラクタ
-EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float color) : BasicActor(collStageHandle)
+EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float color) : BasicCreature(collStageHandle)
 {
 	// モデルの向きと位置
 	this->area = VGet(areaX, 40.0f, areaZ);

@@ -3,6 +3,46 @@
 // 動きのプロセス
 void Character::MoveProcess(unsigned __int8 controllNumber)
 {
+	// スムーズに動かせる
+	if (moveFlag)
+	{
+		animSpeed = 1.0f;
+		if (direXAngle == 0.0f)
+		{
+			if (walkSpeed < 20.0f)
+			{
+				walkSpeed += 2.5f;
+			}
+			else
+			{
+				walkSpeed = 20.0f;
+			}
+		}
+		else	// 斜め方向
+		{
+			if (walkSpeed < 12.0f)
+			{
+				walkSpeed += 3.0f;
+			}
+			else
+			{
+				walkSpeed = 12.0f;
+			}
+		}
+	}
+	else
+	{
+		animSpeed = 0.5f;
+		if (walkSpeed > 0.0f)
+		{
+			walkSpeed -= 5.0f;
+		}
+		else
+		{
+			walkSpeed = 0.0f;
+		}
+	}
+
 	// 左スティックが前に押されたら前進する
 	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) > 0)
 	{
@@ -59,51 +99,11 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 			Player_PlayAnim(MOTION::idle);
 		}
 	}
-
-	// スムーズに動かせる
-	if (moveFlag)
-	{
-		animSpeed = 1.0f;
-		if (direXAngle == 0.0f)
-		{
-			if (walkSpeed < 20.0f)
-			{
-				walkSpeed += 2.5f;
-			}
-			else
-			{
-				walkSpeed = 20.0f;
-			}
-		}
-		else	// 斜め方向
-		{
-			if (walkSpeed < 12.0f)
-			{
-				walkSpeed += 3.0f;
-			}
-			else
-			{
-				walkSpeed = 12.0f;
-			}
-		}
-	}
-	else
-	{
-		animSpeed = 0.5f;
-		if (walkSpeed > 0.0f)
-		{
-			walkSpeed -= 5.0f;
-		}
-		else
-		{
-			walkSpeed = 0.0f;
-		}
-	}
 }
 
 
 // コンストラクタ
-Character::Character(int collStageHandle) : BasicActor(collStageHandle)
+Character::Character(int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", modelHandle, ELOADFILE::mv1model);
@@ -171,7 +171,7 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 // 描画
 void Character::Draw()
 {
-	BasicActor::Draw();		// 基本的なものを引っ張ってくる
+	BasicCreature::Draw();		// 基本的なものを引っ張ってくる
 
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト

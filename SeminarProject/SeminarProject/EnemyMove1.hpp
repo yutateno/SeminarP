@@ -1,7 +1,7 @@
 #pragma once
-#include "BasicActor.hpp"
+#include "BasicCreature.hpp"
 
-class EnemyMove1 : public BasicActor
+class EnemyMove1 : public BasicCreature
 {
 private:
 	// “®‚«‚ÉŠÖ‚µ‚Ä
