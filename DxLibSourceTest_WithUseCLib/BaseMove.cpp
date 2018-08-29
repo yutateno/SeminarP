@@ -81,6 +81,12 @@ void BaseMove::ShadowArea(VECTOR charaArea)
 
 
 
+int BaseMove::GetDistance(VECTOR alpha, VECTOR beta)
+{
+	double distance = sqrt((alpha.x - beta.x) * (alpha.x - beta.x) + (alpha.z - beta.z) * (alpha.z - beta.z));
+	return (int)distance;
+}
+
 BaseMove::BaseMove()
 {
 	// シャドウマップハンドルの作成

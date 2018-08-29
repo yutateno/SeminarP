@@ -1,9 +1,12 @@
 #pragma once
 #include "DxLib.h"
 
+#include <math.h>
+
 class BaseMove
 {
 private:
+	// 影に関して-----------------------------------------------
 	int shadowMapCharaHandle;
 	int shadowMapAnotherCharaHandle;
 	int shadowMapNoMoveHandle;
@@ -18,9 +21,10 @@ private:
 	VECTOR shadowNoMoveHighArea;
 
 	VECTOR lightDire;
+	// ---------------------------------------------------------
 
 protected:
-	// 描画の準備
+	// 影に関して-----------------------------------------------
 	// シャドウマップ０番：主人公
 	void ShadowCharaSetUpBefore();
 	void ShadowCharaSetUpAfter();
@@ -48,6 +52,10 @@ protected:
 
 	// 座標を更新し続ける
 	void ShadowArea(VECTOR charaArea);
+	// ---------------------------------------------------------
+
+	// 二つのモデルの距離
+	int GetDistance(VECTOR alpha, VECTOR beta);
 
 public:
 	BaseMove();

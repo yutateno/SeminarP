@@ -11,12 +11,10 @@
 class MainMove1 : public BaseMove
 {
 private:
-	int enemyModel;
-
 	Stage* stage;
 	Character* character;
-	const int enemyNum = 10;
-	EnemyMove1* enemyAggre[10];
+	const int enemyNum = 30;
+	EnemyMove1* enemyAggre[30];
 	Camera* camera;
 	PointLight* light;
 

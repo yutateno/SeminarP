@@ -8,13 +8,15 @@ private:
 	bool upNow;
 	float flyMove;
 	void MoveProcess();
+	MATERIALPARAM material;
+	bool viewNow;
 
 public:
-	EnemyMove1(int modelHandle, int collStageHandle, float areaX, float areaZ);
+	EnemyMove1(int collStageHandle, float areaX, float areaZ, float color);
 	~EnemyMove1();
 
 	void Draw();
 	void Process();
 
-	void SetArea(float areaX, float areaZ);
+	void SetViewNow(bool viewNow);
 };

@@ -42,13 +42,17 @@ void EnemyMove1::MoveProcess()
 
 
 // コンストラクタ
-EnemyMove1::EnemyMove1(int modelHandle, int collStageHandle, float areaX, float areaZ) : BasicActor(collStageHandle)
+EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float color) : BasicActor(collStageHandle)
 {
-	// ３Ｄモデルの読み込み
-	this->modelHandle = MV1DuplicateModel(modelHandle);
-
 	// モデルの向きと位置
 	this->area = VGet(areaX, 40.0f, areaZ);
+
+	// マテリアル
+	material.Diffuse = GetColorF(0.0f, 0.0f, 1.0f, 0.0f);
+	material.Specular = GetColorF(0.0f, 0.0f, 0.0f, 0.0f);
+	material.Ambient = GetColorF(1.0f, 1.0f, 1.0f, 0.0f);
+	material.Emissive = GetColorF(color, color, 1.0f, 0.0f);
+	material.Power = 10.0f;
 
 	// モデルの基本情報
 	modelHeight = 10.0f;
@@ -60,48 +64,52 @@ EnemyMove1::EnemyMove1(int modelHandle, int collStageHandle, float areaX, float 
 
 	upNow = true;
 	flyMove = 0.0f;
-	
-	// モデルの座標を更新
-	MV1SetPosition(this->modelHandle, area);
+
+	viewNow = true;
 }
 
 // デストラクタ
 EnemyMove1::~EnemyMove1()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+
 }
 
 
 // 描画
 void EnemyMove1::Draw()
 {
-	BasicActor::Draw();		// 基本的なものを引っ張ってくる
+	if (viewNow)
+	{
+		SetMaterialParam(material);
+		// Ｚバッファを有効にする
+		SetUseZBuffer3D(TRUE);
+		// Ｚバッファへの書き込みを有効にする
+		SetWriteZBuffer3D(TRUE);
+		DrawSphere3D(VAdd(area, VGet(0.0f, 60.0f, 0.0f)), modelWigth, 16, GetColor(68, 178, 227), GetColor(255, 255, 255), TRUE);
+		// Ｚバッファへの書き込みを有効にする
+		SetWriteZBuffer3D(FALSE);
+		// Ｚバッファを有効にする
+		SetUseZBuffer3D(FALSE);
 
 #ifdef _MODEL_DEBUG
-	VECTOR viewArea = VAdd(area, VGet(0.0f, 60.0f, 0.0f));		// モデルの初期Y座標が浮いているので調整
+		VECTOR viewArea = VAdd(area, VGet(0.0f, 60.0f, 0.0f));		// モデルの初期Y座標が浮いているので調整
 
-	DrawCapsule3D(viewArea, VAdd(viewArea, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
+		DrawSphere3D(VAdd(area, VGet(0.0f, 60.0f, 0.0f)), modelWigth + 3, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);
 #endif // _MODEL_DEBUG
+	}
 }
 
 // メインプロセス
 void EnemyMove1::Process()
 {
-	MV1SetMaterialDifColor(modelHandle, 0, GetColorF(1.0f, 1.0f, 1.0f, 1.0f));
-	MV1SetMaterialEmiColor(modelHandle, 0, GetColorF(1.0f, 1.0f, 1.0f, 0.0f));
-
-	// 動きのプロセス
-	MoveProcess();
-
-	// 指定位置にモデルを配置
-	MV1SetPosition(modelHandle, area);
+	if (viewNow)
+	{
+		// 動きのプロセス
+		MoveProcess();
+	}
 }
 
-void EnemyMove1::SetArea(float areaX, float areaZ)
+void EnemyMove1::SetViewNow(bool viewNow)
 {
-	area.x = areaX;
-	area.z = areaZ;
+	this->viewNow = viewNow;
 }
