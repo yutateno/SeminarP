@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Actor">
+      <UniqueIdentifier>{526a3c66-c698-43c8-bfc9-150f59033a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Actor\Creature">
+      <UniqueIdentifier>{33bf084a-3071-4032-83f4-510e439e83e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Actor">
+      <UniqueIdentifier>{5242632e-d545-437e-b187-e108608e2d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Actor\Creature">
+      <UniqueIdentifier>{eebc299f-3c3e-433f-a2ed-497a587e9cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Actor\Creature\Character">
+      <UniqueIdentifier>{0dc2dcef-208f-4da7-94e0-c6bb3d9a5727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Actor\Creature\Character">
+      <UniqueIdentifier>{80e3d4e4-9151-42e3-9afb-9f0dde21de57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Actor\Creature\Enemy">
+      <UniqueIdentifier>{17350294-5607-4eac-9874-3409b96481c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Actor\Creature\Enemy">
+      <UniqueIdentifier>{cd08b682-0dc7-4c94-8ec8-8f23abf3bced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\MoveLevel">
+      <UniqueIdentifier>{d846acc1-426f-4816-b300-af21829d579e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MoveLevel">
+      <UniqueIdentifier>{fdf64cad-1676-4183-925a-a31855bd00d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Operation">
+      <UniqueIdentifier>{5c362c77-6088-4cc4-b027-1dead4a88e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Operation">
+      <UniqueIdentifier>{e492f32a-e394-4991-9462-426059298ca8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMove1.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicActor.cpp">
+      <Filter>ソース ファイル\Actor\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMove.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMove1.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKey.cpp">
+      <Filter>ソース ファイル\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="InputPad.cpp">
+      <Filter>ソース ファイル\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadFile.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Character.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMove1.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicActor.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.hpp">
+      <Filter>ヘッダー ファイル\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMove.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove1.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKey.hpp">
+      <Filter>ヘッダー ファイル\Operation</Filter>
+    </ClInclude>
+    <ClInclude Include="InputPad.hpp">
+      <Filter>ヘッダー ファイル\Operation</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadFile.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Basic.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMacro.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
