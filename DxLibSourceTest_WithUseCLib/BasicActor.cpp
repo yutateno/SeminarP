@@ -412,8 +412,6 @@ BasicActor::~BasicActor()
 void BasicActor::Draw()
 {
 	MV1DrawModel(modelHandle);
-
-	ShadowFoot();
 }
 
 // 今の座標を渡す用ゲッター

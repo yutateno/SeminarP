@@ -63,6 +63,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	// スムーズに動かせる
 	if (moveFlag)
 	{
+		animSpeed = 1.0f;
 		if (direXAngle == 0.0f)
 		{
 			if (walkSpeed < 20.0f)
@@ -88,6 +89,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	}
 	else
 	{
+		animSpeed = 0.5f;
 		if (walkSpeed > 0.0f)
 		{
 			walkSpeed -= 5.0f;
@@ -125,11 +127,11 @@ Character::Character(int collStageHandle) : BasicActor(collStageHandle)
 
 	// 足元の影に関する
 	shadowHeight = 35.0f;
-	shadowSize = 65.0f;
+	shadowSize = 50.0f;
 
 	// それぞれの速度
 	walkSpeed = 0.0f;
-	animSpeed = 1.0f;
+	animSpeed = 0.5f;
 
 	// モデルの座標を更新
 	MV1SetPosition(modelHandle, area);

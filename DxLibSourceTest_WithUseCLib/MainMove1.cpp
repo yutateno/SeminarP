@@ -17,6 +17,10 @@ MainMove1::MainMove1()
 	light = new PointLight();
 
 	stage->LoadInit();
+
+	BaseMove::ShadowNoMoveSetUpBefore();
+	stage->Draw();
+	BaseMove::ShadowNoMoveSetUpAfter();
 }
 
 // デストラクタ
@@ -33,9 +37,25 @@ MainMove1::~MainMove1()
 // 描画
 void MainMove1::Draw()
 {
-	stage->Draw();
+	BaseMove::ShadowCharaSetUpBefore();
 	character->Draw();
 	enemy->Draw();
+	BaseMove::ShadowCharaSetUpAfter();
+	
+	BaseMove::ShadowAnotherCharaSetUpBefore();
+	enemy->Draw();
+	BaseMove::ShadowAnotherCharaSetUpAfter();
+
+	BaseMove::ShadowCharaDrawBefore();
+	BaseMove::ShadowAnotherCharaDrawBefore();
+	BaseMove::ShadowNoMoveDrawBefore();
+	character->Draw();
+	enemy->Draw();
+	stage->Draw();
+	BaseMove::ShadowCharaDrawAfter();
+	BaseMove::ShadowAnotherCharaDrawAfter();
+	BaseMove::ShadowNoMoveDrawAfter();
+	
 	//light->Draw(character->GetArea());
 }
 
@@ -46,4 +66,6 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	camera->Process(character->GetArea(), controllNumber);
 	//light->Process(character->GetArea());
 	ActorHit();
+
+	BaseMove::ShadowArea(character->GetArea());
 }

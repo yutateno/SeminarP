@@ -4,7 +4,14 @@
 Stage::Stage()
 {
 	// ステージの読み込み
+#ifdef _COLL_STAGE_DEBUG
 	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", drawStageHandle, ELOADFILE::fbxmodel);
+#endif // _COLL_STAGE_DEBUG
+
+#ifdef _GRAPHIC_STAGE_DEBUG
+	LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.fyn", drawStageHandle, ELOADFILE::fbxmodel);
+#endif // _GRAPHIC_STAGE_DEBUG
+	
 	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", collStageHandle, ELOADFILE::fbxmodel);
 
 	MV1SetScale(drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
@@ -31,6 +38,7 @@ void Stage::Draw()
 {
 	MV1DrawModel(drawStageHandle);
 
+#ifdef _AREA_DEBUG
 	int i;
 	VECTOR Pos1;
 	VECTOR Pos2;
@@ -58,6 +66,7 @@ void Stage::Draw()
 	}
 
 	SetUseZBufferFlag(FALSE);
+#endif // _AREA_DEBUG
 }
 
 // 当たり判定モデルを渡す用ゲッター

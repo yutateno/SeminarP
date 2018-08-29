@@ -327,6 +327,9 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="BaseMove.cpp">
+      <Filter>ソースファイル\MoveLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLibSource\DxUseCLibOgg.h">
@@ -569,7 +572,12 @@
     <ClInclude Include="PointLight.hpp">
       <Filter>ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BaseMacro.h" />
+    <ClInclude Include="BaseMacro.h">
+      <Filter>ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMove.hpp">
+      <Filter>ヘッダーファイル\MoveLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DxLibSource\DxLib.txt">

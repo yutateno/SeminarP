@@ -11,6 +11,8 @@
 #include <thread>
 #include <mutex>
 
+#include "Basic.hpp"
+
 enum class ELOADFILE { graph, soundmem, fbxmodel, mv1model };
 
 class LoadFile

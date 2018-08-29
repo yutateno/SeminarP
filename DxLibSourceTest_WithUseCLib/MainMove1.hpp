@@ -4,8 +4,9 @@
 #include "EnemyMove1.hpp"
 #include "Camera.hpp"
 #include "PointLight.hpp"
+#include "BaseMove.hpp"
 
-class MainMove1
+class MainMove1 : public BaseMove
 {
 private:
 	Stage* stage;

@@ -1,6 +1,8 @@
 #ifndef _BASIC_H
 #define _BASIC_H
 
+#include "BaseMacro.h"
+
 namespace BASIC
 {
 	const int MAX_STICK_PLUS = 32767;

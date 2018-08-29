@@ -2,7 +2,6 @@
 #include "DxLib.h"
 #include "LoadFile.hpp"
 #include "Basic.hpp"
-#include "BaseMacro.h"
 
 class BasicActor
 {
@@ -65,7 +64,7 @@ private:
 
 public:
 	BasicActor(int collStageHandle);
-	~BasicActor();
+	virtual ~BasicActor();
 
 	void Draw();		// •`‰æ
 

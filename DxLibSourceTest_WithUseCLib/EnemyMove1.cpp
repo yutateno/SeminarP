@@ -55,7 +55,7 @@ EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ) : BasicAct
 	this->area = VGet(areaX, 40.0f, areaZ);
 
 	// ‘«Œ³‚Ì‰e‚ÉŠÖ‚·‚é
-	shadowHeight = 15.0f;
+	shadowHeight = 5.0f;
 	shadowSize = 15.0f;
 
 	upNow = true;

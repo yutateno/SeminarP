@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include "LoadFile.hpp"
+#include "Basic.hpp"
 
 class Stage
 {
