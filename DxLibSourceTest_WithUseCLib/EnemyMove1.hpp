@@ -10,9 +10,11 @@ private:
 	void MoveProcess();
 
 public:
-	EnemyMove1(int collStageHandle, float areaX, float areaZ);
+	EnemyMove1(int modelHandle, int collStageHandle, float areaX, float areaZ);
 	~EnemyMove1();
 
 	void Draw();
 	void Process();
+
+	void SetArea(float areaX, float areaZ);
 };

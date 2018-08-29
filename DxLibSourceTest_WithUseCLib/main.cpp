@@ -22,6 +22,8 @@ void ProjectInit()
 
 	SetEnableXAudioFlag(TRUE);			// XAudioを使用するようにする
 
+	SetUseLarge3DPositionSupport(TRUE);		// 巨大な座標値をサポート
+
 	SetGraphMode(winWidth, winHeight, 32);					// 1920x1080x32bit
 }
 

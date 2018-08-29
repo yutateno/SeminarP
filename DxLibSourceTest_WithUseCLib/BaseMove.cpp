@@ -104,7 +104,7 @@ BaseMove::BaseMove()
 	SetShadowMapDrawArea(shadowMapNoMoveHandle		, shadowNoMoveLowArea		, shadowNoMoveHighArea		);
 
 
-	lightDire = VGet(0.5f, -0.5f, 0.5f);
+	lightDire = VGet(-0.5f, -0.7f, 0.5f);
 	// ライトの方向を設定
 	SetLightDirection(lightDire);
 	// シャドウマップが想定するライトの方向もセット

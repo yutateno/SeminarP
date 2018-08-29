@@ -3,18 +3,32 @@
 // モデルごとのあたり判定処理
 void MainMove1::ActorHit()
 {
-	enemy->Process();
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i]->Process();
+	}
 }
 
 
 // コンストラクタ
 MainMove1::MainMove1()
 {
+	// モデル読み込み
+	LoadFile::MyLoad("media\\光る玉\\sphere.fyn", enemyModel, ELOADFILE::fbxmodel);
+
 	stage = new Stage();
 	character = new Character(stage->GetCollStageHandle());
-	enemy = new EnemyMove1(stage->GetCollStageHandle(), 100.0f, 0.0f);
 	camera = new Camera(character->GetArea(), stage->GetCollStageHandle());
 	light = new PointLight();
+
+	std::random_device rnd;     // 非決定的な乱数生成器を生成
+	std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+	std::uniform_int_distribution<> randInX(-11020, 11020);        // [0, 99] 範囲の一様乱数
+	std::uniform_int_distribution<> randInZ(-11020, 11020);        // [0, 99] 範囲の一様乱数
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i] = new EnemyMove1(enemyModel, stage->GetCollStageHandle(), randInX(mt), randInZ(mt));
+	}
 
 	stage->LoadInit();
 
@@ -26,11 +40,16 @@ MainMove1::MainMove1()
 // デストラクタ
 MainMove1::~MainMove1()
 {
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		delete enemyAggre[i];
+	}
 	delete light;
 	delete camera;
-	delete enemy;
 	delete character;
 	delete stage;
+
+	MV1DeleteModel(enemyModel);
 }
 
 
@@ -39,18 +58,27 @@ void MainMove1::Draw()
 {
 	BaseMove::ShadowCharaSetUpBefore();
 	character->Draw();
-	enemy->Draw();
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i]->Draw();
+	}
 	BaseMove::ShadowCharaSetUpAfter();
 	
 	BaseMove::ShadowAnotherCharaSetUpBefore();
-	enemy->Draw();
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i]->Draw();
+	}
 	BaseMove::ShadowAnotherCharaSetUpAfter();
 
 	BaseMove::ShadowCharaDrawBefore();
 	BaseMove::ShadowAnotherCharaDrawBefore();
 	BaseMove::ShadowNoMoveDrawBefore();
 	character->Draw();
-	enemy->Draw();
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i]->Draw();
+	}
 	stage->Draw();
 	BaseMove::ShadowCharaDrawAfter();
 	BaseMove::ShadowAnotherCharaDrawAfter();

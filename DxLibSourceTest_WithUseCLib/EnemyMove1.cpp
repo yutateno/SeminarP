@@ -42,17 +42,17 @@ void EnemyMove1::MoveProcess()
 
 
 // コンストラクタ
-EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ) : BasicActor(collStageHandle)
+EnemyMove1::EnemyMove1(int modelHandle, int collStageHandle, float areaX, float areaZ) : BasicActor(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
-	LoadFile::MyLoad("media\\光る玉\\sphere.fyn", modelHandle, ELOADFILE::fbxmodel);
-	
-	// モデルの基本情報
-	modelHeight = 10.0f;
-	modelWigth = 15.0f;
+	this->modelHandle = MV1DuplicateModel(modelHandle);
 
 	// モデルの向きと位置
 	this->area = VGet(areaX, 40.0f, areaZ);
+
+	// モデルの基本情報
+	modelHeight = 10.0f;
+	modelWigth = 15.0f;
 
 	// 足元の影に関する
 	shadowHeight = 5.0f;
@@ -62,7 +62,7 @@ EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ) : BasicAct
 	flyMove = 0.0f;
 	
 	// モデルの座標を更新
-	MV1SetPosition(modelHandle, area);
+	MV1SetPosition(this->modelHandle, area);
 }
 
 // デストラクタ
@@ -98,4 +98,10 @@ void EnemyMove1::Process()
 
 	// 指定位置にモデルを配置
 	MV1SetPosition(modelHandle, area);
+}
+
+void EnemyMove1::SetArea(float areaX, float areaZ)
+{
+	area.x = areaX;
+	area.z = areaZ;
 }

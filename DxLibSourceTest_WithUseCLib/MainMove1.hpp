@@ -6,12 +6,17 @@
 #include "PointLight.hpp"
 #include "BaseMove.hpp"
 
+#include <random>
+
 class MainMove1 : public BaseMove
 {
 private:
+	int enemyModel;
+
 	Stage* stage;
 	Character* character;
-	EnemyMove1* enemy;
+	const int enemyNum = 10;
+	EnemyMove1* enemyAggre[10];
 	Camera* camera;
 	PointLight* light;
 
