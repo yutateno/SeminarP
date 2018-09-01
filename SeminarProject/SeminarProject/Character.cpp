@@ -103,17 +103,18 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 
 
 // コンストラクタ
-Character::Character(int collStageHandle) : BasicCreature(collStageHandle)
+Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
-	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", modelHandle, ELOADFILE::mv1model);
+	//LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", modelHandle, ELOADFILE::mv1model);
+	this->modelHandle = MV1DuplicateModel(modelHandle);
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
 	attachNum = MOTION::idle;
-	attachMotion = MV1AttachAnim(modelHandle, attachNum, -1, FALSE);
+	attachMotion = MV1AttachAnim(this->modelHandle, attachNum, -1, FALSE);
 
 	// アタッチしたアニメーションの総再生時間を取得する
-	totalTime = MV1GetAttachAnimTotalTime(modelHandle, attachMotion);
+	totalTime = MV1GetAttachAnimTotalTime(this->modelHandle, attachMotion);
 
 	// モデルの基本情報
 	modelHeight = 160.0f;
@@ -134,7 +135,7 @@ Character::Character(int collStageHandle) : BasicCreature(collStageHandle)
 	animSpeed = 0.5f;
 
 	// モデルの座標を更新
-	MV1SetPosition(modelHandle, area);
+	MV1SetPosition(this->modelHandle, area);
 }
 
 // デストラクタ

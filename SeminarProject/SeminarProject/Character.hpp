@@ -17,7 +17,7 @@ private:
 	void MoveProcess(unsigned __int8 controllNumber);
 
 public:
-	Character(int collStageHandle);	// コンストラクタ
+	Character(int modelHandle, int collStageHandle);	// コンストラクタ
 	~Character();					// デストラクタ
 
 	void Draw();

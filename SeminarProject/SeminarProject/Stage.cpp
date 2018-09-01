@@ -1,17 +1,18 @@
 #include "Stage.hpp"
 
 // コンストラクタ
-Stage::Stage()
+Stage::Stage(int drawStageHandle)
 {
 	// ステージの読み込み
-	//LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.fyn", drawStageHandle, ELOADFILE::mv1model);
-	LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", drawStageHandle, ELOADFILE::mv1model);
-	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", collStageHandle, ELOADFILE::mv1model);
+	//LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", drawStageHandle, ELOADFILE::mv1model);
+	//LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", collStageHandle, ELOADFILE::mv1model);
 
-	MV1SetScale(drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
+	this->drawStageHandle = MV1DuplicateModel(drawStageHandle);
+
+	MV1SetScale(this->drawStageHandle, VGet(1.75f, 1.0f, 1.75f));
 
 	// 座標を指定
-	MV1SetPosition(drawStageHandle, VGet(0, 0, 0));
+	MV1SetPosition(this->drawStageHandle, VGet(0, 0, 0));
 }
 
 // デストラクタ
@@ -20,12 +21,6 @@ Stage::~Stage()
 	MV1DeleteModel(drawStageHandle);
 }
 
-
-// 要らないロードの削除処理
-void Stage::LoadInit()
-{
-	MV1DeleteModel(collStageHandle);
-}
 
 // 描画
 void Stage::Draw()
@@ -61,10 +56,4 @@ void Stage::Draw()
 
 	SetUseZBufferFlag(FALSE);
 #endif // _AREA_DEBUG
-}
-
-// 当たり判定モデルを渡す用ゲッター
-int Stage::GetCollStageHandle()
-{
-	return collStageHandle;
 }

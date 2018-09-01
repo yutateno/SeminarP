@@ -157,8 +157,11 @@
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="LoadFile.cpp" />
+    <ClCompile Include="LoadScreen.cpp" />
+    <ClCompile Include="LoadThread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMove1.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
@@ -173,7 +176,10 @@
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="InputPad.hpp" />
     <ClInclude Include="LoadFile.hpp" />
+    <ClInclude Include="LoadScreen.hpp" />
+    <ClInclude Include="LoadThread.hpp" />
     <ClInclude Include="MainMove1.hpp" />
+    <ClInclude Include="Manager.hpp" />
     <ClInclude Include="PointLight.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>

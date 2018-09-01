@@ -1,4 +1,8 @@
-#include "MainMove1.hpp"
+//#include "MainMove1.hpp"
+//#include "LoadThread.hpp"
+//#include "BaseMove.hpp"
+//#include "LoadScreen.hpp"
+#include "Manager.hpp"
 
 // ウィンドウサイズ
 int winWidth = 1920;
@@ -46,7 +50,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	// new
-	MainMove1* move1 = new MainMove1();
+	Manager* manager = new Manager();
+	/*LoadThread* loadThread = new LoadThread();
+	BaseMove* move1 = NULL;
+	LoadScreen* loadScreen = new LoadScreen();
+
+	const int max1 = 3;
+	std::string move1str[max1];
+	ELOADFILE load1[max1];
+	move1str[0] = "media\\ステージモデル\\move1_graphic.myn";
+	move1str[1] = "media\\ステージモデル\\move1_hantei.myn";
+	move1str[2] = "media\\CLPH\\motion\\CLPH_motionALL.myn";
+	load1[0] = ELOADFILE::mv1model;
+	load1[1] = ELOADFILE::mv1model;
+	load1[2] = ELOADFILE::mv1model;
+	bool flag = false;*/
+
+	/*std::vector<int> file(3);
+	LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", file[0], ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", file[1], ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", file[2], ELOADFILE::mv1model);*/
+
+	//BaseMove* move1 = new MainMove1(file);
 
 	// 最初にコントローラーを設定するための確認コマンド
 	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう
@@ -124,13 +149,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #ifdef _DEBUG
 			KeyData::UpDate();
 #endif
-			move1->Process(controllNumber);
-			move1->Draw();
+			manager->Update(controllNumber);
 		}
 	}
 
 	// 削除
-	delete move1;
+	delete manager;
 
 	DxLib::DxLib_End();		// DXライブラリの後始末
 

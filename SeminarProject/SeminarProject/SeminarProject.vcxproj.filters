@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\Operation">
       <UniqueIdentifier>{e492f32a-e394-4991-9462-426059298ca8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Load">
+      <UniqueIdentifier>{8dcd1da8-1e6c-49a8-9b6e-370d6ffc0239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Load">
+      <UniqueIdentifier>{88688ee3-d3e3-42a0-ab3b-06c552ffd64c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,14 +84,23 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="LoadFile.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PointLight.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BasicCreature.cpp">
       <Filter>ソース ファイル\Actor\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadFile.cpp">
+      <Filter>ソース ファイル\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadScreen.cpp">
+      <Filter>ソース ファイル\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadThread.cpp">
+      <Filter>ソース ファイル\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +128,6 @@
     <ClInclude Include="Camera.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="LoadFile.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PointLight.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -127,6 +139,18 @@
     </ClInclude>
     <ClInclude Include="BasicCreature.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadFile.hpp">
+      <Filter>ヘッダー ファイル\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadThread.hpp">
+      <Filter>ヘッダー ファイル\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScreen.hpp">
+      <Filter>ヘッダー ファイル\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

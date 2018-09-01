@@ -21,7 +21,7 @@ private:
 	void ActorHit();
 
 public:
-	MainMove1();
+	MainMove1(std::vector<int> file);
 	~MainMove1();
 
 	void Draw();

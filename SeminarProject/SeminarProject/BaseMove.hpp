@@ -3,6 +3,11 @@
 
 #include <math.h>
 
+enum class ESceneNumber
+{
+	STARTLOAD, FIRSTMOVE
+};
+
 class BaseMove
 {
 private:
@@ -24,6 +29,10 @@ private:
 	// ---------------------------------------------------------
 
 protected:
+	static bool endFlag;		// 終了フラッグ
+
+	static ESceneNumber scene;	// 現在のシーン
+
 	// 影に関して-----------------------------------------------
 	// シャドウマップ０番：主人公
 	void ShadowCharaSetUpBefore();
@@ -60,5 +69,13 @@ protected:
 public:
 	BaseMove();
 	virtual ~BaseMove();
+
+	virtual void Draw() = 0;
+	virtual void Process(unsigned __int8 controllNumber) = 0;
+
+	static bool GetEndFlag();		// 終了ゲッター
+	static ESceneNumber GetScene();	// 今のシーンゲッター
+
+	void SetScene(ESceneNumber scene);	// 今のシーンセッター
 };
 

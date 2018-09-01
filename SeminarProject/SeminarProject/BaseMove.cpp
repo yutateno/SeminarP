@@ -1,75 +1,79 @@
 #include "BaseMove.hpp"
 
+bool BaseMove::endFlag;		// 終了フラッグ
+ESceneNumber BaseMove::scene;	// 現在のシーン
+
+
+// シャドウマップへの描画の準備
 void BaseMove::ShadowCharaSetUpBefore()
 {
-	// シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(shadowMapCharaHandle);
 }
 
+// シャドウマップへの描画を終了
 void BaseMove::ShadowCharaSetUpAfter()
 {
-	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 }
 
+// シャドウマップへの描画の準備
 void BaseMove::ShadowAnotherCharaSetUpBefore()
 {
-	// シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(shadowMapAnotherCharaHandle);
 }
 
+// シャドウマップへの描画を終了
 void BaseMove::ShadowAnotherCharaSetUpAfter()
 {
-	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 }
 
+// シャドウマップへの描画の準備
 void BaseMove::ShadowNoMoveSetUpBefore()
 {
-	// シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(shadowMapNoMoveHandle);
 }
 
+// シャドウマップへの描画を終了
 void BaseMove::ShadowNoMoveSetUpAfter()
 {
-	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 }
 
 
+// 描画に使用するシャドウマップを設定
 void BaseMove::ShadowCharaDrawBefore()
 {
-	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(0, shadowMapCharaHandle);
 }
 
+// 描画に使用するシャドウマップの設定を解除
 void BaseMove::ShadowCharaDrawAfter()
 {
-	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(0, -1);
 }
 
+// 描画に使用するシャドウマップを設定
 void BaseMove::ShadowAnotherCharaDrawBefore()
 {
-	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, shadowMapAnotherCharaHandle);
 }
 
+// 描画に使用するシャドウマップの設定を解除
 void BaseMove::ShadowAnotherCharaDrawAfter()
 {
-	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 }
 
+// 描画に使用するシャドウマップを設定
 void BaseMove::ShadowNoMoveDrawBefore()
 {
-	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(2, shadowMapNoMoveHandle);
 }
 
+// 描画に使用するシャドウマップの設定を解除
 void BaseMove::ShadowNoMoveDrawAfter()
 {
-	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(2, -1);
 }
 
@@ -80,7 +84,7 @@ void BaseMove::ShadowArea(VECTOR charaArea)
 }
 
 
-
+// 二つのキャラの直線的距離
 int BaseMove::GetDistance(VECTOR alpha, VECTOR beta)
 {
 	double distance = sqrt((alpha.x - beta.x) * (alpha.x - beta.x) + (alpha.z - beta.z) * (alpha.z - beta.z));
@@ -125,4 +129,19 @@ BaseMove::~BaseMove()
 	DeleteShadowMap(shadowMapNoMoveHandle);
 	DeleteShadowMap(shadowMapAnotherCharaHandle);
 	DeleteShadowMap(shadowMapCharaHandle);
+}
+
+bool BaseMove::GetEndFlag()
+{
+	return endFlag;
+}
+
+ESceneNumber BaseMove::GetScene()
+{
+	return scene;
+}
+
+void BaseMove::SetScene(ESceneNumber scene)
+{
+	this->scene = scene;
 }

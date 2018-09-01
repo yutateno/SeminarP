@@ -14,11 +14,17 @@ void MainMove1::ActorHit()
 
 
 // コンストラクタ
-MainMove1::MainMove1()
+MainMove1::MainMove1(std::vector<int> file)
 {
-	stage = new Stage();
-	character = new Character(stage->GetCollStageHandle());
-	camera = new Camera(character->GetArea(), stage->GetCollStageHandle());
+	/*int drawStageHandle, collStageHandle, modelHandle;
+	LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", drawStageHandle, ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", collStageHandle, ELOADFILE::mv1model);
+	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", modelHandle, ELOADFILE::mv1model);*/
+
+
+	stage = new Stage(file[0]);
+	character = new Character(file[2], file[1]);
+	camera = new Camera(character->GetArea(), file[1]);
 	light = new PointLight();
 
 	std::random_device rnd;     // 非決定的な乱数生成器を生成
@@ -28,14 +34,18 @@ MainMove1::MainMove1()
 	std::uniform_int_distribution<> color(1, 100);				 // 一様乱数
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		enemyAggre[i] = new EnemyMove1(stage->GetCollStageHandle(), (float)randInX(mt), (float)randInZ(mt), (float)color(mt) / 100.0f);
+		enemyAggre[i] = new EnemyMove1(file[1], (float)randInX(mt), (float)randInZ(mt), (float)color(mt) / 100.0f);
 	}
 
-	stage->LoadInit();
 
 	BaseMove::ShadowNoMoveSetUpBefore();
 	stage->Draw();
 	BaseMove::ShadowNoMoveSetUpAfter();
+
+
+	/*MV1DeleteModel(modelHandle);
+	MV1DeleteModel(collStageHandle);
+	MV1DeleteModel(drawStageHandle);*/
 }
 
 // デストラクタ
