@@ -44,6 +44,9 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		const unsigned __int8 STICK_RIGHT_AXIS_Y = 1;
 		const unsigned __int8 STICK_LEFT_AXIS_X = 2;
 		const unsigned __int8 STICK_LEFT_AXIS_Y = 3;
+
+		// バイブレーション
+		const unsigned __int16 VIBRATION_MAX = 65535;
 	}
 
 	struct XINPUT_STICK_MY_DEADZONE
@@ -78,11 +81,18 @@ namespace MYINPUTPAD	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 
 		static XINPUT_STICK_MY_DEADZONE stickDeadZone;			// スティックのデッドゾーン値
 
+		static XINPUT_VIBRATION vibration;			// バイブレーションの構造体
+		
 	public:
 		InputPad();		// コンストラクタ
 		~InputPad();		// デストラクタ
 
 		static void Update();		// 操作更新
+
+		static void Vibration(unsigned __int8 use_padnum, int time = 0
+			, unsigned __int16 rightVib = XINPUT_PAD::VIBRATION_MAX, unsigned __int16 leftVib = XINPUT_PAD::VIBRATION_MAX);		// バイブレーションを行う
+
+		static void VibrationStop(unsigned __int8 use_padnum);						// バーブレーションを止める
 
 		static int GetPadNum();																// コントローラの数
 		static int GetPadButtonData(unsigned __int8 use_padnum, unsigned __int8 use_button);			// コントローラのボタン操作

@@ -9,6 +9,7 @@ int InputPad::stick[4][4];
 XINPUT_STATE InputPad::state[4];
 XINPUT_STICK_MY_DEADZONE InputPad::stickDeadZone;
 bool InputPad::setControll[4];
+XINPUT_VIBRATION InputPad::vibration;
 
 
 // コンストラクタ
@@ -127,6 +128,28 @@ void InputPad::Update()
 			}
 		}
 	}
+}
+
+
+// バイブレーションを行う
+void InputPad::Vibration(unsigned __int8 use_padnum, int time, unsigned __int16 rightVib, unsigned __int16 leftVib)
+{
+	// バイブレーション値
+	InputPad::vibration.wRightMotorSpeed = rightVib;
+	InputPad::vibration.wLeftMotorSpeed = leftVib;
+
+	XInputSetState(use_padnum, &InputPad::vibration);		// バーブレーション値を設定
+}
+
+
+// バイブレーションを止める
+void InputPad::VibrationStop(unsigned __int8 use_padnum)
+{
+	// バイブレーション値
+	InputPad::vibration.wRightMotorSpeed = 0;				// 0にする
+	InputPad::vibration.wLeftMotorSpeed = 0;				// 0にする
+
+	XInputSetState(use_padnum, &InputPad::vibration);		// バイブレーション値を設定
 }
 
 
