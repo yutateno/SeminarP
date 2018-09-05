@@ -3,10 +3,6 @@
 // コンストラクタ
 Stage::Stage(int drawStageHandle)
 {
-	// ステージの読み込み
-	//LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", drawStageHandle, ELOADFILE::mv1model);
-	//LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", collStageHandle, ELOADFILE::mv1model);
-
 	this->drawStageHandle = MV1DuplicateModel(drawStageHandle);
 
 	MV1SetScale(this->drawStageHandle, VGet(1.75f, 1.0f, 1.75f));

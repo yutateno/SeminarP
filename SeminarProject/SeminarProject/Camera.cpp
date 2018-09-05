@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-using namespace MYINPUTPAD;
+using namespace MY_XINPUT;
 
 
 // コンストラクタ
@@ -37,14 +37,14 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 
 	// 左に回転中
 	if (KeyData::Get(KEY_INPUT_LEFT) >= 1
-		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_X) < 0)
+		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_X) < 0)
 	{
 		RLrotate(speed, &cameraArea);	// 回転処理
 		angle += speed;
 	}
 	// 右に回転中
 	if (KeyData::Get(KEY_INPUT_RIGHT) >= 1
-		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_X) > 0)
+		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_X) > 0)
 	{
 		RLrotate(-speed, &cameraArea);	// 回転処理
 		angle -= speed;
@@ -52,7 +52,7 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 
 	// 上キーが押されていたら下から見上げる
 	if (KeyData::Get(KEY_INPUT_UP) >= 1
-		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_Y) > 0)
+		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_Y) > 0)
 	{
 		// 制限
 		if (cameraArea.y > 240)
@@ -63,7 +63,7 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 
 	// 下キーが押されていたら上から見下ろす
 	if (KeyData::Get(KEY_INPUT_DOWN) >= 1
-		|| MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_RIGHT_AXIS_Y) < 0)
+		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_Y) < 0)
 	{
 		// 制限
 		if (cameraArea.y < 400)

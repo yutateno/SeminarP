@@ -43,8 +43,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);	// 背景描画
 
 	// コントローラーとキーボードの初期化
-	MYINPUTPAD::InputPad::InputPad();
-	MYINPUTPAD::InputPad::Update();
+	MY_XINPUT::InputPad::InputPad();
+	MY_XINPUT::InputPad::FirstUpdate();
 #ifdef _DEBUG
 	KeyData::UpDate();
 #endif
@@ -54,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 最初にコントローラーを設定するための確認コマンド
 	bool firstControll = false;						// コントローラーが押されてないのでゲームを起動しないよう
-	unsigned __int8 controllNumber = 5;				// 押されたコントローラーの番号
+	unsigned __int8 controllNumber = 5;				// 表示用のコントローラー
 	int controllCount = 0;							// コマンドに関する時間
 	bool noTouch = true;							// コマンドを押されない時間経過次第で再起動を促すよう処理
 	const int COUNT = 600;							// コマンド時間の数値
@@ -62,41 +62,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ゲームの核
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-		MYINPUTPAD::InputPad::Update();
-
 		// 接続数が一つの場合は確認しない
-		if (MYINPUTPAD::InputPad::GetPadNum() == 1)
+		if (MY_XINPUT::InputPad::GetPadNum() == 1)
 		{
-			controllNumber = 0;
+			MY_XINPUT::InputPad::SetPlayerPadNum(MY_XINPUT::NUM01);
+			controllNumber = MY_XINPUT::NUM01;
 			firstControll = true;
 		}
 		// コントローラーが２つ以上の時
 		if (!firstControll)
 		{
+			MY_XINPUT::InputPad::FirstUpdate();
+
 			// 範囲外に投げといたまま
 			if (controllNumber == 5)
 			{
 				controllCount++;
 				DrawFormatString(winWidth / 2, winHeight / 2, GetColor(255, 255, 255), "コントローラーのAボタンを押してください。\nそれをコントローラーとして認証します。\n");
-				if (MYINPUTPAD::InputPad::GetPadButtonData(0, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)		// １Pが入力された
+				if (controllCount >= 10)
 				{
-					controllNumber = 0;
-					controllCount = 0;
-				}
-				if (MYINPUTPAD::InputPad::GetPadButtonData(1, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)		// ２Pが入力された
-				{
-					controllNumber = 1;
-					controllCount = 0;
-				}
-				if (MYINPUTPAD::InputPad::GetPadButtonData(2, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)		// ３Pが入力された
-				{
-					controllNumber = 2;
-					controllCount = 0;
-				}
-				if (MYINPUTPAD::InputPad::GetPadButtonData(3, MYINPUTPAD::XINPUT_PAD::BUTTON_A) == 1)		// ４Pが入力された
-				{
-					controllNumber = 3;
-					controllCount = 0;
+					if (MY_XINPUT::InputPad::GetPadButtonData(0, MY_XINPUT::BUTTON_A) == 1)		// １Pが入力された
+					{
+						MY_XINPUT::InputPad::SetPlayerPadNum(MY_XINPUT::NUM01);
+						controllCount = 0;
+						controllNumber = MY_XINPUT::NUM01;
+					}
+					if (MY_XINPUT::InputPad::GetPadButtonData(1, MY_XINPUT::BUTTON_A) == 1)		// ２Pが入力された
+					{
+						MY_XINPUT::InputPad::SetPlayerPadNum(MY_XINPUT::NUM02);
+						controllCount = 0;
+						controllNumber = MY_XINPUT::NUM02;
+					}
+					if (MY_XINPUT::InputPad::GetPadButtonData(2, MY_XINPUT::BUTTON_A) == 1)		// ３Pが入力された
+					{
+						MY_XINPUT::InputPad::SetPlayerPadNum(MY_XINPUT::NUM03);
+						controllCount = 0;
+						controllNumber = MY_XINPUT::NUM03;
+					}
+					if (MY_XINPUT::InputPad::GetPadButtonData(3, MY_XINPUT::BUTTON_A) == 1)		// ４Pが入力された
+					{
+						MY_XINPUT::InputPad::SetPlayerPadNum(MY_XINPUT::NUM04);
+						controllCount = 0;
+						controllNumber = MY_XINPUT::NUM04;
+					}
 				}
 
 				// 入力されない時間経過で動きを与える
@@ -128,16 +136,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #ifdef _DEBUG
 			KeyData::UpDate();
 #endif
-			manager->Update(controllNumber);
+			MY_XINPUT::InputPad::EverUpdate();
 
-			if (KeyData::Get(KEY_INPUT_Z) == 1)
-			{
-				MYINPUTPAD::InputPad::Vibration(controllNumber, 100, 65535, 65535);
-			}
-			else if (KeyData::Get(KEY_INPUT_Z) == -1)
-			{
-				MYINPUTPAD::InputPad::VibrationStop(controllNumber);
-			}
+			manager->Update(controllNumber);
 		}
 	}
 

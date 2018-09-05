@@ -20,6 +20,8 @@ private:
 
 	void ActorHit();
 
+	void ShadowDraw();
+
 public:
 	MainMove1(std::vector<int> file);
 	~MainMove1();

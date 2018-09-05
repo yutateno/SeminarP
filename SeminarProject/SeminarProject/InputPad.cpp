@@ -1,13 +1,14 @@
 #include "InputPad.hpp"
 
-using namespace MYINPUTPAD;
+using namespace MY_XINPUT;
 
 // static変数の宣言
 unsigned __int8 InputPad::controllerNum;
+unsigned __int8 InputPad::playerPadNum;
 int InputPad::button[4][16];
 int InputPad::stick[4][4];
 XINPUT_STATE InputPad::state[4];
-XINPUT_STICK_MY_DEADZONE InputPad::stickDeadZone;
+STICK_DEADZONE InputPad::stickDeadZone;
 bool InputPad::setControll[4];
 XINPUT_VIBRATION InputPad::vibration;
 
@@ -51,7 +52,7 @@ InputPad::~InputPad()
 
 
 // 更新
-void InputPad::Update()
+void InputPad::FirstUpdate()
 {
 	// コントローラの数だけ行う
 	for (int i = 0; i != InputPad::controllerNum; ++i)
@@ -87,46 +88,120 @@ void InputPad::Update()
 
 			// スティック操作
 			// 左スティックの左右(公式のデッドゾーンを使わせてもらうが自作する方が操作性よろしくなると思われる)
-			if (InputPad::state[i].Gamepad.sThumbLX > stickDeadZone.LEFT_AXIS_X_RIGHT
-				|| InputPad::state[i].Gamepad.sThumbLX < stickDeadZone.LEFT_AXIS_X_LEFT)		// スティックを操作したら
+			if (InputPad::state[i].Gamepad.sThumbLX > stickDeadZone.LEFT_RIGHT
+				|| InputPad::state[i].Gamepad.sThumbLX < stickDeadZone.LEFT_LEFT)		// スティックを操作したら
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_LEFT_AXIS_X] = InputPad::state[i].Gamepad.sThumbLX;
+				InputPad::stick[i][STICK_LEFT_X] = InputPad::state[i].Gamepad.sThumbLX;
 			}
 			else		// スティックを操作していない
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_LEFT_AXIS_X] = 0;
+				InputPad::stick[i][STICK_LEFT_X] = 0;
 			}
 			// 左スティックの上下
-			if (InputPad::state[i].Gamepad.sThumbLY > stickDeadZone.LEFT_AXIS_Y_UP
-				|| InputPad::state[i].Gamepad.sThumbLY < stickDeadZone.LEFT_AXIS_Y_DOWN)		// スティックを操作したら
+			if (InputPad::state[i].Gamepad.sThumbLY > stickDeadZone.LEFT_UP
+				|| InputPad::state[i].Gamepad.sThumbLY < stickDeadZone.LEFT_DOWN)		// スティックを操作したら
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_LEFT_AXIS_Y] = InputPad::state[i].Gamepad.sThumbLY;
+				InputPad::stick[i][STICK_LEFT_Y] = InputPad::state[i].Gamepad.sThumbLY;
 			}
 			else		// スティックを操作していない
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_LEFT_AXIS_Y] = 0;
+				InputPad::stick[i][STICK_LEFT_Y] = 0;
 			}
 			// 右スティックの左右
-			if (InputPad::state[i].Gamepad.sThumbRX > stickDeadZone.RIGHT_AXIS_X_RIGHT
-				|| InputPad::state[i].Gamepad.sThumbRX < stickDeadZone.RIGHT_AXIS_X_LEFT)		// スティックを操作したら
+			if (InputPad::state[i].Gamepad.sThumbRX > stickDeadZone.RIGHT_RIGHT
+				|| InputPad::state[i].Gamepad.sThumbRX < stickDeadZone.RIGHT_LEFT)		// スティックを操作したら
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_RIGHT_AXIS_X] = InputPad::state[i].Gamepad.sThumbRX;
+				InputPad::stick[i][STICK_RIGHT_X] = InputPad::state[i].Gamepad.sThumbRX;
 			}
 			else		// スティックを操作していない
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_RIGHT_AXIS_X] = 0;
+				InputPad::stick[i][STICK_RIGHT_X] = 0;
 			}
 			// 右スティックの上下
-			if (InputPad::state[i].Gamepad.sThumbRY > stickDeadZone.RIGHT_AXIS_Y_UP
-				|| InputPad::state[i].Gamepad.sThumbRY < stickDeadZone.RIGHT_AXIS_Y_DOWN)		// スティックを操作したら
+			if (InputPad::state[i].Gamepad.sThumbRY > stickDeadZone.RIGHT_UP
+				|| InputPad::state[i].Gamepad.sThumbRY < stickDeadZone.RIGHT_DOWN)		// スティックを操作したら
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_RIGHT_AXIS_Y] = InputPad::state[i].Gamepad.sThumbRY;
+				InputPad::stick[i][STICK_RIGHT_Y] = InputPad::state[i].Gamepad.sThumbRY;
 			}
 			else		// スティックを操作していない
 			{
-				InputPad::stick[i][XINPUT_PAD::STICK_RIGHT_AXIS_Y] = 0;
+				InputPad::stick[i][STICK_RIGHT_Y] = 0;
 			}
 		}
+	}
+}
+
+
+// 更新
+void InputPad::EverUpdate()
+{
+	ZeroMemory(&InputPad::state[InputPad::playerPadNum], sizeof(XINPUT_STATE));
+	XInputGetState(InputPad::playerPadNum, &InputPad::state[InputPad::playerPadNum]);
+	// ボタン操作
+	for (int j = 0; j != 16; ++j)
+	{
+		if (j == 10 || j == 11)		// xinput.h上で割り当てられていない
+		{
+			continue;
+		}
+		if ((InputPad::state[InputPad::playerPadNum].Gamepad.wButtons & (int)pow(2.0, (double)j)) != 0)		// ボタンを押したら
+		{
+			InputPad::button[InputPad::playerPadNum][j]++;
+			if (InputPad::button[InputPad::playerPadNum][j] >= 1000)		// いつか上限値行くと思うので回避
+			{
+				InputPad::button[InputPad::playerPadNum][j] = 2;
+			}
+		}
+		else if (InputPad::button[InputPad::playerPadNum][j] > 0)	// 押していたボタンを離したら
+		{
+			InputPad::button[InputPad::playerPadNum][j] = -1;
+		}
+		else		// ボタンに触れていない
+		{
+			InputPad::button[InputPad::playerPadNum][j] = 0;
+		}
+	}
+
+	// スティック操作
+	// 左スティックの左右(公式のデッドゾーンを使わせてもらうが自作する方が操作性よろしくなると思われる)
+	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX > stickDeadZone.LEFT_RIGHT
+		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX < stickDeadZone.LEFT_LEFT)		// スティックを操作したら
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX;
+	}
+	else		// スティックを操作していない
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_X] = 0;
+	}
+	// 左スティックの上下
+	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY > stickDeadZone.LEFT_UP
+		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY < stickDeadZone.LEFT_DOWN)		// スティックを操作したら
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY;
+	}
+	else		// スティックを操作していない
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_Y] = 0;
+	}
+	// 右スティックの左右
+	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX > stickDeadZone.RIGHT_RIGHT
+		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX < stickDeadZone.RIGHT_LEFT)		// スティックを操作したら
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX;
+	}
+	else		// スティックを操作していない
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_X] = 0;
+	}
+	// 右スティックの上下
+	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY > stickDeadZone.RIGHT_UP
+		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY < stickDeadZone.RIGHT_DOWN)		// スティックを操作したら
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY;
+	}
+	else		// スティックを操作していない
+	{
+		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_Y] = 0;
 	}
 }
 
@@ -150,6 +225,11 @@ void InputPad::VibrationStop(unsigned __int8 use_padnum)
 	InputPad::vibration.wLeftMotorSpeed = 0;				// 0にする
 
 	XInputSetState(use_padnum, &InputPad::vibration);		// バイブレーション値を設定
+}
+
+void InputPad::SetPlayerPadNum(unsigned __int8 playerPadNum)
+{
+	InputPad::playerPadNum = playerPadNum;
 }
 
 
@@ -188,12 +268,12 @@ int InputPad::GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_st
 void InputPad::SetPadDeadZone(short leftPad_right, short leftPad_left
 	, short leftPad_up, short leftPad_down, short rightPad_right, short rightPad_left, short rightPad_up, short rightPad_down)
 {
-	InputPad::stickDeadZone.LEFT_AXIS_X_RIGHT = (leftPad_right == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_right;
-	InputPad::stickDeadZone.LEFT_AXIS_X_LEFT = (leftPad_left == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_left;
-	InputPad::stickDeadZone.LEFT_AXIS_Y_UP = (leftPad_up == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_up;
-	InputPad::stickDeadZone.LEFT_AXIS_Y_DOWN = (leftPad_down == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_down;
-	InputPad::stickDeadZone.RIGHT_AXIS_X_RIGHT = (rightPad_right == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_right;
-	InputPad::stickDeadZone.RIGHT_AXIS_X_LEFT = (rightPad_left == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_left;
-	InputPad::stickDeadZone.RIGHT_AXIS_Y_UP = (rightPad_up == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_up;
-	InputPad::stickDeadZone.RIGHT_AXIS_Y_DOWN = (rightPad_down == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_down;
+	InputPad::stickDeadZone.LEFT_RIGHT = (leftPad_right == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_right;
+	InputPad::stickDeadZone.LEFT_LEFT = (leftPad_left == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_left;
+	InputPad::stickDeadZone.LEFT_UP = (leftPad_up == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_up;
+	InputPad::stickDeadZone.LEFT_DOWN = (leftPad_down == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_down;
+	InputPad::stickDeadZone.RIGHT_RIGHT = (rightPad_right == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_right;
+	InputPad::stickDeadZone.RIGHT_LEFT = (rightPad_left == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_left;
+	InputPad::stickDeadZone.RIGHT_UP = (rightPad_up == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_up;
+	InputPad::stickDeadZone.RIGHT_DOWN = (rightPad_down == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_down;
 }

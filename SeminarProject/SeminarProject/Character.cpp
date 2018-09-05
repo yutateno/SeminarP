@@ -1,5 +1,7 @@
 #include "Character.hpp"
 
+using namespace MY_XINPUT;
+
 // 動きのプロセス
 void Character::MoveProcess(unsigned __int8 controllNumber)
 {
@@ -44,7 +46,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	}
 
 	// 左スティックが前に押されたら前進する
-	if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) > 0)
+	if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) > 0)
 	{
 		area.x += sinf(angle + direXAngle) * -walkSpeed;
 		area.z += cosf(angle + direXAngle) * -walkSpeed;
@@ -54,7 +56,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 		Player_PlayAnim(MOTION::walk);
 	}
 	// 左スティックが後ろに押されたら後退する
-	if (0 > MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y))
+	if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
 	{
 		area.x += sinf(angle + direXAngle) * walkSpeed;
 		area.z += cosf(angle + direXAngle) * walkSpeed;
@@ -65,11 +67,11 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	}
 
 	// 左スティックが左に押されたら左に移動する
-	if (0 > MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X))
+	if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X))
 	{
 		area.x += cosf(-angle) * walkSpeed;
 		area.z += sinf(-angle) * walkSpeed;
-		direXAngle = ((float)MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2.0f)) / (float)-BASIC::MAX_STICK_MINUS;
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-BASIC::MAX_STICK_MINUS;
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -78,11 +80,11 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 		Player_PlayAnim(MOTION::walk);
 	}
 	// 左スティックが右に押されたら右に移動する
-	else if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) > 0)
+	else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
 	{
 		area.x += cosf(-angle) * -walkSpeed;
 		area.z += sinf(-angle) * -walkSpeed;
-		direXAngle = ((float)MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_X) * (DX_PI_F / 2.0f)) / (float)BASIC::MAX_STICK_PLUS;
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)BASIC::MAX_STICK_PLUS;
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -93,7 +95,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	// キャラの前後の向きを気持ちよくするため
 	else
 	{
-		if (MYINPUTPAD::InputPad::GetPadThumbData(controllNumber, MYINPUTPAD::XINPUT_PAD::STICK_LEFT_AXIS_Y) == 0)
+		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) == 0)
 		{
 			moveFlag = false;
 			Player_PlayAnim(MOTION::idle);
@@ -173,6 +175,8 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 void Character::Draw()
 {
 	BasicCreature::Draw();		// 基本的なものを引っ張ってくる
+
+	BasicCreature::ShadowFoot();
 
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト

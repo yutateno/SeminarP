@@ -10,12 +10,14 @@ void EnemyMove1::MoveProcess()
 		if (60.0f > area.y)
 		{
 			area.y += flyMove;
+			shadowSize -= flyMove;
 		}
 		// 上昇しきったら
 		else
 		{
 			upNow = false;
 			flyMove = -0.1f;
+			shadowSize = 60.0f;
 		}
 	}
 	// 下降させる
@@ -25,12 +27,14 @@ void EnemyMove1::MoveProcess()
 		if (area.y > 30.0f)
 		{
 			area.y -= flyMove;
+			shadowSize += flyMove;;
 		}
 		// 下降しきったら
 		else
 		{
 			upNow = true;
 			flyMove = -0.1f;
+			shadowSize = 90.0f;
 		}
 	}
 	// 始発をゆっくりさせる
@@ -59,8 +63,8 @@ EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float colo
 	modelWigth = 15.0f;
 
 	// 足元の影に関する
-	shadowHeight = 5.0f;
-	shadowSize = 15.0f;
+	shadowHeight = 70.0f;
+	shadowSize = 90.0f;
 
 	upNow = true;
 	flyMove = 0.0f;
@@ -80,16 +84,19 @@ void EnemyMove1::Draw()
 {
 	if (viewNow)
 	{
-		SetMaterialParam(material);
+		BasicCreature::ShadowFoot();
+
 		// Ｚバッファを有効にする
 		SetUseZBuffer3D(TRUE);
 		// Ｚバッファへの書き込みを有効にする
 		SetWriteZBuffer3D(TRUE);
+		SetMaterialParam(material);
 		DrawSphere3D(VAdd(area, VGet(0.0f, 60.0f, 0.0f)), modelWigth, 16, GetColor(68, 178, 227), GetColor(255, 255, 255), TRUE);
 		// Ｚバッファへの書き込みを有効にする
 		SetWriteZBuffer3D(FALSE);
 		// Ｚバッファを有効にする
 		SetUseZBuffer3D(FALSE);
+
 
 #ifdef _MODEL_DEBUG
 		VECTOR viewArea = VAdd(area, VGet(0.0f, 60.0f, 0.0f));		// モデルの初期Y座標が浮いているので調整

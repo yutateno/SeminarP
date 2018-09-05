@@ -12,16 +12,41 @@ void MainMove1::ActorHit()
 	}
 }
 
+//void MainMove1::ShadowDraw()
+//{
+//	BaseMove::ShadowCharaSetUpBefore();
+//	character->Draw();
+//	for (int i = 0; i < enemyNum; ++i)
+//	{
+//		enemyAggre[i]->Draw();
+//	}
+//	BaseMove::ShadowCharaSetUpAfter();
+//
+//	BaseMove::ShadowAnotherCharaSetUpBefore();
+//	for (int i = 0; i < enemyNum; ++i)
+//	{
+//		enemyAggre[i]->Draw();
+//	}
+//	BaseMove::ShadowAnotherCharaSetUpAfter();
+//
+//	BaseMove::ShadowCharaDrawBefore();
+//	BaseMove::ShadowAnotherCharaDrawBefore();
+//	BaseMove::ShadowNoMoveDrawBefore();
+//	character->Draw();
+//	for (int i = 0; i < enemyNum; ++i)
+//	{
+//		enemyAggre[i]->Draw();
+//	}
+//	stage->Draw();
+//	BaseMove::ShadowCharaDrawAfter();
+//	BaseMove::ShadowAnotherCharaDrawAfter();
+//	BaseMove::ShadowNoMoveDrawAfter();
+//}
+
 
 // コンストラクタ
 MainMove1::MainMove1(std::vector<int> file)
 {
-	/*int drawStageHandle, collStageHandle, modelHandle;
-	LoadFile::MyLoad("media\\ステージモデル\\move1_graphic.myn", drawStageHandle, ELOADFILE::mv1model);
-	LoadFile::MyLoad("media\\ステージモデル\\move1_hantei.myn", collStageHandle, ELOADFILE::mv1model);
-	LoadFile::MyLoad("media\\CLPH\\motion\\CLPH_motionALL.myn", modelHandle, ELOADFILE::mv1model);*/
-
-
 	stage = new Stage(file[0]);
 	character = new Character(file[2], file[1]);
 	camera = new Camera(character->GetArea(), file[1]);
@@ -38,14 +63,9 @@ MainMove1::MainMove1(std::vector<int> file)
 	}
 
 
-	BaseMove::ShadowNoMoveSetUpBefore();
-	stage->Draw();
-	BaseMove::ShadowNoMoveSetUpAfter();
-
-
-	/*MV1DeleteModel(modelHandle);
-	MV1DeleteModel(collStageHandle);
-	MV1DeleteModel(drawStageHandle);*/
+	////BaseMove::ShadowNoMoveSetUpBefore();
+	//stage->Draw();
+	//BaseMove::ShadowNoMoveSetUpAfter();
 }
 
 // デストラクタ
@@ -74,33 +94,14 @@ void MainMove1::Draw()
 	// フォグの開始距離
 	SetFogStartEnd(8000.0f, 10000.0f);
 
-	BaseMove::ShadowCharaSetUpBefore();
-	character->Draw();
-	for (int i = 0; i < enemyNum; ++i)
-	{
-		enemyAggre[i]->Draw();
-	}
-	BaseMove::ShadowCharaSetUpAfter();
+	//ShadowDraw();
 
-	BaseMove::ShadowAnotherCharaSetUpBefore();
-	for (int i = 0; i < enemyNum; ++i)
-	{
-		enemyAggre[i]->Draw();
-	}
-	BaseMove::ShadowAnotherCharaSetUpAfter();
-
-	BaseMove::ShadowCharaDrawBefore();
-	BaseMove::ShadowAnotherCharaDrawBefore();
-	BaseMove::ShadowNoMoveDrawBefore();
-	character->Draw();
-	for (int i = 0; i < enemyNum; ++i)
-	{
-		enemyAggre[i]->Draw();
-	}
 	stage->Draw();
-	BaseMove::ShadowCharaDrawAfter();
-	BaseMove::ShadowAnotherCharaDrawAfter();
-	BaseMove::ShadowNoMoveDrawAfter();
+	character->Draw();
+	for (int i = 0; i < enemyNum; ++i)
+	{
+		enemyAggre[i]->Draw();
+	}
 
 	//light->Draw(character->GetArea());
 #ifdef _SEARCH_MODEL_DEBUG
