@@ -5,9 +5,15 @@ void MainMove1::ActorHit()
 {
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i]->GetArea()) <= 60)
+		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()) <= 60
+			&& enemyAggre[i].aliveNow == true)
 		{
-			enemyAggre[i]->SetViewNow(false);
+			enemyAggre[i].enemyMove->SetViewNow(false);
+			enemyAggre[i].aliveNow = false;
+			if (enemyAggre[i].aliveNow == false)
+			{
+				character->DoEnemyCatchNum();
+			}
 		}
 	}
 }
@@ -59,7 +65,8 @@ MainMove1::MainMove1(std::vector<int> file)
 	std::uniform_int_distribution<> color(1, 100);				 // àÍólóêêî
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		enemyAggre[i] = new EnemyMove1(file[1], (float)randInX(mt), (float)randInZ(mt), (float)color(mt) / 100.0f);
+		enemyAggre[i].enemyMove = new EnemyMove1(file[1], (float)randInX(mt), (float)randInZ(mt), (float)color(mt) / 100.0f);
+		enemyAggre[i].aliveNow = true;
 	}
 
 
@@ -73,7 +80,7 @@ MainMove1::~MainMove1()
 {
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		delete enemyAggre[i];
+		delete enemyAggre[i].enemyMove;
 	}
 	delete light;
 	delete camera;
@@ -100,17 +107,17 @@ void MainMove1::Draw()
 	character->Draw();
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		enemyAggre[i]->Draw();
+		enemyAggre[i].enemyMove->Draw();
 	}
 
 	//light->Draw(character->GetArea());
 #ifdef _SEARCH_MODEL_DEBUG
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		DrawFormatString(0, i * 16, GetColor(255, 255, 255), "%d", BaseMove::GetDistance(character->GetArea(), enemyAggre[i]->GetArea()));
-		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i]->GetArea()) <= 500)
+		DrawFormatString(0, i * 16, GetColor(255, 255, 255), "%d", BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()));
+		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()) <= 500)
 		{
-			DrawLine3D(VAdd(character->GetArea(), VGet(0.0f, 80.0f, 0.0f)), VAdd(enemyAggre[i]->GetArea(), VGet(0.0f, 60.0f, 0.0f)), GetColor(255, 0, 0));
+			DrawLine3D(VAdd(character->GetArea(), VGet(0.0f, 80.0f, 0.0f)), VAdd(enemyAggre[i].enemyMove->GetArea(), VGet(0.0f, 60.0f, 0.0f)), GetColor(255, 0, 0));
 		}
 	}
 #endif
@@ -123,7 +130,7 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	camera->Process(character->GetArea(), controllNumber);
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		enemyAggre[i]->Process();
+		enemyAggre[i].enemyMove->Process();
 	}
 	//light->Process(character->GetArea());
 	ActorHit();

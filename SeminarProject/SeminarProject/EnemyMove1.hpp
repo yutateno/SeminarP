@@ -5,11 +5,11 @@ class EnemyMove1 : public BasicCreature
 {
 private:
 	// 動きに関して
-	bool upNow;
-	float flyMove;
-	void MoveProcess();
-	MATERIALPARAM material;
-	bool viewNow;
+	bool upNow;					// 今上がり中かどうか
+	float flyMove;				// 上下のスピード
+	void MoveProcess();			// 上下動きのプロセス
+	MATERIALPARAM material;		// マテリアルを調整保持
+	bool viewNow;				// 今見えているかどうか(描画するか)
 
 public:
 	EnemyMove1(int collStageHandle, float areaX, float areaZ, float color);

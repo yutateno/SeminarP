@@ -136,6 +136,15 @@ Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collS
 	walkSpeed = 0.0f;
 	animSpeed = 0.5f;
 
+	lightHandle = CreatePointLightHandle(
+		area,
+		2000.0f,
+		0.0f,
+		0.002f,
+		0.0f);
+
+	enemyCatchNum = 0;
+
 	// モデルの座標を更新
 	MV1SetPosition(this->modelHandle, area);
 }
@@ -146,6 +155,10 @@ Character::~Character()
 	if (modelHandle != -1)
 	{
 		MV1DeleteModel(modelHandle);
+	}
+	if(lightHandle!=-1)
+	{
+		DeleteLightHandle(lightHandle);
 	}
 }
 
@@ -169,6 +182,18 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	MV1SetRotationXYZ(modelHandle, VGet(0.0f, angle + direXAngle + direZAngle, 0.0f));
 	// 指定位置にモデルを配置
 	MV1SetPosition(modelHandle, area);
+
+	lightHandle = CreatePointLightHandle(
+		area,
+		2000.0f,
+		0.0f,
+		0.002f,
+		0.0f);
+}
+
+void Character::DoEnemyCatchNum()
+{
+	enemyCatchNum++;
 }
 
 // 描画

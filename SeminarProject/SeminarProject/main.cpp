@@ -18,7 +18,7 @@ void ProjectInit()
 
 	SetWindowText("Re.Gleam");	// メインウインドウのウインドウタイトルを変更する
 
-	SetBackgroundColor(128, 128, 128);
+	SetBackgroundColor(0, 0, 0);
 
 	SetUseDirect3DVersion(DX_DIRECT3D_11);			// Direct3D11を使用する
 
@@ -48,6 +48,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #ifdef _DEBUG
 	KeyData::UpDate();
 #endif
+
+	SetLightEnable(FALSE);
 
 	// new
 	Manager* manager = new Manager();

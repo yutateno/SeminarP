@@ -16,10 +16,17 @@ private:
 	// 動きに関して
 	void MoveProcess(unsigned __int8 controllNumber);
 
+	int lightHandle;			// ライトハンドル情報保持
+	float lightRange;
+
+	int enemyCatchNum;
+
 public:
 	Character(int modelHandle, int collStageHandle);	// コンストラクタ
 	~Character();					// デストラクタ
 
 	void Draw();
 	void Process(unsigned __int8 controllNumber, float getAngle);
+
+	void DoEnemyCatchNum();
 };

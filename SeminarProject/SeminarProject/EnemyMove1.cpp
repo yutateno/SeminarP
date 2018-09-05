@@ -75,7 +75,6 @@ EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float colo
 // デストラクタ
 EnemyMove1::~EnemyMove1()
 {
-
 }
 
 
