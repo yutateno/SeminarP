@@ -162,7 +162,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMove1.cpp" />
     <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +179,6 @@
     <ClInclude Include="LoadThread.hpp" />
     <ClInclude Include="MainMove1.hpp" />
     <ClInclude Include="Manager.hpp" />
-    <ClInclude Include="PointLight.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

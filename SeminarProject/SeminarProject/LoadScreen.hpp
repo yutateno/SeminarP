@@ -6,6 +6,7 @@ class LoadScreen
 {
 private:
 	int draw;		// ロード画面的な
+	int endDraw;		// ロード終了的な
 
 public:
 	LoadScreen();

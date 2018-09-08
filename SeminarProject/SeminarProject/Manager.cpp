@@ -45,14 +45,17 @@ Manager::~Manager()
 
 void Manager::Update(unsigned __int8 controllNumber)
 {
-	if (nowScene == preScene)
+	if (nowScene == preScene)		// 今のシーンと直前のシーンが同じ
 	{
-		if (preScene == ESceneNumber::STARTLOAD)
+		if (preScene == ESceneNumber::STARTLOAD)		// ロード中に変わった瞬間なら
 		{
-			loadThread->Run(max1, move1str, load1);
-			if (loadThread->num >= max1)
+			loadThread->Run(max1, move1str, load1);		// ロードをする
+			if (loadThread->num >= max1)		// ロードが終了したら
 			{
-				nowScene = ESceneNumber::FIRSTMOVE;
+				if (KeyData::Get(KEY_INPUT_Z) == 1)			// 終わったら一操作
+				{
+					nowScene = ESceneNumber::FIRSTMOVE;
+				}
 			}
 		}
 		else

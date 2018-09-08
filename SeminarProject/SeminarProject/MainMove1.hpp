@@ -3,7 +3,6 @@
 #include "Character.hpp"
 #include "EnemyMove1.hpp"
 #include "Camera.hpp"
-#include "PointLight.hpp"
 #include "BaseMove.hpp"
 
 #include <random>
@@ -21,11 +20,14 @@ private:
 	};
 	SEnemyAggre enemyAggre[30];
 	Camera* camera;
-	PointLight* light;
 
 	void ActorHit();
 
 	//void ShadowDraw();
+
+	int lightHandle[10];			// ライトハンドル情報保持
+	float lightRange;				// ライトの範囲
+	VECTOR lightArea;				// ライトの座標
 
 public:
 	MainMove1(std::vector<int> file);

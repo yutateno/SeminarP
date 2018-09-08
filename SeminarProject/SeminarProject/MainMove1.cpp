@@ -10,10 +10,6 @@ void MainMove1::ActorHit()
 		{
 			enemyAggre[i].enemyMove->SetViewNow(false);
 			enemyAggre[i].aliveNow = false;
-			if (enemyAggre[i].aliveNow == false)
-			{
-				character->DoEnemyCatchNum();
-			}
 		}
 	}
 }
@@ -53,10 +49,20 @@ void MainMove1::ActorHit()
 // コンストラクタ
 MainMove1::MainMove1(std::vector<int> file)
 {
+	SetLightEnable(FALSE);
+
+	// フォグを有効にする
+	SetFogEnable(TRUE);
+
+	// フォグの色にする
+	SetFogColor(128, 128, 128);
+
+	// フォグの開始距離
+	SetFogStartEnd(8000.0f, 10000.0f);
+
 	stage = new Stage(file[0]);
 	character = new Character(file[2], file[1]);
 	camera = new Camera(character->GetArea(), file[1]);
-	light = new PointLight();
 
 	std::random_device rnd;     // 非決定的な乱数生成器を生成
 	std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
@@ -69,6 +75,15 @@ MainMove1::MainMove1(std::vector<int> file)
 		enemyAggre[i].aliveNow = true;
 	}
 
+	stage->Draw();
+
+	// ライトに関する
+	lightRange = 1000.0f;
+	lightArea = VAdd(character->GetArea(), VGet(0.0f, 100.0f, 0.0f));
+	for (int i = 0; i != 10; ++i)
+	{
+		lightHandle[i] = CreatePointLightHandle(lightArea, lightRange, 0.0f, 0.002f, 0.0f);
+	}
 
 	////BaseMove::ShadowNoMoveSetUpBefore();
 	//stage->Draw();
@@ -78,11 +93,17 @@ MainMove1::MainMove1(std::vector<int> file)
 // デストラクタ
 MainMove1::~MainMove1()
 {
+	for (int i = 0; i != 10; ++i)
+	{
+		if (lightHandle[i] != -1)
+		{
+			DeleteLightHandle(lightHandle[i]);
+		}
+	}
 	for (int i = 0; i < enemyNum; ++i)
 	{
 		delete enemyAggre[i].enemyMove;
 	}
-	delete light;
 	delete camera;
 	delete character;
 	delete stage;
@@ -92,15 +113,6 @@ MainMove1::~MainMove1()
 // 描画
 void MainMove1::Draw()
 {
-	// フォグを有効にする
-	SetFogEnable(TRUE);
-
-	// フォグの色を黄色にする
-	SetFogColor(0, 0, 0);
-
-	// フォグの開始距離
-	SetFogStartEnd(8000.0f, 10000.0f);
-
 	//ShadowDraw();
 
 	stage->Draw();
@@ -109,18 +121,19 @@ void MainMove1::Draw()
 	{
 		enemyAggre[i].enemyMove->Draw();
 	}
-
-	//light->Draw(character->GetArea());
+	
 #ifdef _SEARCH_MODEL_DEBUG
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		DrawFormatString(0, i * 16, GetColor(255, 255, 255), "%d", BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()));
+		//DrawFormatString(0, i * 16, GetColor(255, 255, 255), "%d", BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()));
 		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()) <= 500)
 		{
 			DrawLine3D(VAdd(character->GetArea(), VGet(0.0f, 80.0f, 0.0f)), VAdd(enemyAggre[i].enemyMove->GetArea(), VGet(0.0f, 60.0f, 0.0f)), GetColor(255, 0, 0));
 		}
 	}
 #endif
+
+	printfDx("%f\t%d\n", lightRange, GetEnableLightHandleNum());
 }
 
 // メインプロセス
@@ -132,8 +145,62 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	{
 		enemyAggre[i].enemyMove->Process();
 	}
-	//light->Process(character->GetArea());
 	ActorHit();
 
 	BaseMove::ShadowArea(character->GetArea());
+
+	
+
+	if (KeyData::Get(KEY_INPUT_I) >= 1)
+	{
+		lightRange += 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			SetLightRangeAttenHandle(lightHandle[i], lightRange, 0.0f, 0.002f, 0.0f);
+		}
+	}
+	if (KeyData::Get(KEY_INPUT_K) >= 1)
+	{
+		lightRange -= 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			SetLightRangeAttenHandle(lightHandle[i], lightRange, 0.0f, 0.002f, 0.0f);
+		}
+	}
+	if (KeyData::Get(KEY_INPUT_W) >= 1)
+	{
+		lightRange -= 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			lightArea.z += 10.0f;
+			SetLightPositionHandle(lightHandle[i], lightArea);
+		}
+	}
+	if (KeyData::Get(KEY_INPUT_S) >= 1)
+	{
+		lightRange -= 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			lightArea.z -= 10.0f;
+			SetLightPositionHandle(lightHandle[i], lightArea);
+		}
+	}
+	if (KeyData::Get(KEY_INPUT_A) >= 1)
+	{
+		lightRange -= 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			lightArea.x -= 10.0f;
+			SetLightPositionHandle(lightHandle[i], lightArea);
+		}
+	}
+	if (KeyData::Get(KEY_INPUT_D) >= 1)
+	{
+		lightRange -= 10.0f;
+		for (int i = 0; i != 10; ++i)
+		{
+			lightArea.x += 10.0f;
+			SetLightPositionHandle(lightHandle[i], lightArea);
+		}
+	}
 }

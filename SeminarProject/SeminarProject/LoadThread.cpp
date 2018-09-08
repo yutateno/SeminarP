@@ -35,6 +35,7 @@ void LoadThread::Run(int max, std::string* path, ELOADFILE* type)
 		ScreenFlip();
 		Run(max, path, type);
 	}
+	loadScreen->Process(num, max);			// ƒ[ƒh‰æ–Ê
 }
 
 vector<int> LoadThread::GetFile()

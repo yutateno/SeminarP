@@ -49,8 +49,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	KeyData::UpDate();
 #endif
 
-	SetLightEnable(FALSE);
-
 	// new
 	Manager* manager = new Manager();
 

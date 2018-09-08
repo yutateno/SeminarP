@@ -55,6 +55,12 @@
     <Filter Include="ソース ファイル\Load">
       <UniqueIdentifier>{88688ee3-d3e3-42a0-ab3b-06c552ffd64c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Camera">
+      <UniqueIdentifier>{1628576c-4e67-4284-8329-4ba7b925a730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Camera">
+      <UniqueIdentifier>{e4d217f4-197a-410e-9dfb-93fadbc570e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,12 +87,6 @@
     <ClCompile Include="InputPad.cpp">
       <Filter>ソース ファイル\Operation</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="BasicCreature.cpp">
       <Filter>ソース ファイル\Actor\Creature</Filter>
     </ClCompile>
@@ -101,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="Manager.cpp">
       <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +128,6 @@
     <ClInclude Include="InputPad.hpp">
       <Filter>ヘッダー ファイル\Operation</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Basic.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Manager.hpp">
       <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
