@@ -25,8 +25,9 @@ private:
 
 	//void ShadowDraw();
 
-	int lightHandle[10];			// ライトハンドル情報保持
-	float lightRange;				// ライトの範囲
+	const int lightNum = 4;
+	int lightHandle[4];			// ライトハンドル情報保持
+	float lightRange[4];				// ライトの範囲
 	VECTOR lightArea;				// ライトの座標
 
 public:

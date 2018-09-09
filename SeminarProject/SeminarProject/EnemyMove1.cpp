@@ -115,7 +115,7 @@ void EnemyMove1::Process()
 	}
 }
 
-void EnemyMove1::SetViewNow(bool viewNow)
+void EnemyMove1::ViewLost()
 {
-	this->viewNow = viewNow;
+	this->viewNow = false;
 }

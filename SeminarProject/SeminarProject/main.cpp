@@ -18,7 +18,7 @@ void ProjectInit()
 
 	SetWindowText("Re.Gleam");	// メインウインドウのウインドウタイトルを変更する
 
-	SetBackgroundColor(0, 0, 0);
+	SetBackgroundColor(255, 255, 255);
 
 	SetUseDirect3DVersion(DX_DIRECT3D_11);			// Direct3D11を使用する
 

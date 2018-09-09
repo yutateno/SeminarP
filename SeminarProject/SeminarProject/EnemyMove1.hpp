@@ -18,5 +18,7 @@ public:
 	void Draw();
 	void Process();
 
-	void SetViewNow(bool viewNow);
+	void ViewLost();		// 描画をさせない
+	void StolenChara(VECTOR characterArea);		// キャラクターに捕まった
+	void Collected();						// 個数分集まったら
 };

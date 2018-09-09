@@ -8,7 +8,7 @@ void MainMove1::ActorHit()
 		if (BaseMove::GetDistance(character->GetArea(), enemyAggre[i].enemyMove->GetArea()) <= 60
 			&& enemyAggre[i].aliveNow == true)
 		{
-			enemyAggre[i].enemyMove->SetViewNow(false);
+			enemyAggre[i].enemyMove->ViewLost();
 			enemyAggre[i].aliveNow = false;
 		}
 	}
@@ -78,11 +78,11 @@ MainMove1::MainMove1(std::vector<int> file)
 	stage->Draw();
 
 	// ライトに関する
-	lightRange = 1000.0f;
 	lightArea = VAdd(character->GetArea(), VGet(0.0f, 100.0f, 0.0f));
-	for (int i = 0; i != 10; ++i)
+	for (int i = 0; i != lightNum; ++i)
 	{
-		lightHandle[i] = CreatePointLightHandle(lightArea, lightRange, 0.0f, 0.002f, 0.0f);
+		lightRange[i] = 1000.0f;
+		lightHandle[i] = CreatePointLightHandle(lightArea, lightRange[i], 0.0f, 0.002f, 0.0f);
 	}
 
 	////BaseMove::ShadowNoMoveSetUpBefore();
@@ -93,7 +93,7 @@ MainMove1::MainMove1(std::vector<int> file)
 // デストラクタ
 MainMove1::~MainMove1()
 {
-	for (int i = 0; i != 10; ++i)
+	for (int i = 0; i != lightNum; ++i)
 	{
 		if (lightHandle[i] != -1)
 		{
@@ -113,8 +113,9 @@ MainMove1::~MainMove1()
 // 描画
 void MainMove1::Draw()
 {
-	//ShadowDraw();
+	DrawBox(0, 0, 1920, 1080, GetColor(0, 0, 0), true);
 
+	//ShadowDraw();
 	stage->Draw();
 	character->Draw();
 	for (int i = 0; i < enemyNum; ++i)
@@ -150,27 +151,29 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	BaseMove::ShadowArea(character->GetArea());
 
 	
-
+	if (KeyData::Get(KEY_INPUT_H) == 1)
+	{
+		SetLightEnable(TRUE);
+	}
 	if (KeyData::Get(KEY_INPUT_I) >= 1)
 	{
-		lightRange += 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
-			SetLightRangeAttenHandle(lightHandle[i], lightRange, 0.0f, 0.002f, 0.0f);
+			lightRange[i] += 10.0f;
+			SetLightRangeAttenHandle(lightHandle[i], lightRange[i], 0.0f, 0.002f, 0.0f);
 		}
 	}
 	if (KeyData::Get(KEY_INPUT_K) >= 1)
 	{
-		lightRange -= 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
-			SetLightRangeAttenHandle(lightHandle[i], lightRange, 0.0f, 0.002f, 0.0f);
+			lightRange[i] -= 10.0f;
+			SetLightRangeAttenHandle(lightHandle[i], lightRange[i], 0.0f, 0.002f, 0.0f);
 		}
 	}
 	if (KeyData::Get(KEY_INPUT_W) >= 1)
 	{
-		lightRange -= 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
 			lightArea.z += 10.0f;
 			SetLightPositionHandle(lightHandle[i], lightArea);
@@ -178,8 +181,7 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	}
 	if (KeyData::Get(KEY_INPUT_S) >= 1)
 	{
-		lightRange -= 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
 			lightArea.z -= 10.0f;
 			SetLightPositionHandle(lightHandle[i], lightArea);
@@ -187,8 +189,7 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	}
 	if (KeyData::Get(KEY_INPUT_A) >= 1)
 	{
-		lightRange -= 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
 			lightArea.x -= 10.0f;
 			SetLightPositionHandle(lightHandle[i], lightArea);
@@ -196,8 +197,7 @@ void MainMove1::Process(unsigned __int8 controllNumber)
 	}
 	if (KeyData::Get(KEY_INPUT_D) >= 1)
 	{
-		lightRange -= 10.0f;
-		for (int i = 0; i != 10; ++i)
+		for (int i = 0; i != lightNum; ++i)
 		{
 			lightArea.x += 10.0f;
 			SetLightPositionHandle(lightHandle[i], lightArea);
