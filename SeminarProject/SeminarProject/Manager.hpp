@@ -6,18 +6,19 @@
 class Manager
 {
 private:
-	ESceneNumber preScene;
-	ESceneNumber nowScene;
+	ESceneNumber e_preScene;		// 直前のシーン
+	ESceneNumber e_nowScene;		// 今のシーン
 
-	BaseMove* baseMove;
-	LoadThread* loadThread;
+	BaseMove* p_baseMove;			// シーンの基底クラス
+	LoadThread* p_loadThread;
 
 	void SceneChange();
 
 
-	const int max1 = 3;
-	std::string move1str[3];
-	ELOADFILE load1[3];
+	// ムーブ１に関する
+	const int max1 = 4;
+	std::string move1str[4];
+	ELOADFILE load1[4];
 
 public:
 	Manager();

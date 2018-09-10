@@ -9,7 +9,6 @@ private:
 	float flyMove;				// 上下のスピード
 	void MoveProcess();			// 上下動きのプロセス
 	MATERIALPARAM material;		// マテリアルを調整保持
-	bool viewNow;				// 今見えているかどうか(描画するか)
 
 public:
 	EnemyMove1(int collStageHandle, float areaX, float areaZ, float color);
@@ -18,7 +17,6 @@ public:
 	void Draw();
 	void Process();
 
-	void ViewLost();		// 描画をさせない
 	void StolenChara(VECTOR characterArea);		// キャラクターに捕まった
 	void Collected();						// 個数分集まったら
 };

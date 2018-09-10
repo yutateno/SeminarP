@@ -10,30 +10,55 @@
 class MainMove1 : public BaseMove
 {
 private:
-	Stage* stage;
-	Character* character;
-	const int enemyNum = 30;
-	struct SEnemyAggre
+	enum EFILE1 { drawStage, collStage, character, feedWhite };				// ロードから渡されるファイルの順番
+
+	Stage* p_stage;					// ステージのポインタ
+	Character* p_character;			// キャラクターのポインタ
+	const int enemyNum = 30;		// 敵の数
+
+	struct EnemyAggre
 	{
-		EnemyMove1* enemyMove;
-		bool aliveNow;
+		EnemyMove1* p_enemyMove;		// 敵のポインタ
+		bool aliveNow;					// 生きているか
 	};
-	SEnemyAggre enemyAggre[30];
-	Camera* camera;
+	EnemyAggre s_enemyAggre[30];		// 敵の構造体を所持
+	
 
-	void ActorHit();
+	Camera* p_camera;					// カメラのポインタ
 
-	//void ShadowDraw();
+	void ActorHit();				// アクター同士のあたり判定(簡易)
+	int catchEnemyNum;				// 敵を手に入れた数
 
-	const int lightNum = 4;
+	//void ShadowDraw();			// 影
+
+	const int lightNum = 4;			// ライトハンドルの数
 	int lightHandle[4];			// ライトハンドル情報保持
 	float lightRange[4];				// ライトの範囲
-	VECTOR lightArea;				// ライトの座標
+	VECTOR lightArea[4];				// ライトの座標
+	void LightProcess();				// ライトに関する関数
+
+	bool lightEventStart;				// 4つ手に入れたら
+	bool lightEventEnd;
+	int lightEventCount;
+	bool lightEnd;
+	float lightRangePreMax;
+	float lightRangeSpeed;
+
+	int backgroundColor;		// 背景色
+
+	int drawWhite;			// フェードイン用ホワイト画像
+
+
+#ifdef _DEBUG
+	void DebugKeyControll();
+#endif // _DEBUG
+
 
 public:
-	MainMove1(std::vector<int> file);
-	~MainMove1();
+	MainMove1(std::vector<int> v_file);			// コンストラクタ
+	~MainMove1();							// デストラクタ
 
-	void Draw();
-	void Process(unsigned __int8 controllNumber);
+
+	void Draw();										// 描画
+	void Process(unsigned __int8 controllNumber);		// プロセス
 };

@@ -7,9 +7,13 @@
 
 namespace MY_XINPUT	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 {
+#ifndef _COMPILE_SLOPE					// 気持ち悪いから定義除けする
+#define _COMPILE_SLOPE
 #include <Xinput.h>
 
 #pragma comment(lib, "xinput.lib")
+
+#endif // !_COMPILE_SLOPE
 
 	namespace 
 	{

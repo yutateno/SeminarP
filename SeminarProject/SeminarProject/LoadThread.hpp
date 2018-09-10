@@ -9,17 +9,19 @@ private:
 	std::thread ths;		// 非同期を行うだけ
 	std::vector<int> fileName;
 
-	LoadScreen* loadScreen;
+	LoadScreen* p_loadScreen;
 
 	void MyNextLoad(std::string path, int& file, ELOADFILE type);		// 非同期を行うメソッド
+
+	int num;
 
 public:
 	LoadThread();
 	~LoadThread();
 
-	void Run(int max, std::string* path, ELOADFILE* type);		// 行う
+	void Process(int max, std::string* path, ELOADFILE* type);		// 行う
 
 	std::vector<int> GetFile();		// ロードしたものを渡す
 
-	int num;
+	int GetNum();			// ロードを終えた数
 };

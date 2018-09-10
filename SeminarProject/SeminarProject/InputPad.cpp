@@ -7,7 +7,7 @@ unsigned __int8 InputPad::controllerNum;
 unsigned __int8 InputPad::playerPadNum;
 int InputPad::button[4][16];
 int InputPad::stick[4][4];
-XINPUT_STATE InputPad::state[4];
+::XINPUT_STATE InputPad::state[4];
 STICK_DEADZONE InputPad::stickDeadZone;
 bool InputPad::setControll[4];
 XINPUT_VIBRATION InputPad::vibration;
@@ -32,7 +32,7 @@ InputPad::InputPad()
 	}
 	for (int i = 0; i != InputPad::controllerNum; ++i)
 	{
-		ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
+		ZeroMemory(&InputPad::state[i], sizeof(::XINPUT_STATE));
 		// ボタンを0に初期化(スティックはデッドゾーンの関係で行わない)
 		for (int j = 0; j != 16; ++j)
 		{
@@ -46,7 +46,7 @@ InputPad::~InputPad()
 {
 	for (int i = 0; i != InputPad::controllerNum; ++i)
 	{
-		ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
+		ZeroMemory(&InputPad::state[i], sizeof(::XINPUT_STATE));
 	}
 }
 
@@ -59,7 +59,7 @@ void InputPad::FirstUpdate()
 	{
 		if (InputPad::setControll[i])		// 接続されているコントローラーのみ判断するように
 		{
-			ZeroMemory(&InputPad::state[i], sizeof(XINPUT_STATE));
+			ZeroMemory(&InputPad::state[i], sizeof(::XINPUT_STATE));
 			XInputGetState(i, &InputPad::state[i]);
 			// ボタン操作
 			for (int j = 0; j != 16; ++j)
@@ -135,7 +135,7 @@ void InputPad::FirstUpdate()
 // 更新
 void InputPad::EverUpdate()
 {
-	ZeroMemory(&InputPad::state[InputPad::playerPadNum], sizeof(XINPUT_STATE));
+	ZeroMemory(&InputPad::state[InputPad::playerPadNum], sizeof(::XINPUT_STATE));
 	XInputGetState(InputPad::playerPadNum, &InputPad::state[InputPad::playerPadNum]);
 	// ボタン操作
 	for (int j = 0; j != 16; ++j)

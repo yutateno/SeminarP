@@ -2,7 +2,6 @@
 
 using namespace MY_XINPUT;
 
-
 // コンストラクタ
 Camera::Camera(VECTOR charaarea, int collStageHandle)
 {
@@ -63,7 +62,7 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 
 	// 下キーが押されていたら上から見下ろす
 	if (KeyData::Get(KEY_INPUT_DOWN) >= 1
-		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_Y) < 0)
+		|| ::InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_Y) < 0)
 	{
 		// 制限
 		if (cameraArea.y < 400)

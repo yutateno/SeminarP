@@ -14,15 +14,16 @@ void LoadThread::MyNextLoad(std::string path, int& file, ELOADFILE type)
 LoadThread::LoadThread()
 {
 	num = 0;
-	loadScreen = new LoadScreen();
+	p_loadScreen = NULL;
+	p_loadScreen = new LoadScreen();
 }
 
 LoadThread::~LoadThread()
 {
-	delete loadScreen;
+	delete p_loadScreen;
 }
 
-void LoadThread::Run(int max, std::string* path, ELOADFILE* type)
+void LoadThread::Process(int max, std::string* path, ELOADFILE* type)
 {
 	if (num < max)
 	{
@@ -31,14 +32,19 @@ void LoadThread::Run(int max, std::string* path, ELOADFILE* type)
 		ths.join();
 		num++;
 		ClearDrawScreen();
-		loadScreen->Process(num, max);			// ロード画面
+		p_loadScreen->Process(num, max);			// ロード画面
 		ScreenFlip();
-		Run(max, path, type);
+		Process(max, path, type);
 	}
-	loadScreen->Process(num, max);			// ロード画面
+	p_loadScreen->Process(num, max);			// ロード画面
 }
 
 vector<int> LoadThread::GetFile()
 {
 	return fileName;
+}
+
+int LoadThread::GetNum()
+{
+	return num;
 }
