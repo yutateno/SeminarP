@@ -171,6 +171,11 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 	MV1SetPosition(modelHandle, area);
 }
 
+void Character::PositionReset()
+{
+	area = VGet(0.0f, 0.0f, 0.0f);
+}
+
 // •`‰æ
 void Character::Draw()
 {

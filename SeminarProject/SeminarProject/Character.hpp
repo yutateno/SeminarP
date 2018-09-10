@@ -23,4 +23,6 @@ public:
 
 	void Draw();
 	void Process(unsigned __int8 controllNumber, float getAngle);
+
+	void PositionReset();
 };

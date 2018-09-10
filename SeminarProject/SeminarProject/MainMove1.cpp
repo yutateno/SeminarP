@@ -7,11 +7,17 @@ void MainMove1::ActorHit()
 	for (int i = 0; i < enemyNum; ++i)
 	{
 		// 当たった判定になったら
-		if (BaseMove::GetDistance(p_character->GetArea(), s_enemyAggre[i].p_enemyMove->GetArea()) <= 60
-			&& s_enemyAggre[i].aliveNow)
+		if (s_enemyAggre[i].aliveNow)
 		{
-			s_enemyAggre[i].aliveNow = false;			// 生きさせない
-			catchEnemyNum++;				// 取った個数をカウント
+			if (BaseMove::GetDistance(p_character->GetArea(), s_enemyAggre[i].p_enemyMove->GetArea()) <= 60)
+			{
+				s_enemyAggre[i].aliveNow = false;			// 生きさせない
+				catchEnemyNum++;				// 取った個数をカウント
+			}
+			else if (BaseMove::GetDistance(p_character->GetArea(), s_enemyAggre[i].p_enemyMove->GetArea()) <= 300)
+			{
+				s_enemyAggre[i].p_enemyMove->StolenChara(p_character->GetArea());
+			}
 		}
 	}
 }
@@ -27,78 +33,117 @@ void MainMove1::LightProcess()
 		SetLightPositionHandle(lightHandle[i], lightArea[i]);
 	}
 
-	if (catchEnemyNum == 30)
+
+	switch (catchEnemyNum)
 	{
-		lightEventCount = 0;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 29 && !lightEventStart && !lightEventEnd)
-	{
-		lightEventCount = 0;
-		lightRangeSpeed = 20.0f;
-		lightRangePreMax = 5100.0f;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 20)
-	{
-		lightEventEnd = false;
-	}
-	else if (catchEnemyNum == 19 && !lightEventStart && !lightEventEnd)
-	{
-		lightEventCount = 0;
-		lightRangeSpeed = 14.0f;
-		lightRangePreMax = 3700.0f;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 13)
-	{
-		lightEventEnd = false;
-	}
-	else if (catchEnemyNum == 12 && !lightEventStart && !lightEventEnd)
-	{
-		lightEventCount = 0;
-		lightRangeSpeed = 11.0f;
-		lightRangePreMax = 2600.0f;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 8)
-	{
-		lightEventEnd = false;
-	}
-	else if (catchEnemyNum == 7 && !lightEventStart && !lightEventEnd)
-	{
-		lightEventCount = 0;
-		lightRangeSpeed = 9.0f;
-		lightRangePreMax = 1700.0f;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 5)
-	{
-		lightEventEnd = false;
-	}
-	else if (catchEnemyNum == 4 && !lightEventStart && !lightEventEnd)
-	{
-		lightRange[0] = 1000.0f;
-		lightRange[1] = 1000.0f;
-		lightRange[2] = 1000.0f;
-		lightRange[3] = 1000.0f;
-		lightEventCount = 0;
-		lightRangeSpeed = 7.0f;
-		lightRangePreMax = 1000.0f;
-		lightEventStart = true;
-	}
-	else if (catchEnemyNum == 3)
-	{
-		SetLightEnableHandle(lightHandle[2], TRUE);
-	}
-	else if (catchEnemyNum == 2)
-	{
-		SetLightEnableHandle(lightHandle[1], TRUE);
-	}
-	else if(catchEnemyNum == 1)
-	{
+	case 1:
 		SetLightEnableHandle(lightHandle[0], TRUE);
+		break;
+
+
+	case 2:
+		SetLightEnableHandle(lightHandle[1], TRUE);
+		break;
+
+
+	case 3:
+		SetLightEnableHandle(lightHandle[2], TRUE);
+		break;
+
+
+	case 4:
+		if (!lightEventStart && !lightEventEnd)
+		{
+			lightRange[0] = 1000.0f;
+			lightRange[1] = 1000.0f;
+			lightRange[2] = 1000.0f;
+			lightRange[3] = 1000.0f;
+			lightEventCount = 0;
+			lightRangeSpeed = 7.0f;
+			lightRangePreMax = 1000.0f;
+			lightEventStart = true;
+		}
+		break;
+
+
+	case 5:
+		lightEventEnd = false;
+		break;
+
+
+	case 7:
+		if (!lightEventStart && !lightEventEnd)
+		{
+			lightEventCount = 0;
+			lightRangeSpeed = 9.0f;
+			lightRangePreMax = 1700.0f;
+			lightEventStart = true;
+		}
+		break;
+
+		
+	case 8:
+		lightEventEnd = false;
+		break;
+
+
+	case 12:
+		if (!lightEventStart && !lightEventEnd)
+		{
+			lightEventCount = 0;
+			lightRangeSpeed = 11.0f;
+			lightRangePreMax = 2600.0f;
+			lightEventStart = true;
+		}
+		break;
+
+
+	case 13:
+		lightEventEnd = false;
+		break;
+
+
+	case 19:
+		if (!lightEventStart && !lightEventEnd)
+		{
+			lightEventCount = 0;
+			lightRangeSpeed = 14.0f;
+			lightRangePreMax = 3700.0f;
+			lightEventStart = true;
+		}
+		break;
+
+
+	case 20:
+		lightEventEnd = false;
+		break;
+
+
+	case 29:
+		if (!lightEventStart && !lightEventEnd)
+		{
+			lightEventCount = 0;
+			lightRangeSpeed = 20.0f;
+			lightRangePreMax = 5100.0f;
+			lightEventStart = true;
+		}
+		break;
+
+
+	case 30:
+		if (!lightEnd && !lightEventStart)
+		{
+			lightEventCount = 0;
+			lightEventStart = true;
+			lightEnd = true;
+		}
+		break;
+
+
+	default:
+		break;
 	}
+	
 
 	if (lightEventStart)
 	{
@@ -113,45 +158,65 @@ void MainMove1::LightProcess()
 		{
 			lightEventStart = false;
 			lightEventEnd = true;
+			if (catchEnemyNum == 30)
+			{
+				for (int i = 0; i != lightNum; ++i)
+				{
+					DeleteLightHandle(lightHandle[i]);
+					lightHandle[i] = 0;
+					SetLightEnable(TRUE);
+					p_character->PositionReset();
+				}
+			}
 		}
 
 
-		if (catchEnemyNum == 4)
+		switch (catchEnemyNum)
 		{
+		case 4:
 			if (lightEventCount >= 10)
 			{
 				SetLightEnableHandle(lightHandle[3], TRUE);
 			}
-		}
-		else if (catchEnemyNum == 12)
-		{
+			break;
+
+
+		case 12:
 			backgroundColor = GetColor(lightEventCount, lightEventCount, lightEventCount);
-		}
-		else if (catchEnemyNum == 19)
-		{
+			break;
+
+
+		case 19:
 			lightArea[0].z = -630.0f + lightEventCount * 5;
 			lightArea[1].z = -630.0f + lightEventCount * 4;
 			lightArea[2].z = -630.0f + lightEventCount * 3;
 			lightArea[3].z = -630.0f + lightEventCount * 2;
 			backgroundColor = GetColor(lightEventCount / 2 + 100, lightEventCount / 2 + 100, lightEventCount / 2 + 100);
-		}
-		else if (catchEnemyNum == 29)
-		{
+			break;
+
+
+		case 29:
 			backgroundColor = GetColor(lightEventCount / 2 + 150, lightEventCount / 2 + 150, lightEventCount / 2 + 150);
-		}
-		else if (catchEnemyNum == 30)
-		{
-			lightEventCount++;
-			backgroundColor = GetColor(lightEventCount + 150, lightEventCount + 150, lightEventCount + 150);
+			break;
+
+
+		case 30:
+			backgroundColor = GetColor(lightEventCount + 155, lightEventCount + 155, lightEventCount + 155);
 			// フェードインフェードアウト関連
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 - 255);
-			DrawGraph(0, 0, drawWhite, false);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-			if (lightEventCount >= 100)
+			if (lightEventCount < 50)
 			{
-				lightEventStart = false;
-				lightEventEnd = true;
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 - (lightEventCount * 2));
+				DrawGraph(0, 0, drawWhite, false);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 			}
+			else
+			{
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155 + ((lightEventCount - 50) * 2));
+				DrawGraph(0, 0, drawWhite, false);
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+			}
+			break;
+
 		}
 	}
 }
@@ -219,6 +284,7 @@ MainMove1::MainMove1(std::vector<int> v_file)
 	lightEventCount = 0;
 	lightRangePreMax = 0.0f;
 	lightRangeSpeed = 0.0f;
+	lightEnd = false;
 
 
 	// フェードイン用ホワイト画像
@@ -300,7 +366,7 @@ void MainMove1::Draw()
 		}
 	}
 #endif
-	printfDx("%d\n", catchEnemyNum);
+	printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
 #endif // _DEBUG
 
 }
@@ -342,11 +408,11 @@ void MainMove1::DebugKeyControll()
 {
 	if (KeyData::Get(KEY_INPUT_Z) == 1)
 	{
+		s_enemyAggre[catchEnemyNum - 1].aliveNow = false;
 		if (catchEnemyNum != 30)
 		{
 			catchEnemyNum++;
 		}
-		s_enemyAggre[catchEnemyNum - 1].aliveNow = false;
 	}
 	if (KeyData::Get(KEY_INPUT_H) == 1)
 	{

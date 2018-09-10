@@ -60,7 +60,7 @@ EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float colo
 
 	// モデルの基本情報
 	modelHeight = 10.0f;
-	modelWigth = 15.0f;
+	modelWigth = 10.0f;
 
 	// 足元の影に関する
 	shadowHeight = 70.0f;
@@ -105,4 +105,24 @@ void EnemyMove1::Process()
 {
 	// 動きのプロセス
 	MoveProcess();
+}
+
+void EnemyMove1::StolenChara(VECTOR characterArea)
+{
+	if (characterArea.x <= area.x)
+	{
+		area.x -= 2.0f;
+	}
+	else
+	{
+		area.x += 2.0f;
+	}
+	if (characterArea.z <= area.z)
+	{
+		area.z -= 2.0f;
+	}
+	else
+	{
+		area.z += 2.0f;
+	}
 }

@@ -17,6 +17,6 @@ public:
 	void Draw();
 	void Process();
 
-	void StolenChara(VECTOR characterArea);		// キャラクターに捕まった
+	void StolenChara(VECTOR characterArea);		// キャラクターが近づいたら
 	void Collected();						// 個数分集まったら
 };

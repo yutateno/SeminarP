@@ -37,10 +37,10 @@ private:
 	VECTOR lightArea[4];				// ライトの座標
 	void LightProcess();				// ライトに関する関数
 
-	bool lightEventStart;				// 4つ手に入れたら
-	bool lightEventEnd;
-	int lightEventCount;
-	bool lightEnd;
+	bool lightEventStart;				// イベントを行う
+	bool lightEventEnd;					// イベントの終了を確認
+	int lightEventCount;				// イベントのカウント
+	bool lightEnd;						// ライトを消す
 	float lightRangePreMax;
 	float lightRangeSpeed;
 
