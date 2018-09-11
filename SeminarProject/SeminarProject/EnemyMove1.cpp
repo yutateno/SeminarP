@@ -79,7 +79,7 @@ EnemyMove1::~EnemyMove1()
 // 描画
 void EnemyMove1::Draw()
 {
-	BasicCreature::ShadowFoot();
+	BasicObject::ShadowFoot();
 
 	// Ｚバッファを有効にする
 	SetUseZBuffer3D(TRUE);

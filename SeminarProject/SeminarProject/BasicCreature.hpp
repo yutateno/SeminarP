@@ -1,13 +1,10 @@
 #pragma once
-#include "DxLib.h"
-#include "LoadFile.hpp"
-#include "Basic.hpp"
+#include "BasicObject.hpp"
 
-class BasicCreature
+class BasicCreature : public BasicObject
 {
 protected:
 	// 位置について
-	VECTOR area;	// キャラ位置
 	VECTOR preArea;	// 移動前の直前のキャラ位置
 	float angle;	// アングル
 
@@ -19,11 +16,6 @@ protected:
 	int modelHandle;	// モデルのハンドル
 	float modelHeight;	// モデルの高さ
 	float modelWigth;	// モデルの横幅
-
-	// 足元の影
-	float shadowHeight;
-	float shadowSize;
-	void ShadowFoot();
 
 	// モーションに関して
 	int attachMotion;			// モーションのアタッチ
@@ -37,13 +29,6 @@ protected:
 	void StageHit();							// 当たり判定を行う
 
 private:
-	// 足元の影
-	MV1_COLL_RESULT_POLY_DIM ShadowHitResDim;
-	MV1_COLL_RESULT_POLY *ShadowHitRes;
-	VERTEX3D ShadowVertex[3];
-	VECTOR ShadowSlideVec;
-	int shadowHandle;
-
 	// モーションに関して
 	float nowPlayTime;			// モーションの現在の時間
 	float motionBlendTime;		// ブレンド時間

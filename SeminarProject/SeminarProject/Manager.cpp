@@ -27,11 +27,11 @@ Manager::Manager()
 	move1str[0] = "media\\ステージモデル\\move1_graphic.myn";
 	move1str[1] = "media\\ステージモデル\\move1_hantei.myn";
 	move1str[2] = "media\\CLPH\\motion\\CLPH_motionALL.myn";
-	move1str[3] = "media\\white.pyn";
+	move1str[3] = "media\\剣\\sword.myn";
 	load1[0] = ELOADFILE::mv1model;
 	load1[1] = ELOADFILE::mv1model;
 	load1[2] = ELOADFILE::mv1model;
-	load1[3] = ELOADFILE::graph;
+	load1[3] = ELOADFILE::mv1model;
 
 	p_baseMove = NULL;
 	p_loadThread = NULL;

@@ -61,6 +61,12 @@
     <Filter Include="ヘッダー ファイル\Camera">
       <UniqueIdentifier>{e4d217f4-197a-410e-9dfb-93fadbc570e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Actor\Drop">
+      <UniqueIdentifier>{ac49d129-30ab-4055-9de8-3815c2dfea7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Actor\Drop">
+      <UniqueIdentifier>{f4fcd22c-325f-442e-87b4-e455a726e62d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItemMove1.cpp">
+      <Filter>ソース ファイル\Actor\Drop</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicObject.cpp">
+      <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="Camera.hpp">
       <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItemMove1.hpp">
+      <Filter>ヘッダー ファイル\Actor\Drop</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicObject.hpp">
+      <Filter>ヘッダー ファイル\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

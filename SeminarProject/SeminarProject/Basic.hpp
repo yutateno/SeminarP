@@ -1,3 +1,6 @@
+#include "DxLib.h"
+#include <math.h>
+
 #ifndef _BASIC_H
 #define _BASIC_H
 

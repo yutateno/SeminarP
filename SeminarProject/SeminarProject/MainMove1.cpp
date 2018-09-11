@@ -212,13 +212,15 @@ void MainMove1::LightProcess()
 			if (lightEventCount < 50)
 			{
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 - (lightEventCount * 2));
-				DrawGraph(0, 0, drawWhite, false);
+				//DrawGraph(0, 0, drawWhite, false);
+				DrawBox(0, 0, 1920, 1080, GetColor(255, 255, 255), true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 			}
 			else		// フェードインの処理をさせて戻す
 			{
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155 + ((lightEventCount - 50) * 2));
-				DrawGraph(0, 0, drawWhite, false);
+				//DrawGraph(0, 0, drawWhite, false);
+				DrawBox(0, 0, 1920, 1080, GetColor(255, 255, 255), true);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 			}
 			break;
@@ -248,6 +250,7 @@ MainMove1::MainMove1(std::vector<int> v_file)
 	p_camera	 = NULL;
 	p_character	 = NULL;
 	p_stage		 = NULL;
+	p_dropItem	 = NULL;
 	for (int i = 0; i != enemyNum; ++i)
 	{
 		s_enemyAggre[i].p_enemyMove = NULL;
@@ -258,6 +261,7 @@ MainMove1::MainMove1(std::vector<int> v_file)
 	p_stage		 = new Stage(v_file[EFILE1::drawStage]);									// ステージ初期化
 	p_character	 = new Character(v_file[EFILE1::character], v_file[EFILE1::collStage]);		// キャラクター初期化
 	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE1::collStage]);			// カメラ初期化
+	p_dropItem = new DropItemMove1(v_file[EFILE1::sword], v_file[EFILE1::collStage]);
 
 
 	// 敵生成に関する
@@ -291,21 +295,12 @@ MainMove1::MainMove1(std::vector<int> v_file)
 	lightRangePreMax = 0.0f;
 	lightRangeSpeed = 0.0f;
 	lightEnd = false;
-
-
-	// フェードイン用ホワイト画像
-	drawWhite = 0;
-	drawWhite = v_file[EFILE1::feedWhite];
 }
 
 
 // デストラクタ
 MainMove1::~MainMove1()
 {
-	if (drawWhite != 0)
-	{
-		DeleteGraph(drawWhite);
-	}
 	for (int i = 0; i != lightNum; ++i)
 	{
 		if (lightHandle[i] != -1 || lightHandle[i] != 0)
@@ -321,6 +316,11 @@ MainMove1::~MainMove1()
 			delete s_enemyAggre[i].p_enemyMove;
 			s_enemyAggre[i].p_enemyMove = NULL;
 		}
+	}
+	if (p_dropItem != NULL)
+	{
+		delete p_dropItem;
+		p_dropItem = NULL;
 	}
 	if (p_camera != NULL)
 	{
@@ -361,7 +361,12 @@ void MainMove1::Draw()
 	}
 
 
-#ifdef _DEBUG
+	if (catchEnemyNum == 30)
+	{
+		p_dropItem->Draw();				// 剣を描画
+	}
+
+#ifdef _MOVE1_DEBUG
 #ifdef _SEARCH_MODEL_DEBUG
 	for (int i = 0; i < enemyNum; ++i)
 	{
@@ -372,8 +377,8 @@ void MainMove1::Draw()
 		}
 	}
 #endif
-	//printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
-#endif // _DEBUG
+	printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
+#endif // _MOVE1_DEBUG
 
 }
 

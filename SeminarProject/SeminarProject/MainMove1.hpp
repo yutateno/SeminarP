@@ -4,13 +4,14 @@
 #include "EnemyMove1.hpp"
 #include "Camera.hpp"
 #include "BaseMove.hpp"
+#include "DropItemMove1.hpp"
 
 #include <random>
 
 class MainMove1 : public BaseMove
 {
 private:
-	enum EFILE1 { drawStage, collStage, character, feedWhite };				// ロードから渡されるファイルの順番
+	enum EFILE1 { drawStage, collStage, character, sword };				// ロードから渡されるファイルの順番
 
 
 	Stage* p_stage;					// ステージのポインタ
@@ -51,7 +52,7 @@ private:
 	int backgroundColor;		// 背景色
 
 
-	int drawWhite;			// フェードイン用ホワイト画像
+	DropItemMove1* p_dropItem;		// 落ちるアイテム（剣）
 
 
 #ifdef _DEBUG
