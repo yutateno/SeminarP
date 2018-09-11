@@ -67,6 +67,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			controllNumber = MY_XINPUT::NUM01;
 			firstControll = true;
 		}
+		else if (MY_XINPUT::InputPad::GetPadNum() == 0)
+		{
+			DrawFormatString(winWidth / 2, winHeight / 2, GetColor(0, 0, 180), "コントローラーが繋がっていません。終了します。");
+			if (controllCount >= 50)
+			{
+				break;
+			}
+		}
 		// コントローラーが２つ以上の時
 		if (!firstControll)
 		{
@@ -76,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (controllNumber == 5)
 			{
 				controllCount++;
-				DrawFormatString(winWidth / 2, winHeight / 2, GetColor(255, 255, 255), "コントローラーのAボタンを押してください。\nそれをコントローラーとして認証します。\n");
+				DrawFormatString(winWidth / 2, winHeight / 2, GetColor(0, 0, 180), "コントローラーのAボタンを押してください。\nそれをコントローラーとして認証します。\n");
 				if (controllCount >= 10)
 				{
 					if (MY_XINPUT::InputPad::GetPadButtonData(0, MY_XINPUT::BUTTON_A) == 1)		// １Pが入力された
@@ -108,11 +116,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				// 入力されない時間経過で動きを与える
 				if (controllCount >= COUNT && controllCount < COUNT + 400)
 				{
-					DrawFormatString(winWidth / 2, (winHeight / 2) + 100, GetColor(255, 255, 255), "入力を一定時間確認できません。再起動してみてください。\n");
+					DrawFormatString(winWidth / 2, (winHeight / 2) + 100, GetColor(0, 0, 180), "入力を一定時間確認できません。再起動してみてください。\n");
 				}
 				else if (controllCount >= COUNT + 400 && controllCount < COUNT + 550)		// 何かしら問題があると判断して終了させる
 				{
-					DrawFormatString(winWidth / 2, (winHeight / 2) + 100, GetColor(255, 255, 255), "問題が発生してると判断し、ゲームを終了します。\n");
+					DrawFormatString(winWidth / 2, (winHeight / 2) + 100, GetColor(0, 0, 180), "問題が発生してると判断し、ゲームを終了します。\n");
 				}
 				else if (controllCount >= COUNT + 550)
 				{
@@ -122,7 +130,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			else
 			{
 				controllCount++;
-				DrawFormatString(winWidth / 2, winHeight / 2, GetColor(255, 255, 255), "コントローラーナンバー：%d を確認しました。ゲームを開始します。\n", (controllNumber + 1));
+				DrawFormatString(winWidth / 2, winHeight / 2, GetColor(0, 0, 0), "コントローラーナンバー：%d を確認しました。ゲームを開始します。\n", (controllNumber + 1));
 				if (controllCount >= 100)
 				{
 					firstControll = true;

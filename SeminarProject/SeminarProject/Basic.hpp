@@ -1,5 +1,5 @@
 #pragma once
-#include "InputKey.hpp"		//			DxLib
+#include "InputKey.hpp"
 #include <math.h>
 
 
