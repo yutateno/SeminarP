@@ -1,37 +1,40 @@
 #pragma once
-#include "DxLib.h"
+#include "Basic.hpp"
 
-#include <math.h>
 
+// シーンの動き
 enum class ESceneNumber
 {
 	STARTLOAD, FIRSTMOVE
 };
 
+
 class BaseMove
 {
 private:
 	// 影に関して-----------------------------------------------
-	int shadowMapCharaHandle;
-	int shadowMapAnotherCharaHandle;
-	int shadowMapNoMoveHandle;
+	int shadowMapCharaHandle;				// キャラクターの影のハンドル
+	int shadowMapAnotherCharaHandle;		// キャラクター以外の動くアクターのハンドル
+	int shadowMapNoMoveHandle;				// 全く動かないやつのハンドル
 
-	VECTOR shadowCharaLowArea;
-	VECTOR shadowCharaHighArea;
+	VECTOR shadowCharaLowArea;				// キャラクターの影のマイナス範囲
+	VECTOR shadowCharaHighArea;				// キャラクターの影のプラス範囲
 
-	VECTOR shadowAnotherCharaLowArea;
-	VECTOR shadowAnotherCharaHighArea;
+	VECTOR shadowAnotherCharaLowArea;		// キャラクター以外動くやつの影のマイナス範囲
+	VECTOR shadowAnotherCharaHighArea;		// キャラクター以外動くやつの影のプラス範囲
 
-	VECTOR shadowNoMoveLowArea;
-	VECTOR shadowNoMoveHighArea;
+	VECTOR shadowNoMoveLowArea;				// 全く動かないやつの影のマイナス範囲
+	VECTOR shadowNoMoveHighArea;			// 全く動かないやつの影のプラス範囲
 
-	VECTOR lightDire;
+	VECTOR lightDire;						// ライトのディレクション方向
 	// ---------------------------------------------------------
 
+
 protected:
-	static bool endFlag;		// 終了フラッグ
+	static bool endFlag;		// シーンの終了フラッグ
 
 	static ESceneNumber scene;	// 現在のシーン
+
 
 	// 影に関して-----------------------------------------------
 	// シャドウマップ０番：主人公
@@ -63,15 +66,17 @@ protected:
 	void ShadowArea(VECTOR charaArea);
 	// ---------------------------------------------------------
 
+
 	// 二つのモデルの距離
 	int GetDistance(VECTOR alpha, VECTOR beta);
 
-public:
-	BaseMove();
-	virtual ~BaseMove();
 
-	virtual void Draw() = 0;
-	virtual void Process(unsigned __int8 controllNumber) = 0;
+public:
+	BaseMove();					// コンストラクタ
+	virtual ~BaseMove();		// デストラクタ
+
+	virtual void Draw() = 0;										// 描画
+	virtual void Process(unsigned __int8 controllNumber) = 0;		// プロセス
 
 	static bool GetEndFlag();		// 終了ゲッター
 	static ESceneNumber GetScene();	// 今のシーンゲッター

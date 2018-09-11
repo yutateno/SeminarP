@@ -1,4 +1,3 @@
-#include "InputKey.hpp"
 
 // モデルのサークルデバッグ表示
 //#define _MODEL_DEBUG

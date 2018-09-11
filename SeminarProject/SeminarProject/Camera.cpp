@@ -11,7 +11,6 @@ Camera::Camera(VECTOR charaarea, int collStageHandle)
 	viewArea = VGet(0, 150, 0);
 
 	charaArea = charaarea;
-	moveflag = false;
 
 	speed = DX_PI_F / 90;
 	angle = 0.0f;

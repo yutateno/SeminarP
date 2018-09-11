@@ -1,6 +1,7 @@
 #pragma once
 #include "BasicObject.hpp"
 
+
 class BasicCreature : public BasicObject
 {
 protected:
@@ -8,14 +9,17 @@ protected:
 	VECTOR preArea;	// 移動前の直前のキャラ位置
 	float angle;	// アングル
 
+
 	// 動きに関して
 	float walkSpeed;	// 移動スピード
 	float animSpeed;	// モーションスピード
+
 
 	// モデルに関して
 	int modelHandle;	// モデルのハンドル
 	float modelHeight;	// モデルの高さ
 	float modelWigth;	// モデルの横幅
+
 
 	// モーションに関して
 	int attachMotion;			// モーションのアタッチ
@@ -24,9 +28,11 @@ protected:
 	void Player_PlayAnim(int attach);		// モーション変更
 	void Player_AnimProcess();				// モーション動作
 
+
 	// 当たり判定
 	bool moveFlag;						// 動いているかどうか
 	void StageHit();							// 当たり判定を行う
+
 
 private:
 	// モーションに関して
@@ -34,6 +40,7 @@ private:
 	float motionBlendTime;		// ブレンド時間
 	int preAttach;				// 直前のモーションアタッチ
 	float preMotionPlayTime;	// 直前のモーション時間
+
 
 	// 当たり判定
 	int stageHandle;					// ステージハンドル
@@ -47,11 +54,14 @@ private:
 	MV1_COLL_RESULT_POLY* mainPoly;				// ポリゴンの構造体にアクセスする構造体
 	HITRESULT_LINE lineResult;					// 線分との判定を代入する構造体
 
+
 public:
 	BasicCreature(int collStageHandle);
 	virtual ~BasicCreature();
 
+
 	void Draw();		// 描画
+
 
 	VECTOR GetArea();
 };

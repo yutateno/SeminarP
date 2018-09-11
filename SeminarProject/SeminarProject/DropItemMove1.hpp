@@ -12,6 +12,7 @@ public:
 	DropItemMove1(int draw, int collStageHandle);
 	~DropItemMove1();
 
+
 	void Draw();
 };
 

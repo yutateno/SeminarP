@@ -1,11 +1,13 @@
 #pragma once
 #include "DxLib.h"
 
+
 class KeyData
 {
 private:
 	static int key[256];		// ƒL[‚Ì“ü—Íó‘ÔŠi”[—p•Ï”
 	static char tmpKey[256];	// Œ»İ‚ÌƒL[‚Ì“ü—Íó‘Ô‚ğŠi”[‚·‚é
+
 
 public:
 	KeyData() {};

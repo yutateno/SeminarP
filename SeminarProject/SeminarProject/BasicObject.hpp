@@ -1,24 +1,23 @@
 #pragma once
-#include "Basic.hpp"
 #include "LoadFile.hpp"
 
 
 class BasicObject
 {
 protected:
-	// 足元の影
-	float shadowHeight;
-	float shadowSize;
-	void ShadowFoot();
-	VECTOR area;
+	float shadowHeight;			// 足元影の高さ
+	float shadowSize;			// 足元影のサイズ
+	void ShadowFoot();			// 足元影のプロセス
+	VECTOR area;				// 足元影のエリア
+
 
 private:
-	// 足元の影
-	MV1_COLL_RESULT_POLY_DIM ShadowHitResDim;
-	MV1_COLL_RESULT_POLY *ShadowHitRes;
+	MV1_COLL_RESULT_POLY_DIM ShadowHitResDim;		// 周囲のポリゴンを代入する構造体
+	MV1_COLL_RESULT_POLY *ShadowHitRes;				// 影のポリゴンの構造体
 	VERTEX3D ShadowVertex[3];
 	VECTOR ShadowSlideVec;
 	int shadowHandle;
+
 
 	int stageHandle;
 

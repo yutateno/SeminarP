@@ -1,8 +1,8 @@
 #pragma once
+#include "Basic.hpp"
+
 #ifndef _ME_LoadFile_HPP
 #define _ME_LoadFile_HPP
-
-#include "DxLib.h"
 
 #include <iostream>
 #include <fstream>
@@ -11,9 +11,10 @@
 #include <thread>
 #include <mutex>
 
-#include "Basic.hpp"
 
+// 読み込むファイルの種類
 enum class ELOADFILE { graph, soundmem, fbxmodel, mv1model };
+
 
 class LoadFile
 {
@@ -22,8 +23,8 @@ private:
 	static unsigned int file_size(std::ifstream &fin);	// ファイル読み込み
 
 public:
-	LoadFile() {};
-	~LoadFile() {};
+	LoadFile() {};		// コンストラクタ
+	~LoadFile() {};		// デストラクタ
 
 
 	static void MyLoad(std::string path, int& file, ELOADFILE type);	// メディアのロードを行う

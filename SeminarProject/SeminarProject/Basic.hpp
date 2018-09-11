@@ -1,5 +1,7 @@
-#include "DxLib.h"
+#pragma once
+#include "InputKey.hpp"		//			DxLib
 #include <math.h>
+
 
 #ifndef _BASIC_H
 #define _BASIC_H
