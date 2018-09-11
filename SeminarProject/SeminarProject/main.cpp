@@ -1,7 +1,3 @@
-//#include "MainMove1.hpp"
-//#include "LoadThread.hpp"
-//#include "BaseMove.hpp"
-//#include "LoadScreen.hpp"
 #include "Manager.hpp"
 
 // ウィンドウサイズ

@@ -116,6 +116,8 @@ namespace MY_XINPUT	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 			, short rightPad_right = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_left = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
 			, short rightPad_up = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_down = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);		// デッドゾーンの設定値変更  // (ある程度楽したいので一応デフォルト引数乱用)
 
+		static void InitPadDeadZone();			// デッドゾーンを初期値に戻す
+
 		static int GetPadNum();																// コントローラの数
 		static int GetPadButtonData(unsigned __int8 use_padnum, unsigned __int8 use_button);			// コントローラのボタン操作
 		static int GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerLeft);				// コントローラのトリガー操作

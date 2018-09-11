@@ -71,7 +71,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * walkSpeed;
 		area.z += sinf(-angle) * walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-BASIC::MAX_STICK_MINUS;
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-(BASIC::MAX_STICK_MINUS);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -84,7 +84,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * -walkSpeed;
 		area.z += sinf(-angle) * -walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)BASIC::MAX_STICK_PLUS;
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)(BASIC::MAX_STICK_PLUS);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -154,7 +154,10 @@ Character::~Character()
 void Character::Process(unsigned __int8 controllNumber, float getAngle)
 {
 	preArea = area;		// 直前の座標
-	angle = getAngle;	// カメラ向きのアングル
+	if (moveFlag)
+	{
+		angle = getAngle;	// カメラ向きのアングル
+	}
 
 	// 動きのプロセス
 	MoveProcess(controllNumber);
@@ -186,4 +189,7 @@ void Character::Draw()
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
 #endif // _MODEL_DEBUG
+#ifdef _DEBUG
+	printfDx("XAngle:%f\tZAngle%f\t左:%d\t上:%d\n", direXAngle, direZAngle, InputPad::GetPadThumbData(0, STICK_LEFT_X), InputPad::GetPadThumbData(0, STICK_LEFT_Y));
+#endif // _DEBUG
 }

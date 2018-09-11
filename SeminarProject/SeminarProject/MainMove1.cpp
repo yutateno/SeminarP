@@ -27,37 +27,35 @@ void MainMove1::ActorHit()
 // ライトに関する
 void MainMove1::LightProcess()
 {
+	// 光源の情報を更新させる
 	for (int i = 0; i != lightNum; ++i)
 	{
-		SetLightRangeAttenHandle(lightHandle[i], lightRange[i], 0.0f, 0.002f, 0.0f);
-		SetLightPositionHandle(lightHandle[i], lightArea[i]);
+		SetLightRangeAttenHandle(lightHandle[i], lightRange[i], 0.0f, 0.002f, 0.0f);		// 光源の広さを更新
+		SetLightPositionHandle(lightHandle[i], lightArea[i]);								// 光源の位置を更新
 	}
 
 
+	// 玉の個数で判断させる
 	switch (catchEnemyNum)
 	{
-	case 1:
+	case 1:		// 一つ目を有効にする
 		SetLightEnableHandle(lightHandle[0], TRUE);
 		break;
 
 
-	case 2:
+	case 2:		// 二つ目を有効にする
 		SetLightEnableHandle(lightHandle[1], TRUE);
 		break;
 
 
-	case 3:
+	case 3:		// 三つ目を有効にする
 		SetLightEnableHandle(lightHandle[2], TRUE);
 		break;
 
 
-	case 4:
+	case 4:		// 四つ目を有効にしつつ地面の明るさをじわじわ広げる
 		if (!lightEventStart && !lightEventEnd)
 		{
-			lightRange[0] = 1000.0f;
-			lightRange[1] = 1000.0f;
-			lightRange[2] = 1000.0f;
-			lightRange[3] = 1000.0f;
 			lightEventCount = 0;
 			lightRangeSpeed = 7.0f;
 			lightRangePreMax = 1000.0f;
@@ -66,12 +64,12 @@ void MainMove1::LightProcess()
 		break;
 
 
-	case 5:
+	case 5:		// フラグを倒す
 		lightEventEnd = false;
 		break;
 
 
-	case 7:
+	case 7:		// 地面の明るさを広くする
 		if (!lightEventStart && !lightEventEnd)
 		{
 			lightEventCount = 0;
@@ -82,12 +80,12 @@ void MainMove1::LightProcess()
 		break;
 
 		
-	case 8:
+	case 8:		// フラグを倒す
 		lightEventEnd = false;
 		break;
 
 
-	case 12:
+	case 12:	// 地面の明るさを広くする
 		if (!lightEventStart && !lightEventEnd)
 		{
 			lightEventCount = 0;
@@ -98,12 +96,12 @@ void MainMove1::LightProcess()
 		break;
 
 
-	case 13:
+	case 13:	// フラグを倒す
 		lightEventEnd = false;
 		break;
 
 
-	case 19:
+	case 19:	// 地面の明るさを広くする
 		if (!lightEventStart && !lightEventEnd)
 		{
 			lightEventCount = 0;
@@ -114,12 +112,12 @@ void MainMove1::LightProcess()
 		break;
 
 
-	case 20:
+	case 20:	// フラグを倒す
 		lightEventEnd = false;
 		break;
 
 
-	case 29:
+	case 29:	// 地面の明るさを広くする
 		if (!lightEventStart && !lightEventEnd)
 		{
 			lightEventCount = 0;
@@ -130,7 +128,7 @@ void MainMove1::LightProcess()
 		break;
 
 
-	case 30:
+	case 30:	// 光源を消して自然光源を通常にする
 		if (!lightEnd && !lightEventStart)
 		{
 			lightEventCount = 0;
@@ -145,48 +143,56 @@ void MainMove1::LightProcess()
 	}
 	
 
+	// イベントを開始する
 	if (lightEventStart)
 	{
-		lightEventCount++;
+		lightEventCount++;		// カウントを続ける
+
+		// 光源の明るさを広げる
 		lightRange[0] = lightRangePreMax + lightEventCount * lightRangeSpeed;
 		lightRange[1] = lightRangePreMax + lightEventCount * lightRangeSpeed;
 		lightRange[2] = lightRangePreMax + lightEventCount * lightRangeSpeed;
 		lightRange[3] = lightRangePreMax + lightEventCount * lightRangeSpeed; 
 		
 
+		// カウントが規定以上になったら
 		if (lightEventCount >= 100)
 		{
-			lightEventStart = false;
-			lightEventEnd = true;
+			lightEventStart = false;		// イベントの開始のフラグを倒す
+			lightEventEnd = true;			// イベントの終了のフラグを上げる
+
+			
+			// 全ての玉を手に入れたら
 			if (catchEnemyNum == 30)
 			{
 				for (int i = 0; i != lightNum; ++i)
 				{
-					DeleteLightHandle(lightHandle[i]);
+					DeleteLightHandle(lightHandle[i]);		// 光源を消す
 					lightHandle[i] = 0;
-					SetLightEnable(TRUE);
-					p_character->PositionReset();
+					SetLightEnable(TRUE);					// 自然光源を有効にする
+					p_character->PositionReset();			// キャラクターのポジションを元に戻す
 				}
 			}
 		}
 
 
+		// 個数によるイベントの違い
 		switch (catchEnemyNum)
 		{
-		case 4:
+		case 4:			// 地面を明るくする
 			if (lightEventCount >= 10)
 			{
-				SetLightEnableHandle(lightHandle[3], TRUE);
+				SetLightEnableHandle(lightHandle[3], TRUE);		// 四つ目の光源を出す
 			}
 			break;
 
 
-		case 12:
+		case 12:		// 背景を明るくする
 			backgroundColor = GetColor(lightEventCount, lightEventCount, lightEventCount);
 			break;
 
 
-		case 19:
+		case 19:		// 背景を明るくしつつ光源をカメラの方向に動かす
 			lightArea[0].z = -630.0f + lightEventCount * 5;
 			lightArea[1].z = -630.0f + lightEventCount * 4;
 			lightArea[2].z = -630.0f + lightEventCount * 3;
@@ -195,21 +201,21 @@ void MainMove1::LightProcess()
 			break;
 
 
-		case 29:
+		case 29:		// 背景を明るくする
 			backgroundColor = GetColor(lightEventCount / 2 + 150, lightEventCount / 2 + 150, lightEventCount / 2 + 150);
 			break;
 
 
-		case 30:
+		case 30:		// 背景を明るくしつつまぶしくさせてる間に光源を消して自然光源に切り替える
 			backgroundColor = GetColor(lightEventCount + 155, lightEventCount + 155, lightEventCount + 155);
-			// フェードインフェードアウト関連
+			// フェードアウトの処理をさせてまぶしくする
 			if (lightEventCount < 50)
 			{
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 - (lightEventCount * 2));
 				DrawGraph(0, 0, drawWhite, false);
 				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 			}
-			else
+			else		// フェードインの処理をさせて戻す
 			{
 				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155 + ((lightEventCount - 50) * 2));
 				DrawGraph(0, 0, drawWhite, false);
@@ -366,7 +372,7 @@ void MainMove1::Draw()
 		}
 	}
 #endif
-	printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
+	//printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
 #endif // _DEBUG
 
 }
@@ -408,11 +414,11 @@ void MainMove1::DebugKeyControll()
 {
 	if (KeyData::Get(KEY_INPUT_Z) == 1)
 	{
-		s_enemyAggre[catchEnemyNum - 1].aliveNow = false;
 		if (catchEnemyNum != 30)
 		{
 			catchEnemyNum++;
 		}
+		s_enemyAggre[catchEnemyNum - 1].aliveNow = false;
 	}
 	if (KeyData::Get(KEY_INPUT_H) == 1)
 	{

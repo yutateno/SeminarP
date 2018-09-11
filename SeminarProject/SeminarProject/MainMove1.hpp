@@ -12,9 +12,11 @@ class MainMove1 : public BaseMove
 private:
 	enum EFILE1 { drawStage, collStage, character, feedWhite };				// ロードから渡されるファイルの順番
 
+
 	Stage* p_stage;					// ステージのポインタ
 	Character* p_character;			// キャラクターのポインタ
 	const int enemyNum = 30;		// 敵の数
+
 
 	struct EnemyAggre
 	{
@@ -26,10 +28,10 @@ private:
 
 	Camera* p_camera;					// カメラのポインタ
 
+
 	void ActorHit();				// アクター同士のあたり判定(簡易)
 	int catchEnemyNum;				// 敵を手に入れた数
 
-	//void ShadowDraw();			// 影
 
 	const int lightNum = 4;			// ライトハンドルの数
 	int lightHandle[4];			// ライトハンドル情報保持
@@ -37,14 +39,17 @@ private:
 	VECTOR lightArea[4];				// ライトの座標
 	void LightProcess();				// ライトに関する関数
 
+
 	bool lightEventStart;				// イベントを行う
 	bool lightEventEnd;					// イベントの終了を確認
 	int lightEventCount;				// イベントのカウント
 	bool lightEnd;						// ライトを消す
-	float lightRangePreMax;
-	float lightRangeSpeed;
+	float lightRangePreMax;				// 光源の広さの直前マックス
+	float lightRangeSpeed;				// 光源の広さを広げるスピード
+
 
 	int backgroundColor;		// 背景色
+
 
 	int drawWhite;			// フェードイン用ホワイト画像
 

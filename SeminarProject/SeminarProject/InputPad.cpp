@@ -268,12 +268,24 @@ int InputPad::GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_st
 void InputPad::SetPadDeadZone(short leftPad_right, short leftPad_left
 	, short leftPad_up, short leftPad_down, short rightPad_right, short rightPad_left, short rightPad_up, short rightPad_down)
 {
-	InputPad::stickDeadZone.LEFT_RIGHT = (leftPad_right == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_right;
-	InputPad::stickDeadZone.LEFT_LEFT = (leftPad_left == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_left;
-	InputPad::stickDeadZone.LEFT_UP = (leftPad_up == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_up;
-	InputPad::stickDeadZone.LEFT_DOWN = (leftPad_down == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_down;
-	InputPad::stickDeadZone.RIGHT_RIGHT = (rightPad_right == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_right;
-	InputPad::stickDeadZone.RIGHT_LEFT = (rightPad_left == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_left;
-	InputPad::stickDeadZone.RIGHT_UP = (rightPad_up == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_up;
-	InputPad::stickDeadZone.RIGHT_DOWN = (rightPad_down == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_down;
+	InputPad::stickDeadZone.LEFT_RIGHT	 = (leftPad_right	 == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)		 ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_right;
+	InputPad::stickDeadZone.LEFT_LEFT	 = (leftPad_left	 == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)	 ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_left;
+	InputPad::stickDeadZone.LEFT_UP		 = (leftPad_up		 == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)		 ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_up;
+	InputPad::stickDeadZone.LEFT_DOWN	 = (leftPad_down	 == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)	 ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_down;
+	InputPad::stickDeadZone.RIGHT_RIGHT	 = (rightPad_right	 == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)	 ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_right;
+	InputPad::stickDeadZone.RIGHT_LEFT	 = (rightPad_left	 == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)	 ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_left;
+	InputPad::stickDeadZone.RIGHT_UP	 = (rightPad_up		 == XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)	 ? XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_up;
+	InputPad::stickDeadZone.RIGHT_DOWN	 = (rightPad_down	 == -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)	 ? -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE : rightPad_down;
+}
+
+void MY_XINPUT::InputPad::InitPadDeadZone()
+{
+	InputPad::stickDeadZone.LEFT_RIGHT	 = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.LEFT_LEFT	 = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.LEFT_UP		 = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.LEFT_DOWN	 = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.RIGHT_RIGHT	 = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.RIGHT_LEFT	 = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.RIGHT_UP	 = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
+	InputPad::stickDeadZone.RIGHT_DOWN	 = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 }
