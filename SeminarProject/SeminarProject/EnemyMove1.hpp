@@ -5,9 +5,6 @@
 class EnemyMove1 : public BasicCreature
 {
 private:
-	int draw;
-
-
 	// 動きに関して
 	bool upNow;					// 今上がり中かどうか
 	float flyMove;				// 上下のスピード

@@ -48,18 +48,18 @@ Manager::Manager()
 	move1str[1] = "media\\ステージモデル\\move1_hantei.myn";
 	move1str[2] = "media\\CLPH\\motion\\CLPH_motionALL.myn";
 	move1str[3] = "media\\剣\\sword.myn";
+	move1str[4] = "media\\sound\\タイトル（オルゴール）.wyn";
 	load1[0] = ELOADFILE::mv1model;
 	load1[1] = ELOADFILE::mv1model;
 	load1[2] = ELOADFILE::mv1model;
 	load1[3] = ELOADFILE::mv1model;
+	load1[4] = ELOADFILE::soundmem;
 
 
 	move2str[0] = "media\\ステージモデル\\move1_hantei.myn";
 	move2str[1] = "media\\CLPH\\motion\\CLPH_Nobirubinta.myn";
-	move2str[2] = "media\\CLPH\\motion\\CLPH_motionALL.myn";
 	load2[0] = ELOADFILE::mv1model;
 	load2[1] = ELOADFILE::mv1model;
-	load2[2] = ELOADFILE::mv1model;
 
 
 	p_baseMove = NULL;

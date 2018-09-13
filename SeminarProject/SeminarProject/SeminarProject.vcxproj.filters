@@ -126,6 +126,9 @@
     <ClCompile Include="OrdinaryPerson.cpp">
       <Filter>ソース ファイル\Actor\Creature\Character</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyMove2.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="OrdinaryPerson.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMove2.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

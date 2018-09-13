@@ -52,7 +52,6 @@ void OrdinaryPerson::MoveProcess()
 	}
 
 
-	// 左スティックが前に押されたら前進する
 	if (moveCount >= 400)
 	{
 		moveCount = 0;
@@ -97,7 +96,7 @@ void OrdinaryPerson::MoveProcess()
 }
 
 
-OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
+OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle, VECTOR area) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -119,8 +118,8 @@ OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle) : BasicCrea
 
 
 	// モデルの向きと位置
-	area = VGet(1000.0f, 0.0f, 1000.0f);
-	preArea = area;
+	this->area = VGet(1000.0f, 0.0f, 1000.0f);
+	preArea = this->area;
 	direXAngle = 0.0f;
 	direZAngle = 0.0f;
 	nextDireZAngle = 0.0f;
@@ -141,7 +140,7 @@ OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle) : BasicCrea
 
 
 	// モデルの座標を更新
-	MV1SetPosition(this->modelHandle, area);
+	MV1SetPosition(this->modelHandle, this->area);
 }
 
 

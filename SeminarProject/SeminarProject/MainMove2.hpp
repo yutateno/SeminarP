@@ -1,7 +1,7 @@
 #pragma once
 #include "Stage.hpp"
 #include "CharacterSword.hpp"
-#include "OrdinaryPerson.hpp"
+#include "EnemyMove2.hpp"
 #include "Camera.hpp"
 #include "BaseMove.hpp"
 
@@ -11,7 +11,7 @@
 class MainMove2 : public BaseMove
 {
 private:
-	enum EFILE { stage, characterAttack, character };			// ロードで渡されるファイル
+	enum EFILE { stage, characterAttack };			// ロードで渡されるファイル
 
 
 	// ステージ
@@ -23,7 +23,7 @@ private:
 
 
 	// 一般人
-	OrdinaryPerson* p_person[50];				// 敵のポインタ
+	EnemyMove2* p_enemy;				// 敵のポインタ
 
 
 	// カメラ

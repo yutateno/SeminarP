@@ -12,7 +12,7 @@
 class MainMove1 : public BaseMove
 {
 private:
-	enum EFILE { drawStage, collStage, character, sword };				// ロードから渡されるファイルの順番
+	enum EFILE { drawStage, collStage, character, sword, sound };				// ロードから渡されるファイルの順番
 
 	// ステージ
 	Stage* p_stage;					// ステージのポインタ
@@ -63,6 +63,10 @@ private:
 	// 落ちてる剣
 	DropItemMove1* p_dropItem;		// 落ちるアイテム（剣）
 	bool touchSword;				// 落ちてるアイテムに触れる
+
+
+	// サウンド
+	int soundBG;
 
 
 #ifdef _DEBUG

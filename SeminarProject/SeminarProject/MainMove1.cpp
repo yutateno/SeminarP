@@ -304,12 +304,21 @@ MainMove1::MainMove1(std::vector<int> v_file)
 
 
 	touchSword = false;
+
+
+	soundBG = v_file[EFILE::sound];
+	ChangeVolumeSoundMem(150, soundBG);
+	PlaySoundMem(soundBG, DX_PLAYTYPE_LOOP);
 }
 
 
 // デストラクタ
 MainMove1::~MainMove1()
 {
+	StopSoundMem(soundBG);
+	DeleteSoundMem(soundBG);
+	soundBG = 0;
+
 	for (int i = 0; i != lightNum; ++i)
 	{
 		if (lightHandle[i] != -1 || lightHandle[i] != 0)

@@ -20,16 +20,16 @@ private:
 
 
 	// ムーブ１に関する
-	const int max1 = 4;
-	std::string move1str[4];
-	ELOADFILE load1[4];
+	const int max1 = 5;
+	std::string move1str[5];
+	ELOADFILE load1[5];
 
 
 
 	// ムーブ２に関する
-	const int max2 = 3;
-	std::string move2str[3];
-	ELOADFILE load2[3];
+	const int max2 = 2;
+	std::string move2str[2];
+	ELOADFILE load2[2];
 
 
 

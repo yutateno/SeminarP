@@ -25,7 +25,7 @@ private:
 
 
 public:
-	OrdinaryPerson(int modelHandle, int collStageHandle);
+	OrdinaryPerson(int modelHandle, int collStageHandle, VECTOR area);
 	~OrdinaryPerson();
 
 
