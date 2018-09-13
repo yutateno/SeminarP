@@ -2,6 +2,7 @@
 #include "BaseMove.hpp"
 #include "MainMove1.hpp"
 #include "LoadThread.hpp"
+#include "MainMove2.hpp"
 
 
 class Manager
@@ -22,6 +23,13 @@ private:
 	const int max1 = 4;
 	std::string move1str[4];
 	ELOADFILE load1[4];
+
+
+
+	// ÉÄÅ[ÉuÇQÇ…ä÷Ç∑ÇÈ
+	const int max2 = 3;
+	std::string move2str[3];
+	ELOADFILE load2[3];
 
 
 

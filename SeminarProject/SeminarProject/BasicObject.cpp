@@ -112,3 +112,20 @@ BasicObject::~BasicObject()
 		MV1DeleteModel(stageHandle);
 	}
 }
+
+
+// 今の座標を渡す用ゲッター
+VECTOR BasicObject::GetArea()
+{
+	return area;
+}
+
+
+// 描画
+void BasicObject::Draw()
+{
+	if (!CheckCameraViewClip(VAdd(area, VGet(0.0f, modelHeight, 0.0f))))
+	{
+		MV1DrawModel(modelHandle);
+	}
+}

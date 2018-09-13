@@ -93,6 +93,15 @@ int BaseMove::GetDistance(VECTOR alpha, VECTOR beta)
 
 BaseMove::BaseMove()
 {
+	SetLightEnable(TRUE);
+
+
+	// フォグに関する
+	SetFogEnable(TRUE);					// フォグを有効にする
+	SetFogColor(128, 128, 128);			// フォグの色にする
+	SetFogStartEnd(6000.0f, 10000.0f);	// フォグの開始距離
+
+
 	// シャドウマップハンドルの作成
 	shadowMapCharaHandle = MakeShadowMap(4096, 4096);
 	shadowMapAnotherCharaHandle = MakeShadowMap(512, 512);

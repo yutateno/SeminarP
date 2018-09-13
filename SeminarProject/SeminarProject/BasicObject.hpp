@@ -11,6 +11,12 @@ protected:
 	VECTOR area;				// 足元影のエリア
 
 
+	int modelHandle;	// モデルのハンドル
+
+
+	float modelHeight;	// モデルの高さ
+
+
 private:
 	MV1_COLL_RESULT_POLY_DIM ShadowHitResDim;		// 周囲のポリゴンを代入する構造体
 	MV1_COLL_RESULT_POLY *ShadowHitRes;				// 影のポリゴンの構造体
@@ -25,5 +31,10 @@ private:
 public:
 	BasicObject(int collStageHandle);
 	virtual ~BasicObject();
+
+
+	VECTOR GetArea();
+
+	void Draw();		// 描画
 };
 

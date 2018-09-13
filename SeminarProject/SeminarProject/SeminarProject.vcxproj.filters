@@ -117,6 +117,15 @@
     <ClCompile Include="BasicObject.cpp">
       <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterSword.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMove2.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMove2.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp">
@@ -169,6 +178,15 @@
     </ClInclude>
     <ClInclude Include="BasicObject.hpp">
       <Filter>ヘッダー ファイル\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterSword.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMove2.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove2.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

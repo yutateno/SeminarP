@@ -15,4 +15,4 @@
 #define _MOVE1_DEBUG
 
 // ムーブ１で落ちてる剣のクラスのデバッグ
-#define _DROPITEM1_DEBUG
+//#define _DROPITEM1_DEBUG

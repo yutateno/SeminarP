@@ -27,7 +27,7 @@ void DropItemMove1::Draw()
 	BasicObject::ShadowFoot();
 
 
-	MV1DrawModel(draw);
+	BasicObject::Draw();
 
 #ifdef _DROPITEM1_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, 1.0f, 0.0f)), 80.0f, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト

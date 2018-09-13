@@ -1,10 +1,10 @@
-#include "Character.hpp"
+#include "CharacterSword.hpp"
 
 using namespace MY_XINPUT;
 
 
 // 動きのプロセス
-void Character::MoveProcess(unsigned __int8 controllNumber)
+void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 {
 	// スムーズに動かせる
 	if (moveFlag)
@@ -54,7 +54,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = 0.0f;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::walk);
+		Player_PlayAnim(MOTION::no);
 	}
 	// 左スティックが後ろに押されたら後退する
 	if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
@@ -64,7 +64,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = DX_PI_F;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::walk);
+		Player_PlayAnim(MOTION::no);
 	}
 
 	// 左スティックが左に押されたら左に移動する
@@ -78,7 +78,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::walk);
+		Player_PlayAnim(MOTION::no);
 	}
 	// 左スティックが右に押されたら右に移動する
 	else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
@@ -91,7 +91,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::walk);
+		Player_PlayAnim(MOTION::no);
 	}
 	// キャラの前後の向きを気持ちよくするため
 	else
@@ -99,14 +99,18 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) == 0)
 		{
 			moveFlag = false;
-			Player_PlayAnim(MOTION::idle);
+			Player_PlayAnim(MOTION::no);
 		}
+	}
+
+	if (InputPad::GetPadButtonData(controllNumber, BUTTON_X) == 1)
+	{
+		Player_PlayAnim(MOTION::attack);
 	}
 }
 
 
-// コンストラクタ
-Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
+CharacterSword::CharacterSword(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -114,7 +118,7 @@ Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collS
 
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
-	attachNum = MOTION::idle;
+	attachNum = MOTION::no;
 	attachMotion = MV1AttachAnim(this->modelHandle, attachNum, -1, FALSE);
 
 
@@ -148,8 +152,8 @@ Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collS
 	MV1SetPosition(this->modelHandle, area);
 }
 
-// デストラクタ
-Character::~Character()
+
+CharacterSword::~CharacterSword()
 {
 	if (modelHandle != -1)
 	{
@@ -159,7 +163,7 @@ Character::~Character()
 
 
 // メインプロセス
-void Character::Process(unsigned __int8 controllNumber, float getAngle)
+void CharacterSword::Process(unsigned __int8 controllNumber, float getAngle)
 {
 	preArea = area;		// 直前の座標
 	if (moveFlag)
@@ -183,14 +187,14 @@ void Character::Process(unsigned __int8 controllNumber, float getAngle)
 }
 
 
-void Character::PositionReset()
+void CharacterSword::PositionReset()
 {
 	area = VGet(0.0f, 0.0f, 0.0f);
 }
 
 
 // 描画
-void Character::Draw()
+void CharacterSword::Draw()
 {
 	BasicObject::Draw();		// 基本的なものを引っ張ってくる
 

@@ -15,7 +15,7 @@ Camera::Camera(VECTOR charaarea, int collStageHandle)
 	speed = DX_PI_F / 90;
 	angle = 0.0f;
 
-	SetCameraNearFar(100.0f, 8000.0f);	// カメラの描画範囲を指定
+	SetCameraNearFar(100.0f, 20000.0f);	// カメラの描画範囲を指定
 
 	// 第一引数の視点から第二引数のターゲットを見る角度にカメラを設置
 	SetCameraPositionAndTarget_UpVecY(VAdd(cameraArea, charaArea), VAdd(viewArea, charaArea));

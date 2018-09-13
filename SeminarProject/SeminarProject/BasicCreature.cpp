@@ -319,16 +319,3 @@ BasicCreature::~BasicCreature()
 		MV1DeleteModel(stageHandle);
 	}
 }
-
-
-// 描画
-void BasicCreature::Draw()
-{
-	MV1DrawModel(modelHandle);
-}
-
-// 今の座標を渡す用ゲッター
-VECTOR BasicCreature::GetArea()
-{
-	return area;
-}

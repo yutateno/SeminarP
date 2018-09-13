@@ -5,15 +5,35 @@ void Manager::SceneChange()
 {
 	switch (e_nowScene)
 	{
+	case ESceneNumber::STARTLOAD:
+		p_loadThread = new LoadThread();
+		break;
+
+
 	case ESceneNumber::FIRSTMOVE:
 		p_baseMove = new MainMove1(p_loadThread->GetFile());
 		p_baseMove->SetScene(e_nowScene);
 		delete p_loadThread;
 		p_loadThread = NULL;
 		break;
-	case ESceneNumber::STARTLOAD:
+
+
+		
+	case ESceneNumber::SECONDLOAD:
+		delete p_baseMove;
+		p_baseMove = NULL;
 		p_loadThread = new LoadThread();
 		break;
+
+
+	case ESceneNumber::SECONDMOVE:
+		p_baseMove = new MainMove2(p_loadThread->GetFile());
+		p_baseMove->SetScene(e_nowScene);
+		delete p_loadThread;
+		p_loadThread = NULL;
+		break;
+
+
 	default:
 		break;
 	}
@@ -32,6 +52,15 @@ Manager::Manager()
 	load1[1] = ELOADFILE::mv1model;
 	load1[2] = ELOADFILE::mv1model;
 	load1[3] = ELOADFILE::mv1model;
+
+
+	move2str[0] = "media\\ステージモデル\\move1_hantei.myn";
+	move2str[1] = "media\\CLPH\\motion\\CLPH_Nobirubinta.myn";
+	move2str[2] = "media\\CLPH\\motion\\CLPH_motionALL.myn";
+	load2[0] = ELOADFILE::mv1model;
+	load2[1] = ELOADFILE::mv1model;
+	load2[2] = ELOADFILE::mv1model;
+
 
 	p_baseMove = NULL;
 	p_loadThread = NULL;
@@ -67,6 +96,17 @@ void Manager::Update(unsigned __int8 controllNumber)
 				}
 			}
 		}
+		else if (e_preScene == ESceneNumber::SECONDLOAD)
+		{
+			p_loadThread->Process(max2, move2str, load2);		// ロードをする
+			if (p_loadThread->GetNum() >= max2)		// ロードが終了したら
+			{
+				if (KeyData::Get(KEY_INPUT_Z) == 1)			// 終わったら一操作
+				{
+					e_nowScene = ESceneNumber::SECONDMOVE;
+				}
+			}
+		}
 		else
 		{
 			p_baseMove->Draw();
@@ -79,4 +119,6 @@ void Manager::Update(unsigned __int8 controllNumber)
 		SceneChange();
 		e_preScene = e_nowScene;
 	}
+
+	//printfDx("now:%d\tpre:%d\n", e_nowScene, e_preScene);
 }

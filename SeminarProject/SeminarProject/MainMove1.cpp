@@ -20,6 +20,12 @@ void MainMove1::ActorHit()
 			}
 		}
 	}
+
+	if (catchEnemyNum == 30 && lightEventEnd
+		&& BaseMove::GetDistance(p_character->GetArea(), p_dropItem->GetArea()) <= 60)
+	{
+		touchSword = true;
+	}
 }
 
 
@@ -237,9 +243,9 @@ MainMove1::MainMove1(std::vector<int> v_file)
 
 
 	// フォグに関する
-	SetFogEnable(TRUE);					// フォグを有効にする
-	SetFogColor(128, 128, 128);			// フォグの色にする
-	SetFogStartEnd(8000.0f, 10000.0f);	// フォグの開始距離
+	SetFogEnable(FALSE);					// フォグを有効にする
+	//SetFogColor(128, 128, 128);			// フォグの色にする
+	//SetFogStartEnd(8000.0f, 10000.0f);	// フォグの開始距離
 
 
 	// 背景色に関する
@@ -258,10 +264,10 @@ MainMove1::MainMove1(std::vector<int> v_file)
 
 
 	// 敵以外のポインタの初期化
-	p_stage		 = new Stage(v_file[EFILE1::drawStage]);									// ステージ初期化
-	p_character	 = new Character(v_file[EFILE1::character], v_file[EFILE1::collStage]);		// キャラクター初期化
-	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE1::collStage]);			// カメラ初期化
-	p_dropItem = new DropItemMove1(v_file[EFILE1::sword], v_file[EFILE1::collStage]);
+	p_stage		 = new Stage(v_file[EFILE::drawStage]);									// ステージ初期化
+	p_character	 = new Character(v_file[EFILE::character], v_file[EFILE::collStage]);		// キャラクター初期化
+	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE::collStage]);			// カメラ初期化
+	p_dropItem = new DropItemMove1(v_file[EFILE::sword], v_file[EFILE::collStage]);
 
 
 	// 敵生成に関する
@@ -295,6 +301,9 @@ MainMove1::MainMove1(std::vector<int> v_file)
 	lightRangePreMax = 0.0f;
 	lightRangeSpeed = 0.0f;
 	lightEnd = false;
+
+
+	touchSword = false;
 }
 
 
@@ -377,7 +386,7 @@ void MainMove1::Draw()
 		}
 	}
 #endif
-	printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
+	//printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
 #endif // _MOVE1_DEBUG
 
 }
@@ -492,6 +501,11 @@ void MainMove1::DebugKeyControll()
 			lightArea[i].x += 10.0f;
 			SetLightPositionHandle(lightHandle[i], lightArea[i]);
 		}
+	}
+
+	if (KeyData::Get(KEY_INPUT_K) == 1)
+	{
+		scene = ESceneNumber::SECONDLOAD;
 	}
 }
 #endif // _DEBUG

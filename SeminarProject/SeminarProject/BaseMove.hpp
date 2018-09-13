@@ -5,7 +5,7 @@
 // ƒV[ƒ“‚Ì“®‚«
 enum class ESceneNumber
 {
-	STARTLOAD, FIRSTMOVE
+	STARTLOAD, FIRSTMOVE, SECONDLOAD, SECONDMOVE
 };
 
 

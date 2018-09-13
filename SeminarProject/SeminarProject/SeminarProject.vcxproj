@@ -156,8 +156,10 @@
     <ClCompile Include="BasicObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterSword.cpp" />
     <ClCompile Include="DropItemMove1.cpp" />
     <ClCompile Include="EnemyMove1.cpp" />
+    <ClCompile Include="EnemyMove2.cpp" />
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="InputPad.cpp" />
     <ClCompile Include="LoadFile.cpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="LoadThread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMove1.cpp" />
+    <ClCompile Include="MainMove2.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
@@ -176,14 +179,17 @@
     <ClInclude Include="BasicObject.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Character.hpp" />
+    <ClInclude Include="CharacterSword.hpp" />
     <ClInclude Include="DropItemMove1.hpp" />
     <ClInclude Include="EnemyMove1.hpp" />
+    <ClInclude Include="EnemyMove2.hpp" />
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="InputPad.hpp" />
     <ClInclude Include="LoadFile.hpp" />
     <ClInclude Include="LoadScreen.hpp" />
     <ClInclude Include="LoadThread.hpp" />
     <ClInclude Include="MainMove1.hpp" />
+    <ClInclude Include="MainMove2.hpp" />
     <ClInclude Include="Manager.hpp" />
     <ClInclude Include="Stage.hpp" />
   </ItemGroup>

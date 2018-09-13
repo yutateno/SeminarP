@@ -16,8 +16,6 @@ protected:
 
 
 	// モデルに関して
-	int modelHandle;	// モデルのハンドル
-	float modelHeight;	// モデルの高さ
 	float modelWigth;	// モデルの横幅
 
 
@@ -58,10 +56,4 @@ private:
 public:
 	BasicCreature(int collStageHandle);
 	virtual ~BasicCreature();
-
-
-	void Draw();		// 描画
-
-
-	VECTOR GetArea();
 };
