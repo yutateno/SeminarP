@@ -1,12 +1,12 @@
-#include "EnemyMove2.hpp"
+#include "OrdinaryPerson.hpp"
 
 
 // 動きのプロセス
-void EnemyMove2::MoveProcess()
+void OrdinaryPerson::MoveProcess()
 {
 	std::random_device rnd;     // 非決定的な乱数生成器を生成
 	std::mt19937 mt(rnd());     // メルセンヌ・ツイスタの32ビット版
-	std::uniform_int_distribution<> randInX(0, 100);			// X座標用乱数
+	std::uniform_int_distribution<> randInX(0, 200);			// X座標用乱数
 	std::uniform_int_distribution<> moveTurn(0, 314);				// Z座標用乱数
 
 	moveCount++;
@@ -57,13 +57,6 @@ void EnemyMove2::MoveProcess()
 	{
 		moveCount = 0;
 	}
-	else if (moveCount > 100)
-	{
-		area.x += sinf(angle + direXAngle + direZAngle) * -walkSpeed;
-		area.z += cosf(angle + direXAngle + direZAngle) * -walkSpeed;
-		moveFlag = true;
-		Player_PlayAnim(MOTION::walk);
-	}
 	else if (moveCount == 100)
 	{
 		nextDireZAngle = moveTurn(mt) / 100.0f;
@@ -73,11 +66,11 @@ void EnemyMove2::MoveProcess()
 			nextDireXAngle = -nextDireXAngle;
 		}
 	}
-	else
-	{
-		moveFlag = false;
-		Player_PlayAnim(MOTION::idle);
-	}
+
+	area.x += sinf(angle + direXAngle + direZAngle) * -walkSpeed;
+	area.z += cosf(angle + direXAngle + direZAngle) * -walkSpeed;
+	moveFlag = true;
+	Player_PlayAnim(MOTION::walk);
 
 	if (nextDireXAngle != direXAngle)
 	{
@@ -104,7 +97,7 @@ void EnemyMove2::MoveProcess()
 }
 
 
-EnemyMove2::EnemyMove2(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
+OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -152,7 +145,7 @@ EnemyMove2::EnemyMove2(int modelHandle, int collStageHandle) : BasicCreature(col
 }
 
 
-EnemyMove2::~EnemyMove2()
+OrdinaryPerson::~OrdinaryPerson()
 {
 	if (modelHandle != -1)
 	{
@@ -162,7 +155,7 @@ EnemyMove2::~EnemyMove2()
 
 
 // メインプロセス
-void EnemyMove2::Process()
+void OrdinaryPerson::Process()
 {
 	preArea = area;		// 直前の座標
 
@@ -183,7 +176,7 @@ void EnemyMove2::Process()
 
 
 // 描画
-void EnemyMove2::Draw()
+void OrdinaryPerson::Draw()
 {
 	BasicObject::Draw();		// 基本的なものを引っ張ってくる
 
@@ -196,6 +189,6 @@ void EnemyMove2::Draw()
 	printfDx("XAngle:%f\tZAngle%f\t左:%d\t上:%d\n", direXAngle, direZAngle, InputPad::GetPadThumbData(0, STICK_LEFT_X), InputPad::GetPadThumbData(0, STICK_LEFT_Y));
 #endif // _CHARACTER_DEBUG
 #ifdef _DEBUG
-	printfDx("X : %f\tZ : %f\tNX : %f\tNZ : %f\n", direXAngle, direZAngle, nextDireXAngle, nextDireZAngle);
+	//printfDx("X : %f\tZ : %f\tNX : %f\tNZ : %f\n", direXAngle, direZAngle, nextDireXAngle, nextDireZAngle);
 #endif // _DEBUG
 }

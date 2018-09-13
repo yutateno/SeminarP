@@ -124,8 +124,18 @@ VECTOR BasicObject::GetArea()
 // •`‰æ
 void BasicObject::Draw()
 {
-	if (!CheckCameraViewClip(VAdd(area, VGet(0.0f, modelHeight, 0.0f))))
+	if (modelHeight >= 40.0f)
 	{
-		MV1DrawModel(modelHandle);
+		if (!CheckCameraViewClip(VAdd(area, VGet(0.0f, 30.0f, 0.0f))))
+		{
+			MV1DrawModel(modelHandle);
+		}
+	}
+	else
+	{
+		if (!CheckCameraViewClip(VAdd(area, VGet(0.0f, 10.0f, 0.0f))))
+		{
+			MV1DrawModel(modelHandle);
+		}
 	}
 }

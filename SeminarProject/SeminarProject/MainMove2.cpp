@@ -6,12 +6,18 @@ void MainMove2::ShadowDraw()
 {
 	BaseMove::ShadowCharaSetUpBefore();
 	p_character->Draw();
-	p_enemy->Draw();
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i]->Draw();
+	}
 	BaseMove::ShadowCharaSetUpAfter();
 
 
 	BaseMove::ShadowAnotherCharaSetUpBefore();
-	p_enemy->Draw();
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i]->Draw();
+	}
 	BaseMove::ShadowAnotherCharaSetUpAfter();
 
 
@@ -19,7 +25,10 @@ void MainMove2::ShadowDraw()
 	BaseMove::ShadowAnotherCharaDrawBefore();
 	BaseMove::ShadowCharaDrawBefore();
 	p_stage->Draw();
-	p_enemy->Draw();
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i]->Draw();
+	}
 	p_character->Draw();
 	BaseMove::ShadowNoMoveDrawAfter();
 	BaseMove::ShadowAnotherCharaDrawAfter();
@@ -31,7 +40,10 @@ MainMove2::MainMove2(std::vector<int> v_file)
 	// ポインタNULL初期化
 	p_camera	 = NULL;
 	p_character	 = NULL;
-	p_enemy		 = NULL;
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i] = NULL;
+	}
 	p_stage		 = NULL;
 
 
@@ -39,8 +51,11 @@ MainMove2::MainMove2(std::vector<int> v_file)
 	p_stage		 = new Stage(v_file[EFILE::stage]);
 	p_character	 = new CharacterSword(v_file[EFILE::characterAttack], v_file[EFILE::stage]);
 	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE::stage]);
-	p_enemy		 = new EnemyMove2(v_file[EFILE::character], v_file[EFILE::stage]);
-
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i] = new OrdinaryPerson(v_file[EFILE::character], v_file[EFILE::stage]);
+	}
+	
 
 	BaseMove::ShadowNoMoveSetUpBefore();
 	p_stage->Draw();
@@ -50,10 +65,13 @@ MainMove2::MainMove2(std::vector<int> v_file)
 
 MainMove2::~MainMove2()
 {
-	if (p_enemy != NULL)
+	for (int i = 0; i != 50; ++i)
 	{
-		delete p_enemy;
-		p_enemy = NULL;
+		if (p_person[i] != NULL)
+		{
+			delete p_person[i];
+			p_person[i] = NULL;
+		}
 	}
 	if (p_camera != NULL)
 	{
@@ -105,7 +123,11 @@ void MainMove2::Process(unsigned __int8 controllNumber)
 	p_camera->Process(p_character->GetArea(), controllNumber);		// カメラのプロセスを呼ぶ
 
 
-	p_enemy->Process();												// 敵のプロセス
+	for (int i = 0; i != 50; ++i)
+	{
+		p_person[i]->Process();
+	}
+	//p_person->Process();												// 敵のプロセス
 
 
 	BaseMove::ShadowArea(p_character->GetArea());

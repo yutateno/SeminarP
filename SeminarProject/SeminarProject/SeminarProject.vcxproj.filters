@@ -120,11 +120,11 @@
     <ClCompile Include="CharacterSword.cpp">
       <Filter>ソース ファイル\Actor\Creature\Character</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMove2.cpp">
-      <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="MainMove2.cpp">
       <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="OrdinaryPerson.cpp">
+      <Filter>ソース ファイル\Actor\Creature\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,11 +182,11 @@
     <ClInclude Include="CharacterSword.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature\Character</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMove2.hpp">
-      <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="MainMove2.hpp">
       <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="OrdinaryPerson.hpp">
+      <Filter>ヘッダー ファイル\Actor\Creature\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

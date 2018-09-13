@@ -5,7 +5,7 @@
 #include <random>
 
 
-class EnemyMove2 : public BasicCreature
+class OrdinaryPerson : public BasicCreature
 {
 private:
 	// ‚»‚ê‚¼‚ê‚ÌˆÊ’u‚ÉŠÖ‚µ‚Ä
@@ -25,8 +25,8 @@ private:
 
 
 public:
-	EnemyMove2(int modelHandle, int collStageHandle);
-	~EnemyMove2();
+	OrdinaryPerson(int modelHandle, int collStageHandle);
+	~OrdinaryPerson();
 
 
 	void Draw();

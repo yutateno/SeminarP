@@ -1,7 +1,7 @@
 #pragma once
 #include "Stage.hpp"
 #include "CharacterSword.hpp"
-#include "EnemyMove2.hpp"
+#include "OrdinaryPerson.hpp"
 #include "Camera.hpp"
 #include "BaseMove.hpp"
 
@@ -22,8 +22,8 @@ private:
 	CharacterSword* p_character;		// キャラクターのポインタ
 
 
-	// 敵
-	EnemyMove2* p_enemy;				// 敵のポインタ
+	// 一般人
+	OrdinaryPerson* p_person[50];				// 敵のポインタ
 
 
 	// カメラ
