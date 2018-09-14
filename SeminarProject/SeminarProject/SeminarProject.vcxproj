@@ -171,6 +171,8 @@
     <ClCompile Include="MainMove2.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageStairs.cpp" />
+    <ClCompile Include="StageStreetLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseMacro.hpp" />
@@ -194,6 +196,8 @@
     <ClInclude Include="MainMove2.hpp" />
     <ClInclude Include="Manager.hpp" />
     <ClInclude Include="Stage.hpp" />
+    <ClInclude Include="StageStairs.hpp" />
+    <ClInclude Include="StageStreetLight.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

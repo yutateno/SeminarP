@@ -4,6 +4,8 @@
 #include "EnemyMove2.hpp"
 #include "Camera.hpp"
 #include "BaseMove.hpp"
+#include "StageStairs.hpp"
+#include "StageStreetLight.hpp"
 
 #include <random>
 
@@ -11,11 +13,13 @@
 class MainMove2 : public BaseMove
 {
 private:
-	enum EFILE { stage, characterAttack };			// ロードで渡されるファイル
+	enum EFILE { stage, characterAttack, block, stairs, stairsColl, streetLight };			// ロードで渡されるファイル
 
 
 	// ステージ
 	Stage* p_stage;			// ステージのポインタ
+	StageStairs* p_stageStairs[10];
+	StageStreetLight* p_stageStreetLight[50];
 
 
 	// キャラクター

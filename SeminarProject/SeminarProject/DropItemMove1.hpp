@@ -5,8 +5,6 @@
 class DropItemMove1 : public BasicObject
 {
 private:
-	int draw;
-
 
 public:
 	DropItemMove1(int draw, int collStageHandle);

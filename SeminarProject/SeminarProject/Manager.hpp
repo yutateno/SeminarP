@@ -27,9 +27,9 @@ private:
 
 
 	// ÉÄÅ[ÉuÇQÇ…ä÷Ç∑ÇÈ
-	const int max2 = 2;
-	std::string move2str[2];
-	ELOADFILE load2[2];
+	const int max2 = 6;
+	std::string move2str[6];
+	ELOADFILE load2[6];
 
 
 

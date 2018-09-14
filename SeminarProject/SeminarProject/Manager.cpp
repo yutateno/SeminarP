@@ -58,8 +58,16 @@ Manager::Manager()
 
 	move2str[0] = "media\\ステージモデル\\move1_hantei.myn";
 	move2str[1] = "media\\CLPH\\motion\\CLPH_Nobirubinta.myn";
+	move2str[2] = "media\\ブロック\\cubeblock.myn";
+	move2str[3] = "media\\kaidan\\kaidan.myn";
+	move2str[4] = "media\\kaidan\\kaidan_hantei.myn";
+	move2str[5] = "media\\街灯\\Gaitou.myn";
 	load2[0] = ELOADFILE::mv1model;
 	load2[1] = ELOADFILE::mv1model;
+	load2[2] = ELOADFILE::mv1model;
+	load2[3] = ELOADFILE::mv1model;
+	load2[4] = ELOADFILE::mv1model;
+	load2[5] = ELOADFILE::mv1model;
 
 
 	p_baseMove = NULL;

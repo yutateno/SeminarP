@@ -67,6 +67,12 @@
     <Filter Include="ソース ファイル\Actor\Drop">
       <UniqueIdentifier>{f4fcd22c-325f-442e-87b4-e455a726e62d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Actor\Stage">
+      <UniqueIdentifier>{bd84227b-5357-4e1a-bf8d-bfd68ddf141c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Actor\Stage">
+      <UniqueIdentifier>{90531f60-c77b-4952-83e4-98e07a650079}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="EnemyMove1.cpp">
       <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>ソース ファイル\Actor</Filter>
     </ClCompile>
     <ClCompile Include="BaseMove.cpp">
       <Filter>ソース ファイル\MoveLevel</Filter>
@@ -129,6 +132,15 @@
     <ClCompile Include="EnemyMove2.cpp">
       <Filter>ソース ファイル\Actor\Creature\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\Actor\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageStairs.cpp">
+      <Filter>ソース ファイル\Actor\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageStreetLight.cpp">
+      <Filter>ソース ファイル\Actor\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp">
@@ -136,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="EnemyMove1.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.hpp">
-      <Filter>ヘッダー ファイル\Actor</Filter>
     </ClInclude>
     <ClInclude Include="BaseMove.hpp">
       <Filter>ヘッダー ファイル\MoveLevel</Filter>
@@ -193,6 +202,15 @@
     </ClInclude>
     <ClInclude Include="EnemyMove2.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.hpp">
+      <Filter>ヘッダー ファイル\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageStairs.hpp">
+      <Filter>ヘッダー ファイル\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageStreetLight.hpp">
+      <Filter>ヘッダー ファイル\Actor\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

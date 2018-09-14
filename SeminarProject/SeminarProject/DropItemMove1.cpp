@@ -8,18 +8,24 @@ DropItemMove1::DropItemMove1(int draw, int collStageHandle) : BasicObject(collSt
 	BasicObject::shadowHeight = 10.0f;
 	BasicObject::shadowSize = 5.0f;
 
-	this->draw = MV1DuplicateModel(draw);
 
-	MV1SetScale(this->draw, VGet(0.2f, 0.2f, 0.2f));
+	this->modelHandle = 0;
+	this->modelHandle = MV1DuplicateModel(draw);
+
+	MV1SetScale(this->modelHandle, VGet(0.2f, 0.2f, 0.2f));
 
 	// モデルの座標を更新
-	MV1SetPosition(this->draw, area);
+	MV1SetPosition(this->modelHandle, area);
 }
 
 
 DropItemMove1::~DropItemMove1()
 {
-	MV1DeleteModel(draw);
+	if (modelHandle != -1)
+	{
+		MV1DeleteModel(modelHandle);
+		modelHandle = 0;
+	}
 }
 
 void DropItemMove1::Draw()

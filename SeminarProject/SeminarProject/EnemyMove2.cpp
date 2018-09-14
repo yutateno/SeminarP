@@ -1,7 +1,7 @@
 #include "EnemyMove2.hpp"
 
 
-EnemyMove2::EnemyMove2(int collStageHandle, VECTOR area) : BasicCreature(collStageHandle)
+EnemyMove2::EnemyMove2(int collStageHandle, VECTOR area, int modelHandle) : BasicCreature(collStageHandle)
 {
 	this->area = area;
 
@@ -10,25 +10,22 @@ EnemyMove2::EnemyMove2(int collStageHandle, VECTOR area) : BasicCreature(collSta
 
 	shadowHeight = 10.0f;
 	shadowSize = 15.0f;
+
+	this->modelHandle = MV1DuplicateModel(modelHandle);
+
+	MV1SetPosition(this->modelHandle, area);
 }
 
 EnemyMove2::~EnemyMove2()
 {
+	MV1DeleteModel(modelHandle);
 }
 
 void EnemyMove2::Draw()
 {
 	BasicObject::ShadowFoot();
 
-	// Ｚバッファを有効にする
-	SetUseZBuffer3D(TRUE);
-	// Ｚバッファへの書き込みを有効にする
-	SetWriteZBuffer3D(TRUE);
-	DrawSphere3D(VAdd(area, VGet(0.0f, 10.0f, 0.0f)), modelWigth, 16, GetColor(120, 120, 120), GetColor(120, 120, 120), TRUE);
-	// Ｚバッファへの書き込みを有効にする
-	SetWriteZBuffer3D(FALSE);
-	// Ｚバッファを有効にする
-	SetUseZBuffer3D(FALSE);
+	BasicObject::Draw();
 }
 
 void EnemyMove2::Process()
