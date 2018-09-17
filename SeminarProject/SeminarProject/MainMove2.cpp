@@ -92,40 +92,16 @@ MainMove2::~MainMove2()
 {
 	for (int i = 0; i != 30; ++i)
 	{
-		if (p_stageStreetLight[i] != NULL)
-		{
-			delete p_stageStreetLight[i];
-			p_stageStreetLight[i] = NULL;
-		}
+		POINTER_RELEASE(p_stageStreetLight[i]);
 	}
 	for (int i = 0; i != 10; ++i)
 	{
-		if (p_stageStairs[i] != NULL)
-		{
-			delete p_stageStairs[i];
-			p_stageStairs[i] = NULL;
-		}
+		POINTER_RELEASE(p_stageStairs[i]);
 	}
-	if (p_enemy != NULL)
-	{
-		delete p_enemy;
-		p_enemy = NULL;
-	}
-	if (p_camera != NULL)
-	{
-		delete p_camera;
-		p_camera = NULL;
-	}
-	if (p_character != NULL)
-	{
-		delete p_character;
-		p_character = NULL;
-	}
-	if (p_stage != NULL)
-	{
-		delete p_stage;
-		p_stage = NULL;
-	}
+	POINTER_RELEASE(p_enemy);
+	POINTER_RELEASE(p_camera);
+	POINTER_RELEASE(p_character);
+	POINTER_RELEASE(p_stage);
 }
 
 

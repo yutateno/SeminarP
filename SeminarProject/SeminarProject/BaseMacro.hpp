@@ -16,3 +16,9 @@
 
 // ムーブ１で落ちてる剣のクラスのデバッグ
 //#define _DROPITEM1_DEBUG
+
+// directx関係でよくある解放マクロ
+#define SAFE_RELEASE(p) { if(p!=NULL) { (p)->Release(); (p)=NULL; } }
+
+// ポインタ用解放マクロ
+#define POINTER_RELEASE(p) { if(p!=NULL) {delete (p); (p)=NULL; } }

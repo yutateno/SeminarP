@@ -170,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	// íœ
-	delete manager;
+	POINTER_RELEASE(manager);
 
 	DxLib::DxLib_End();		// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌŒãn––
 

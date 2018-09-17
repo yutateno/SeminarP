@@ -24,7 +24,6 @@ DropItemMove1::~DropItemMove1()
 	if (modelHandle != -1)
 	{
 		MV1DeleteModel(modelHandle);
-		modelHandle = 0;
 	}
 }
 

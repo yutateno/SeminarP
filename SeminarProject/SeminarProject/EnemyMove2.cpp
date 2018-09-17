@@ -18,7 +18,10 @@ EnemyMove2::EnemyMove2(int collStageHandle, VECTOR area, int modelHandle) : Basi
 
 EnemyMove2::~EnemyMove2()
 {
-	MV1DeleteModel(modelHandle);
+	if (modelHandle != -1)
+	{
+		MV1DeleteModel(modelHandle);
+	}
 }
 
 void EnemyMove2::Draw()

@@ -20,7 +20,7 @@ LoadThread::LoadThread()
 
 LoadThread::~LoadThread()
 {
-	delete p_loadScreen;
+	POINTER_RELEASE(p_loadScreen);
 }
 
 void LoadThread::Process(int max, std::string* path, ELOADFILE* type)

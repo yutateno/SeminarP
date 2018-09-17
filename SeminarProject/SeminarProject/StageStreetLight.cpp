@@ -21,7 +21,6 @@ StageStreetLight::~StageStreetLight()
 	if (modelHandle != -1)
 	{
 		MV1DeleteModel(modelHandle);
-		modelHandle = 0;
 	}
 }
 

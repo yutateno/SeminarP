@@ -13,15 +13,13 @@ void Manager::SceneChange()
 	case ESceneNumber::FIRSTMOVE:
 		p_baseMove = new MainMove1(p_loadThread->GetFile());
 		p_baseMove->SetScene(e_nowScene);
-		delete p_loadThread;
-		p_loadThread = NULL;
+		POINTER_RELEASE(p_loadThread);
 		break;
 
 
 		
 	case ESceneNumber::SECONDLOAD:
-		delete p_baseMove;
-		p_baseMove = NULL;
+		POINTER_RELEASE(p_baseMove);
 		p_loadThread = new LoadThread();
 		break;
 
@@ -29,8 +27,7 @@ void Manager::SceneChange()
 	case ESceneNumber::SECONDMOVE:
 		p_baseMove = new MainMove2(p_loadThread->GetFile());
 		p_baseMove->SetScene(e_nowScene);
-		delete p_loadThread;
-		p_loadThread = NULL;
+		POINTER_RELEASE(p_loadThread);
 		break;
 
 
@@ -79,14 +76,8 @@ Manager::Manager()
 
 Manager::~Manager()
 {
-	if (p_baseMove != NULL)
-	{
-		delete p_baseMove;
-	}
-	if (p_loadThread != NULL)
-	{
-		delete p_loadThread;
-	}
+	POINTER_RELEASE(p_baseMove);
+	POINTER_RELEASE(p_loadThread);
 }
 
 void Manager::Update(unsigned __int8 controllNumber)

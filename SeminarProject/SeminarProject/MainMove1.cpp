@@ -317,44 +317,22 @@ MainMove1::~MainMove1()
 {
 	StopSoundMem(soundBG);
 	DeleteSoundMem(soundBG);
-	soundBG = 0;
 
 	for (int i = 0; i != lightNum; ++i)
 	{
 		if (lightHandle[i] != -1 || lightHandle[i] != 0)
 		{
 			DeleteLightHandle(lightHandle[i]);
-			lightHandle[i] = 0;
 		}
 	}
 	for (int i = 0; i < enemyNum; ++i)
 	{
-		if (s_enemyAggre[i].p_enemyMove != NULL)
-		{
-			delete s_enemyAggre[i].p_enemyMove;
-			s_enemyAggre[i].p_enemyMove = NULL;
-		}
+		POINTER_RELEASE(s_enemyAggre[i].p_enemyMove);
 	}
-	if (p_dropItem != NULL)
-	{
-		delete p_dropItem;
-		p_dropItem = NULL;
-	}
-	if (p_camera != NULL)
-	{
-		delete p_camera;
-		p_camera = NULL;
-	}
-	if (p_character != NULL)
-	{
-		delete p_character;
-		p_character = NULL;
-	}
-	if (p_stage != NULL)
-	{
-		delete p_stage;
-		p_stage = NULL;
-	}
+	POINTER_RELEASE(p_dropItem);
+	POINTER_RELEASE(p_camera);
+	POINTER_RELEASE(p_character);
+	POINTER_RELEASE(p_stage);
 }
 
 
