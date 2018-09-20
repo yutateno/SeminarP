@@ -31,6 +31,10 @@ private:
 
 
 protected:
+	// 高負荷覚悟で試したいので試す
+	int backGround;
+
+
 	static bool endFlag;		// シーンの終了フラッグ
 
 	static ESceneNumber scene;	// 現在のシーン

@@ -68,17 +68,24 @@ MainMove2::MainMove2(const std::vector<int> v_file)
 
 
 	// ポインタ初期化
-	p_stage		 = new Stage(v_file[EFILE::stage]);
-	p_character	 = new CharacterSword(v_file[EFILE::characterAttack], v_file[EFILE::stage]);
-	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE::stage]);
-	p_enemy		 = new EnemyMove2(v_file[EFILE::stage], VGet(1000.0f, 0.0f, 1000.0f), v_file[EFILE::block]);
 	for (int i = 0; i != 10; ++i)
 	{
-		p_stageStairs[i] = new StageStairs(v_file[EFILE::stairs], v_file[EFILE::stage], VGet(-1000.0f*i, 0.0f, -1000.0f));
+		p_stageStairs[i] = new StageStairs(v_file[EFILE::stairs], v_file[EFILE::stage], VGet(-100.0f*i, 0.0f, -1000.0f));
 	}
+	p_stage		 = new Stage(v_file[EFILE::stage]);
+	p_character	 = new CharacterSword(v_file[EFILE::characterAttack], v_file[EFILE::stage], v_file[EFILE::stairsColl]);
+	p_camera	 = new Camera(p_character->GetArea(), v_file[EFILE::stage]);
+	p_enemy		 = new EnemyMove2(v_file[EFILE::stage], VGet(1000.0f, 0.0f, 1000.0f), v_file[EFILE::block]);
 	for (int i = 0; i != 30; ++i)
 	{
 		p_stageStreetLight[i] = new StageStreetLight(v_file[EFILE::streetLight], v_file[EFILE::stage], VGet(250.0f*i, 0.0f, -100.0f*i));
+	}
+
+
+	// 階段のあたり判定
+	for (int i = 0; i != 10; ++i)
+	{
+		p_character->SetStairsArea(p_stageStairs[i]->GetArea(), i);
 	}
 
 
@@ -108,7 +115,13 @@ MainMove2::~MainMove2()
 // 描画
 void MainMove2::Draw()
 {
+	DrawGraph(0, 0, backGround, false);
+
+
 	ShadowDraw();
+
+
+	p_character->Draw();
 
 
 #ifdef _MOVE1_DEBUG
@@ -124,13 +137,15 @@ void MainMove2::Draw()
 #endif
 	//printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
 #endif // _MOVE1_DEBUG
-
 }
 
 
 // メインプロセス
 void MainMove2::Process(const unsigned __int8 controllNumber)
 {
+	GetDrawScreenGraph(0, 0, 1920, 1080, backGround);						// 現在の画面をキャプチャする
+	GraphFilter(backGround, DX_GRAPH_FILTER_GAUSS, 8, 1400);				// 現在の画面にガウスフィルタかけてぼかす
+
 	p_character->Process(controllNumber, p_camera->GetAngle());		// キャラクターのプロセスを呼ぶ
 
 

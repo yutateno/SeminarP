@@ -99,13 +99,17 @@ BaseMove::BaseMove()
 	// フォグに関する
 	SetFogEnable(TRUE);					// フォグを有効にする
 	SetFogColor(128, 128, 128);			// フォグの色にする
-	SetFogStartEnd(6000.0f, 10000.0f);	// フォグの開始距離
+	SetFogStartEnd(3500.0f, 6000.0f);	// フォグの開始距離
+
+
+	backGround = 0;
+	backGround = MakeScreen(1920, 1080);
 
 
 	// シャドウマップハンドルの作成
-	shadowMapCharaHandle = MakeShadowMap(4096, 4096);
+	shadowMapCharaHandle = MakeShadowMap(2048, 2048);
 	shadowMapAnotherCharaHandle = MakeShadowMap(512, 512);
-	shadowMapNoMoveHandle = MakeShadowMap(4096, 4096);
+	shadowMapNoMoveHandle = MakeShadowMap(256, 256);
 
 
 	// シャドウマップに描画する範囲を設定

@@ -29,7 +29,8 @@ protected:
 
 	// “–‚½‚è”»’è
 	bool moveFlag;						// “®‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	void StageHit();							// “–‚½‚è”»’è‚ğs‚¤
+	void StageHit();					// “–‚½‚è”»’è‚ğs‚¤
+	void ActorHit(int stageHandle);		// “–‚½‚è”»’è‚ğs‚¤
 
 
 private:

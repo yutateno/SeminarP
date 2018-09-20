@@ -102,15 +102,139 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			Player_PlayAnim(MOTION::idle);
 		}
 	}
+}
 
+
+// 攻撃に関するプロセス
+void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
+{
+	// 攻撃のコマンドを押したら
 	if (InputPad::GetPadButtonData(controllNumber, BUTTON_X) == 1)
 	{
-		Player_PlayAnim(MOTION::action1);
+		// 最初の時
+		if (attackFrame == 0)
+		{
+			walkSpeed = 60.0f;									// 移動速度を変更
+			animSpeed = 0.4f;									// アニメーション速度を変更
+			
+			
+			// 移動プロセスから流用して前方に移動させる
+			area.x += sinf(angle + direXAngle) * -walkSpeed;
+			area.z += cosf(angle + direXAngle) * -walkSpeed;
+			direXAngle = 0.0f;
+			direZAngle = 0.0f;
+
+
+			attackNow = true;					// 攻撃しているフラッグを立てる
+			attackNumber = MOTION::action1;		// 攻撃コマンド番号を1番にする
+		}
+		// 二回目以降の攻撃時
+		else if (attackFrame < 10.0f)
+		{
+			attackNext = true;			// 次の攻撃モーションに移行するというフラッグを立てる
+		}
+	}
+
+
+	// 攻撃モーションの終盤当たりで次の行動を決める
+	if (attackFrame >= 9.0f)
+	{
+		// 次の攻撃へ移行するとフラッグが立っていたら
+		if (attackNext)
+		{
+			// 前方に移動する
+			area.x += sinf(angle + direXAngle) * -walkSpeed;
+			area.z += cosf(angle + direXAngle) * -walkSpeed;
+			direXAngle = 0.0f;
+			direZAngle = 0.0f;
+
+
+			// 直前の攻撃モーションで次のモーションを決める
+			switch (preAttackNumber)
+			{
+			// 最初の攻撃時
+			case MOTION::action1:
+				attackNumber = MOTION::action2;
+				preAttackNumber = attackNumber;
+				break;
+			// 二コンボ目の攻撃時
+			case MOTION::action2:
+				attackNumber = MOTION::action3;
+				preAttackNumber = attackNumber;
+				break;
+			// 最後の攻撃時
+			case MOTION::action3:
+				attackNow = false;					// 次のコンボがないので攻撃フラッグを倒す
+				attackNumber = MOTION::action1;
+				preAttackNumber = attackNumber;
+				walkSpeed = 0.0f;
+				Player_PlayAnim(MOTION::idle);
+				break;
+			}
+			attackFrame = 0;		// 攻撃のフレームを消す
+			attackNext = false;		// 次の攻撃するかどうかを倒す
+		}
+		// 次の攻撃をしない
+		else
+		{
+			walkSpeed = 0.0f;
+			Player_PlayAnim(MOTION::idle);
+			attackNow = false;					// 攻撃フラッグを倒す
+			attackFrame = 0;
+			attackNumber = MOTION::action1;
+			preAttackNumber = attackNumber;
+		}
+	}
+
+
+
+	// 攻撃フラッグが立ったら
+	if (attackNow)
+	{
+		attackFrame += animSpeed;
+		Player_PlayAnim(attackNumber);
+		// 左スティックが前に押されたら前を向く
+		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) > 0)
+		{
+			direXAngle = 0.0f;
+			direZAngle = 0.0f;
+		}
+		// 左スティックが後ろに押されたら後ろを向く
+		if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
+		{
+			walkSpeed = -60.0f;
+			direXAngle = 0.0f;
+			direZAngle = DX_PI_F;
+		}
+
+		// 左スティックが左に押されたら左を向く
+		if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X))
+		{
+			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-(BASIC::MAX_STICK_MINUS);
+			if (direZAngle != 0.0f)
+			{
+				direXAngle = -direXAngle;
+			}
+		}
+		// 左スティックが右に押されたら右を向く
+		else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
+		{
+			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)(BASIC::MAX_STICK_PLUS);
+			if (direZAngle != 0.0f)
+			{
+				direXAngle = -direXAngle;
+			}
+		}
+	}
+	// 攻撃フラッグが倒れていたら
+	else
+	{
+		
 	}
 }
 
 
-CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle) : BasicCreature(collStageHandle)
+CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle, const int stairsHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -118,7 +242,7 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle)
 
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
-	attachNum = MOTION::idle;
+	attachNum = MOTION::action1;
 	attachMotion = MV1AttachAnim(this->modelHandle, attachNum, -1, FALSE);
 
 
@@ -139,13 +263,25 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle)
 
 
 	// 足元の影に関する
-	shadowHeight = 35.0f;
+	shadowHeight = 20.0f;
 	shadowSize = 50.0f;
 
 
 	// それぞれの速度
 	walkSpeed = 0.0f;
-	animSpeed = 0.5f;
+	animSpeed = 0.25f;
+
+
+	// 攻撃に関して
+	attackNow = false;
+	attackNext = false;
+	attackFrame = 0;
+	attackNumber = MOTION::action1;
+	preAttackNumber = MOTION::action1;
+
+
+	// ステージのコリジョン情報の更新
+	this->stairsHandle[0] = MV1DuplicateModel(stairsHandle);
 
 
 	// モデルの座標を更新
@@ -155,10 +291,32 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle)
 
 CharacterSword::~CharacterSword()
 {
+	for (int i = 0; i != 10; ++i)
+	{
+		if (stairsHandle[i] != -1)
+		{
+			MV1DeleteModel(stairsHandle[i]);
+			stairsHandle[i] = 0;
+		}
+	}
 	if (modelHandle != -1)
 	{
 		MV1DeleteModel(modelHandle);
+		modelHandle = 0;
 	}
+}
+
+void CharacterSword::SetStairsArea(const VECTOR stairsArea, const int num)
+{
+	// ステージのコリジョン情報の更新
+	if (num != 0)
+	{
+		stairsHandle[num] = MV1DuplicateModel(stairsHandle[0]);
+	}
+	MV1SetupCollInfo(stairsHandle[num], -1);									// モデルのコリジョン情報をセットアップ(-1による全体フレーム)
+	MV1SetPosition(stairsHandle[num], stairsArea);				// ステージの座標を更新
+	MV1SetFrameVisible(stairsHandle[num], -1, false);							// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
+	MV1RefreshCollInfo(stairsHandle[num], -1);								// ステージを描画させない（でもどうせDraw呼ばないからこれ意味ない気もする）
 }
 
 
@@ -166,19 +324,32 @@ CharacterSword::~CharacterSword()
 void CharacterSword::Process(const unsigned __int8 controllNumber, const float getAngle)
 {
 	preArea = area;		// 直前の座標
-	if (moveFlag)
+	if (moveFlag || attackNow)
 	{
 		angle = getAngle;	// カメラ向きのアングル
 	}
 
 	// 動きのプロセス
-	MoveProcess(controllNumber);
+	if (!attackNow)
+	{
+		MoveProcess(controllNumber);
+	}
+
+	// 攻撃のプロセス
+	AttackProcess(controllNumber);
 
 	// モーションの実態
 	Player_AnimProcess();
 
+
+	for (int i = 0; i != 10; ++i)
+	{
+		ActorHit(stairsHandle[i]);
+	}
+
 	// ステージのあたり判定
 	StageHit();
+
 
 	// 第二引数の回転角度をセット
 	MV1SetRotationXYZ(modelHandle, VGet(0.0f, angle + direXAngle + direZAngle, 0.0f));
@@ -199,6 +370,8 @@ void CharacterSword::Draw()
 	BasicObject::Draw();		// 基本的なものを引っ張ってくる
 
 	BasicObject::ShadowFoot();
+
+	printfDx("%f\t%f\n", area.x, area.z);
 
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト

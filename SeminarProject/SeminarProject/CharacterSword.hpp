@@ -15,13 +15,30 @@ private:
 	enum MOTION { idle, action1, action2, action3, skyAction1, skyAction2, skyAction3, dash, walk, jump, fall };
 
 
+	// ŠK’i‚ÉŠÖ‚µ‚Ä
+	int stairsHandle[10];
+	VECTOR stairsArea[10];
+
+
 	// “®‚«‚ÉŠÖ‚µ‚Ä
 	void MoveProcess(unsigned __int8 controllNumber);
 
 
+	// UŒ‚‚ÉŠÖ‚µ‚Ä
+	bool attackNow;
+	bool attackNext;
+	float attackFrame;
+	int attackNumber;
+	int preAttackNumber;
+	void AttackProcess(unsigned __int8 controllNumber);
+
+
 public:
-	CharacterSword(const int modelHandle, const int collStageHandle);
+	CharacterSword(const int modelHandle, const int collStageHandle, const int stairsHandle);
 	~CharacterSword();
+
+
+	void SetStairsArea(const VECTOR stairsArea, const int num);
 
 
 	void Draw();

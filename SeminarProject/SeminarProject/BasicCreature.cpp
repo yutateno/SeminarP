@@ -96,8 +96,15 @@ void BasicCreature::Player_AnimProcess()
 	}
 }
 
+
 // ステージのあたり判定処理
 void BasicCreature::StageHit()
+{
+	ActorHit(stageHandle);
+}
+
+// ステージのあたり判定処理
+void BasicCreature::ActorHit(int stageHandle)
 {
 	// プレイヤーをカプセルとしてステージとのコリジョン情報を調べる(OBB形式)
 	hitDim = MV1CollCheck_Capsule(stageHandle, -1, area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth);
@@ -110,15 +117,15 @@ void BasicCreature::StageHit()
 	for (int i = 0, j = hitDim.HitNum; i != j; ++i)
 	{
 		// 壁かどうか判断するため、XZ軸に垂直かどうかを法線が０に近いかどうかで調べる
-		if (hitDim.Dim[i].Normal.y < 0.1f && hitDim.Dim[i].Normal.y > -0.1f)
+		if (hitDim.Dim[i].Normal.y < 0.001f && hitDim.Dim[i].Normal.y > -0.001f)
 		{
 			// 壁だとしてもキャラクターの足より少し上を調べる
-			if (hitDim.Dim[i].Position[0].y > area.y + 10.0f
-				|| hitDim.Dim[i].Position[1].y > area.y + 10.0f
-				|| hitDim.Dim[i].Position[2].y > area.y + 10.0f)
+			if (hitDim.Dim[i].Position[0].y > area.y + modelHeight + 50.0f
+				|| hitDim.Dim[i].Position[1].y > area.y + modelHeight + 50.0f
+				|| hitDim.Dim[i].Position[2].y > area.y + modelHeight + 50.0f)
 			{
 				// 最大になるまで保存する
-				if (wallNum < 2048)
+				if (wallNum < 64)
 				{
 					wallPoly[wallNum] = &hitDim.Dim[i];		// ヒットしたポリゴン情報を保存
 					wallNum++;
@@ -128,7 +135,7 @@ void BasicCreature::StageHit()
 		else
 		{
 			// 最大になるまで保存
-			if (floorNum < 2048)
+			if (floorNum < 64)
 			{
 				floorPoly[floorNum] = &hitDim.Dim[i];		// ヒットしたポリゴン情報を保存
 				floorNum++;
@@ -268,7 +275,6 @@ void BasicCreature::StageHit()
 
 			// 接触したY座標を保持する
 			maxYHit = lineResult.Position.y;
-
 			hitFlag = true;
 		}
 
@@ -277,6 +283,10 @@ void BasicCreature::StageHit()
 		{
 			area.y = maxYHit;
 		}
+	}
+	else		// 浮いていたら
+	{
+		area.y -= 1.5f;
 	}
 
 	// 検出した情報を解放する
