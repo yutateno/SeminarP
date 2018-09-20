@@ -1,7 +1,7 @@
 #include "StageStairs.hpp"
 
 
-StageStairs::StageStairs(int draw, int collStageHandle, VECTOR area) : BasicObject(collStageHandle)
+StageStairs::StageStairs(const int draw, const int collStageHandle, const VECTOR area) : BasicObject(collStageHandle)
 {
 	this->area = area;
 

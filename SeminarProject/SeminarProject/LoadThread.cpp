@@ -4,7 +4,7 @@ using namespace std;
 
 std::mutex mtx;
 
-void LoadThread::MyNextLoad(std::string path, int& file, ELOADFILE type)
+void LoadThread::MyNextLoad(const std::string path, int& file, const ELOADFILE type)
 {
 	std::lock_guard<std::mutex> lock(mtx);
 
@@ -23,7 +23,7 @@ LoadThread::~LoadThread()
 	POINTER_RELEASE(p_loadScreen);
 }
 
-void LoadThread::Process(int max, std::string* path, ELOADFILE* type)
+void LoadThread::Process(const int max, const std::string* path, const ELOADFILE* type)
 {
 	if (num < max)
 	{
@@ -39,12 +39,12 @@ void LoadThread::Process(int max, std::string* path, ELOADFILE* type)
 	p_loadScreen->Process(num, max);			// ÉçÅ[ÉhâÊñ 
 }
 
-vector<int> LoadThread::GetFile()
+const vector<int> LoadThread::GetFile() const
 {
 	return fileName;
 }
 
-int LoadThread::GetNum()
+const int LoadThread::GetNum() const
 {
 	return num;
 }

@@ -54,7 +54,7 @@ Manager::Manager()
 
 
 	move2str[0] = "media\\ステージモデル\\move1_hantei.myn";
-	move2str[1] = "media\\CLPH\\motion\\CLPH_Nobirubinta.myn";
+	move2str[1] = "media\\swordCLPH\\clph_sword_all.myn";
 	move2str[2] = "media\\ブロック\\cubeblock.myn";
 	move2str[3] = "media\\kaidan\\kaidan.myn";
 	move2str[4] = "media\\kaidan\\kaidan_hantei.myn";
@@ -80,7 +80,7 @@ Manager::~Manager()
 	POINTER_RELEASE(p_loadThread);
 }
 
-void Manager::Update(unsigned __int8 controllNumber)
+void Manager::Update(const unsigned __int8 controllNumber)
 {
 	if (e_nowScene == e_preScene)		// 今のシーンと直前のシーンが同じ
 	{
@@ -118,6 +118,4 @@ void Manager::Update(unsigned __int8 controllNumber)
 		SceneChange();
 		e_preScene = e_nowScene;
 	}
-
-	//printfDx("now:%d\tpre:%d\n", e_nowScene, e_preScene);
 }

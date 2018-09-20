@@ -237,7 +237,7 @@ void MainMove1::LightProcess()
 
 
 // コンストラクタ
-MainMove1::MainMove1(std::vector<int> v_file)
+MainMove1::MainMove1(const std::vector<int> v_file)
 {
 	SetLightEnable(FALSE);		// 自然光源を一切遮断
 
@@ -380,7 +380,7 @@ void MainMove1::Draw()
 
 
 // メインプロセス
-void MainMove1::Process(unsigned __int8 controllNumber)
+void MainMove1::Process(const unsigned __int8 controllNumber)
 {
 	p_character->Process(controllNumber, p_camera->GetAngle());		// キャラクターのプロセスを呼ぶ
 

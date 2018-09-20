@@ -12,7 +12,7 @@ private:
 
 
 	// ƒ‚[ƒVƒ‡ƒ“‚ÉŠÖ‚µ‚Ä
-	enum MOTION { attack, no };
+	enum MOTION { idle, action1, action2, action3, skyAction1, skyAction2, skyAction3, dash, walk, jump, fall };
 
 
 	// “®‚«‚ÉŠÖ‚µ‚Ä
@@ -20,12 +20,12 @@ private:
 
 
 public:
-	CharacterSword(int modelHandle, int collStageHandle);
+	CharacterSword(const int modelHandle, const int collStageHandle);
 	~CharacterSword();
 
 
 	void Draw();
-	void Process(unsigned __int8 controllNumber, float getAngle);
+	void Process(const unsigned __int8 controllNumber, const float getAngle);
 
 
 	void PositionReset();

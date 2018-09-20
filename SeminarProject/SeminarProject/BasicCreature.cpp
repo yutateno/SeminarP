@@ -285,7 +285,7 @@ void BasicCreature::StageHit()
 
 
 // コンストラクタ
-BasicCreature::BasicCreature(int collStageHandle) :BasicObject(collStageHandle)
+BasicCreature::BasicCreature(const int collStageHandle) :BasicObject(collStageHandle)
 {
 	// ステージのコリジョン情報の更新
 	stageHandle = MV1DuplicateModel(collStageHandle);

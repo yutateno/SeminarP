@@ -29,11 +29,11 @@ private:
 
 
 public:
-	BasicObject(int collStageHandle);
+	BasicObject(const int collStageHandle);
 	virtual ~BasicObject();
 
 
-	VECTOR GetArea();
+	const VECTOR GetArea() const;
 
 	void Draw();		// •`‰æ
 };

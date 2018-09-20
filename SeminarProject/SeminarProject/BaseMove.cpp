@@ -77,7 +77,7 @@ void BaseMove::ShadowNoMoveDrawAfter()
 	SetUseShadowMap(2, -1);
 }
 
-void BaseMove::ShadowArea(VECTOR charaArea)
+void BaseMove::ShadowArea(const VECTOR charaArea)
 {
 	SetShadowMapDrawArea(shadowMapCharaHandle, VAdd(charaArea, shadowCharaLowArea), VAdd(charaArea, shadowCharaHighArea));
 	SetShadowMapDrawArea(shadowMapAnotherCharaHandle, VAdd(charaArea, shadowAnotherCharaLowArea), VAdd(charaArea, shadowAnotherCharaHighArea));
@@ -85,7 +85,7 @@ void BaseMove::ShadowArea(VECTOR charaArea)
 
 
 // “ñ‚Â‚ÌƒLƒƒƒ‰‚Ì’¼ü“I‹——£
-int BaseMove::GetDistance(VECTOR alpha, VECTOR beta)
+int BaseMove::GetDistance(const VECTOR alpha, const VECTOR beta)
 {
 	double distance = sqrt((alpha.x - beta.x) * (alpha.x - beta.x) + (alpha.z - beta.z) * (alpha.z - beta.z));
 	return (int)distance;
@@ -140,17 +140,17 @@ BaseMove::~BaseMove()
 	DeleteShadowMap(shadowMapCharaHandle);
 }
 
-bool BaseMove::GetEndFlag()
+const bool BaseMove::GetEndFlag()
 {
 	return endFlag;
 }
 
-ESceneNumber BaseMove::GetScene()
+const ESceneNumber BaseMove::GetScene()
 {
 	return scene;
 }
 
-void BaseMove::SetScene(ESceneNumber scene)
+void BaseMove::SetScene(const ESceneNumber scene)
 {
 	this->scene = scene;
 }

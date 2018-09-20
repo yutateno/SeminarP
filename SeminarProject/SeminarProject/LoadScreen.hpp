@@ -14,6 +14,6 @@ public:
 	~LoadScreen();		// デストラクタ
 
 
-	void Process(int num, int max);		// 非同期で行うメソッド
+	void Process(const int num, const int max);		// 非同期で行うメソッド
 };
 

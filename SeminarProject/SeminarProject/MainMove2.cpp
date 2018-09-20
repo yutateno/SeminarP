@@ -50,7 +50,7 @@ void MainMove2::ShadowDraw()
 	BaseMove::ShadowCharaDrawAfter();
 }
 
-MainMove2::MainMove2(std::vector<int> v_file)
+MainMove2::MainMove2(const std::vector<int> v_file)
 {
 	// ポインタNULL初期化
 	p_camera					 = NULL;
@@ -129,7 +129,7 @@ void MainMove2::Draw()
 
 
 // メインプロセス
-void MainMove2::Process(unsigned __int8 controllNumber)
+void MainMove2::Process(const unsigned __int8 controllNumber)
 {
 	p_character->Process(controllNumber, p_camera->GetAngle());		// キャラクターのプロセスを呼ぶ
 

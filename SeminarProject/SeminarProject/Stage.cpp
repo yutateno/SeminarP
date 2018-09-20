@@ -1,7 +1,7 @@
 #include "Stage.hpp"
 
 // コンストラクタ
-Stage::Stage(int drawStageHandle)
+Stage::Stage(const int drawStageHandle)
 {
 	this->drawStageHandle = MV1DuplicateModel(drawStageHandle);
 

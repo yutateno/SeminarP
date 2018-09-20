@@ -15,7 +15,7 @@ unsigned int LoadFile::file_size(ifstream &fin)
 }
 
 // ファイルの読み込み
-void LoadFile::MyLoad(string path, int& file, ELOADFILE type)
+void LoadFile::MyLoad(const string path, int& file, const ELOADFILE type)
 {
 	vector<BYTE> data;  // ファイルデータ
 	UINT size;          // ファイルサイズ

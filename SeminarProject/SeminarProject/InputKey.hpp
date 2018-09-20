@@ -14,6 +14,6 @@ public:
 	~KeyData() {};
 
 	static void UpDate();			// キー入力の状態更新
-	static int Get(int KeyCode);	// キー入力状態取得
+	static const int Get(const int KeyCode);	// キー入力状態取得
 	static bool CheckEnd();			// 強制終了
 };

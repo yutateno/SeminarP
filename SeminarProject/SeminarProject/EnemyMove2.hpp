@@ -8,7 +8,7 @@ private:
 	
 
 public:
-	EnemyMove2(int collStageHandle, VECTOR area, int modelHandle);
+	EnemyMove2(const int collStageHandle, const VECTOR area, const int modelHandle);
 	~EnemyMove2();
 
 

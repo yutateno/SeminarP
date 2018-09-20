@@ -1,7 +1,7 @@
 #include "EnemyMove2.hpp"
 
 
-EnemyMove2::EnemyMove2(int collStageHandle, VECTOR area, int modelHandle) : BasicCreature(collStageHandle)
+EnemyMove2::EnemyMove2(const int collStageHandle, const VECTOR area, const int modelHandle) : BasicCreature(collStageHandle)
 {
 	this->area = area;
 

@@ -7,7 +7,7 @@ class StageStairs : public BasicObject
 private:
 
 public:
-	StageStairs(int draw, int collStageHandle, VECTOR area);
+	StageStairs(const int draw, const int collStageHandle, const VECTOR area);
 	~StageStairs();
 
 

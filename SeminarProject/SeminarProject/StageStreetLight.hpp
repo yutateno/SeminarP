@@ -7,7 +7,7 @@ class StageStreetLight : public BasicObject
 private:
 
 public:
-	StageStreetLight(int draw, int collStageHandle, VECTOR area);
+	StageStreetLight(const int draw, const int collStageHandle, const VECTOR area);
 	~StageStreetLight();
 
 

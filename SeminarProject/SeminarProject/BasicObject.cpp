@@ -82,7 +82,7 @@ void BasicObject::ShadowFoot()
 
 
 
-BasicObject::BasicObject(int collStageHandle)
+BasicObject::BasicObject(const int collStageHandle)
 {
 	shadowHandle = 0;
 	stageHandle = 0;
@@ -115,7 +115,7 @@ BasicObject::~BasicObject()
 
 
 // 今の座標を渡す用ゲッター
-VECTOR BasicObject::GetArea()
+const VECTOR BasicObject::GetArea() const
 {
 	return area;
 }

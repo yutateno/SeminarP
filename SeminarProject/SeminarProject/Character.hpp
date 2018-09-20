@@ -20,12 +20,12 @@ private:
 
 
 public:
-	Character(int modelHandle, int collStageHandle);	// コンストラクタ
+	Character(const int modelHandle, const int collStageHandle);	// コンストラクタ
 	~Character();					// デストラクタ
 
 
 	void Draw();
-	void Process(unsigned __int8 controllNumber, float getAngle);
+	void Process(const unsigned __int8 controllNumber, const float getAngle);
 
 
 	void PositionReset();

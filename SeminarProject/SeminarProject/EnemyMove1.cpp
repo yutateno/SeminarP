@@ -46,7 +46,7 @@ void EnemyMove1::MoveProcess()
 
 
 // コンストラクタ
-EnemyMove1::EnemyMove1(int collStageHandle, float areaX, float areaZ, float color) : BasicCreature(collStageHandle)
+EnemyMove1::EnemyMove1(const int collStageHandle, const float areaX, const float areaZ, const float color) : BasicCreature(collStageHandle)
 {
 	// モデルの向きと位置
 	this->area = VGet(areaX, 40.0f, areaZ);
@@ -107,7 +107,7 @@ void EnemyMove1::Process()
 	MoveProcess();
 }
 
-void EnemyMove1::StolenChara(VECTOR characterArea)
+void EnemyMove1::StolenChara(const VECTOR characterArea)
 {
 	if (characterArea.x <= area.x)
 	{

@@ -1,7 +1,7 @@
 #include "DropItemMove1.hpp"
 
 
-DropItemMove1::DropItemMove1(int draw, int collStageHandle) : BasicObject(collStageHandle)
+DropItemMove1::DropItemMove1(const int draw, const int collStageHandle) : BasicObject(collStageHandle)
 {
 	area = VGet(1000.0f, 0.0f, 1000.0f);
 

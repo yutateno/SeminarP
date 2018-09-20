@@ -207,7 +207,7 @@ void InputPad::EverUpdate()
 
 
 // バイブレーションを行う
-void InputPad::Vibration(unsigned __int8 use_padnum, int time, unsigned __int16 rightVib, unsigned __int16 leftVib)
+void InputPad::Vibration(const unsigned __int8 use_padnum, const int time, const unsigned __int16 rightVib, const unsigned __int16 leftVib)
 {
 	// バイブレーション値
 	InputPad::vibration.wRightMotorSpeed = rightVib;
@@ -218,7 +218,7 @@ void InputPad::Vibration(unsigned __int8 use_padnum, int time, unsigned __int16 
 
 
 // バイブレーションを止める
-void InputPad::VibrationStop(unsigned __int8 use_padnum)
+void InputPad::VibrationStop(const unsigned __int8 use_padnum)
 {
 	// バイブレーション値
 	InputPad::vibration.wRightMotorSpeed = 0;				// 0にする
@@ -227,26 +227,26 @@ void InputPad::VibrationStop(unsigned __int8 use_padnum)
 	XInputSetState(use_padnum, &InputPad::vibration);		// バイブレーション値を設定
 }
 
-void InputPad::SetPlayerPadNum(unsigned __int8 playerPadNum)
+void InputPad::SetPlayerPadNum(const unsigned __int8 playerPadNum)
 {
 	InputPad::playerPadNum = playerPadNum;
 }
 
 
 // コントローラーの繋がっている数
-int InputPad::GetPadNum()
+const int InputPad::GetPadNum()
 {
 	return (int)InputPad::controllerNum;
 }
 
 // ボタン入力取得
-int InputPad::GetPadButtonData(unsigned __int8 use_padnum, unsigned __int8 use_button)
+const int InputPad::GetPadButtonData(const unsigned __int8 use_padnum, const unsigned __int8 use_button)
 {
 	return InputPad::button[use_padnum][use_button];
 }
 
 // トリガー入力取得
-int InputPad::GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerLeft)
+const int InputPad::GetPadTriggerData(const unsigned __int8 use_padnum, const bool use_Is_triggerLeft)
 {
 	if (use_Is_triggerLeft)
 	{
@@ -259,14 +259,14 @@ int InputPad::GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerL
 }
 
 // スティック入力取得
-int InputPad::GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_stick)
+const int InputPad::GetPadThumbData(const unsigned __int8 use_padnum, const unsigned __int8 use_stick)
 {
 	return InputPad::stick[use_padnum][use_stick];
 }
 
 // スティックのデッドゾーン設定
-void InputPad::SetPadDeadZone(short leftPad_right, short leftPad_left
-	, short leftPad_up, short leftPad_down, short rightPad_right, short rightPad_left, short rightPad_up, short rightPad_down)
+void InputPad::SetPadDeadZone(const short leftPad_right, const short leftPad_left
+	, const short leftPad_up, const short leftPad_down, const short rightPad_right, const short rightPad_left, const short rightPad_up, const short rightPad_down)
 {
 	InputPad::stickDeadZone.LEFT_RIGHT	 = (leftPad_right	 == XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)		 ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_right;
 	InputPad::stickDeadZone.LEFT_LEFT	 = (leftPad_left	 == -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)	 ? -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : leftPad_left;

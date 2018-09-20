@@ -120,27 +120,27 @@ namespace MY_XINPUT	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		static void EverUpdate();			// ゲーム開始後操作更新
 
 
-		static void Vibration(unsigned __int8 use_padnum, int time = 0
-			, unsigned __int16 rightVib = VIB_MAX, unsigned __int16 leftVib = VIB_MAX);		// バイブレーションを行う
+		static void Vibration(const unsigned __int8 use_padnum, const int time = 0
+			, const unsigned __int16 rightVib = VIB_MAX, const unsigned __int16 leftVib = VIB_MAX);		// バイブレーションを行う
 
-		static void VibrationStop(unsigned __int8 use_padnum);								// バーブレーションを止める
-
-
-		static void SetPlayerPadNum(unsigned __int8 playerPadNum);					// プレイヤーの番号を設定
+		static void VibrationStop(const unsigned __int8 use_padnum);								// バーブレーションを止める
 
 
-		static void SetPadDeadZone(short leftPad_right = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE, short leftPad_left = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
-			, short leftPad_up = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE, short leftPad_down = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
-			, short rightPad_right = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_left = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
-			, short rightPad_up = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE, short rightPad_down = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);		// デッドゾーンの設定値変更  // (ある程度楽したいので一応デフォルト引数乱用)
+		static void SetPlayerPadNum(const unsigned __int8 playerPadNum);					// プレイヤーの番号を設定
+
+
+		static void SetPadDeadZone(const short leftPad_right = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE, const short leftPad_left = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
+			, const short leftPad_up	 = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE,	 const short leftPad_down = -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
+			, const short rightPad_right = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,	 const short rightPad_left = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+			, const short rightPad_up	 = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,	 const short rightPad_down = -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);		// デッドゾーンの設定値変更  // (ある程度楽したいので一応デフォルト引数乱用)
 
 		static void InitPadDeadZone();			// デッドゾーンを初期値に戻す
 
 
-		static int GetPadNum();																			// コントローラの数
-		static int GetPadButtonData(unsigned __int8 use_padnum, unsigned __int8 use_button);			// コントローラのボタン操作
-		static int GetPadTriggerData(unsigned __int8 use_padnum, bool use_Is_triggerLeft);				// コントローラのトリガー操作
-		static int GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_stick);				// コントローラのスティック操作
+		static const int GetPadNum();																			// コントローラの数
+		static const int GetPadButtonData(const unsigned __int8 use_padnum, const unsigned __int8 use_button);			// コントローラのボタン操作
+		static const int GetPadTriggerData(const unsigned __int8 use_padnum, const bool use_Is_triggerLeft);				// コントローラのトリガー操作
+		static const int GetPadThumbData(const unsigned __int8 use_padnum, const unsigned __int8 use_stick);				// コントローラのスティック操作
 	};
 }
 

@@ -54,7 +54,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = 0.0f;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::no);
+		Player_PlayAnim(MOTION::dash);
 	}
 	// 左スティックが後ろに押されたら後退する
 	if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
@@ -64,7 +64,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = DX_PI_F;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::no);
+		Player_PlayAnim(MOTION::dash);
 	}
 
 	// 左スティックが左に押されたら左に移動する
@@ -78,7 +78,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::no);
+		Player_PlayAnim(MOTION::dash);
 	}
 	// 左スティックが右に押されたら右に移動する
 	else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
@@ -91,7 +91,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::no);
+		Player_PlayAnim(MOTION::dash);
 	}
 	// キャラの前後の向きを気持ちよくするため
 	else
@@ -99,18 +99,18 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) == 0)
 		{
 			moveFlag = false;
-			Player_PlayAnim(MOTION::no);
+			Player_PlayAnim(MOTION::idle);
 		}
 	}
 
 	if (InputPad::GetPadButtonData(controllNumber, BUTTON_X) == 1)
 	{
-		Player_PlayAnim(MOTION::attack);
+		Player_PlayAnim(MOTION::action1);
 	}
 }
 
 
-CharacterSword::CharacterSword(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
+CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -118,7 +118,7 @@ CharacterSword::CharacterSword(int modelHandle, int collStageHandle) : BasicCrea
 
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
-	attachNum = MOTION::no;
+	attachNum = MOTION::idle;
 	attachMotion = MV1AttachAnim(this->modelHandle, attachNum, -1, FALSE);
 
 
@@ -163,7 +163,7 @@ CharacterSword::~CharacterSword()
 
 
 // メインプロセス
-void CharacterSword::Process(unsigned __int8 controllNumber, float getAngle)
+void CharacterSword::Process(const unsigned __int8 controllNumber, const float getAngle)
 {
 	preArea = area;		// 直前の座標
 	if (moveFlag)

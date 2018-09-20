@@ -28,7 +28,7 @@ public:
 	~LoadFile() {};		// デストラクタ
 
 
-	static void MyLoad(std::string path, int& file, ELOADFILE type);	// メディアのロードを行う
+	static void MyLoad(const std::string path, int& file, const ELOADFILE type);	// メディアのロードを行う
 };
 
 #endif // !_ME_LoadFile_HPP

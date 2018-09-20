@@ -1,7 +1,7 @@
 #include "StageStreetLight.hpp"
 
 
-StageStreetLight::StageStreetLight(int draw, int collStageHandle, VECTOR area) : BasicObject(collStageHandle)
+StageStreetLight::StageStreetLight(const int draw, const int collStageHandle, const VECTOR area) : BasicObject(collStageHandle)
 {
 	this->area = area;
 

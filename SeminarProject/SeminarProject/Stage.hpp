@@ -9,7 +9,7 @@ private:
 
 
 public:
-	Stage(int drawStageHandle);		// コンストラクタ
+	Stage(const int drawStageHandle);		// コンストラクタ
 	~Stage();						// デストラクタ
 
 

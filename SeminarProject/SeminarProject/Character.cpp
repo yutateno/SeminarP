@@ -106,7 +106,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 
 
 // コンストラクタ
-Character::Character(int modelHandle, int collStageHandle) : BasicCreature(collStageHandle)
+Character::Character(const int modelHandle, const int collStageHandle) : BasicCreature(collStageHandle)
 {
 	// ３Ｄモデルの読み込み
 	this->modelHandle = 0;
@@ -159,7 +159,7 @@ Character::~Character()
 
 
 // メインプロセス
-void Character::Process(unsigned __int8 controllNumber, float getAngle)
+void Character::Process(const unsigned __int8 controllNumber, const float getAngle)
 {
 	preArea = area;		// 直前の座標
 	if (moveFlag)

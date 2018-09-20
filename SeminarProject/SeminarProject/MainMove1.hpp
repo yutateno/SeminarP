@@ -75,10 +75,10 @@ private:
 
 
 public:
-	MainMove1(std::vector<int> v_file);			// コンストラクタ
+	MainMove1(const std::vector<int> v_file);			// コンストラクタ
 	~MainMove1();							// デストラクタ
 
 
 	void Draw();										// 描画
-	void Process(unsigned __int8 controllNumber);		// プロセス
+	void Process(const unsigned __int8 controllNumber);		// プロセス
 };

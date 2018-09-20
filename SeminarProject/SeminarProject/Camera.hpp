@@ -16,16 +16,16 @@ private:
 
 
 	float speed;					// 回転スピード
-	void RLrotate(float speed, VECTOR* p_cameraArea);	// 回転を行う関数
+	void RLrotate(const float speed, VECTOR& p_cameraArea);	// 回転を行う関数
 
 
 public:
-	Camera(VECTOR charaarea, int collStageHandle);				// キャラの位置を引数に取ったコンストラクタ
+	Camera(const VECTOR charaarea, const int collStageHandle);				// キャラの位置を引数に取ったコンストラクタ
 	~Camera();													// デストラクタ
 
 
-	void Process(VECTOR charaarea, unsigned __int8 controllNumber);		// キャラの位置を引数に取ったプロセス
+	void Process(const VECTOR charaarea, const unsigned __int8 controllNumber);		// キャラの位置を引数に取ったプロセス
 
 
-	float GetAngle();				// キャラクターのアングル
+	const float GetAngle() const;				// キャラクターのアングル
 };

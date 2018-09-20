@@ -20,7 +20,7 @@ LoadScreen::~LoadScreen()
 	}
 }
 
-void LoadScreen::Process(int num, int max)
+void LoadScreen::Process(const int num, const int max)
 {
 	if (num < max)
 	{

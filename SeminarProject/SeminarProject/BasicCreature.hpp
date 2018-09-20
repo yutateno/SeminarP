@@ -54,6 +54,6 @@ private:
 
 
 public:
-	BasicCreature(int collStageHandle);
+	BasicCreature(const int collStageHandle);
 	virtual ~BasicCreature();
 };

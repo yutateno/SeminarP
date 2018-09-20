@@ -7,7 +7,7 @@ class DropItemMove1 : public BasicObject
 private:
 
 public:
-	DropItemMove1(int draw, int collStageHandle);
+	DropItemMove1(const int draw, const int collStageHandle);
 	~DropItemMove1();
 
 

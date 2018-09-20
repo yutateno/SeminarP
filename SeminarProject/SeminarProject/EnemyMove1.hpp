@@ -13,7 +13,7 @@ private:
 
 
 public:
-	EnemyMove1(int collStageHandle, float areaX, float areaZ, float color);
+	EnemyMove1(const int collStageHandle, const float areaX, const float areaZ, const float color);
 	~EnemyMove1();
 
 
@@ -21,6 +21,6 @@ public:
 	void Process();
 
 
-	void StolenChara(VECTOR characterArea);		// キャラクターが近づいたら
+	void StolenChara(const VECTOR characterArea);		// キャラクターが近づいたら
 	void Collected();						// 個数分集まったら
 };

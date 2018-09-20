@@ -38,11 +38,11 @@ private:
 	void ShadowDraw();
 
 public:
-	MainMove2(std::vector<int> v_file);
+	MainMove2(const std::vector<int> v_file);
 	~MainMove2();
 
 	
 	void Draw();
-	void Process(unsigned __int8 controllNumber);
+	void Process(const unsigned __int8 controllNumber);
 };
 

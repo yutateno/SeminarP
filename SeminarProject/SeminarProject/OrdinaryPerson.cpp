@@ -96,7 +96,7 @@ void OrdinaryPerson::MoveProcess()
 }
 
 
-OrdinaryPerson::OrdinaryPerson(int modelHandle, int collStageHandle, VECTOR area) : BasicCreature(collStageHandle)
+OrdinaryPerson::OrdinaryPerson(const int modelHandle, const int collStageHandle, const VECTOR area) : BasicCreature(collStageHandle)
 {
 	// ‚R‚cƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
 	this->modelHandle = 0;

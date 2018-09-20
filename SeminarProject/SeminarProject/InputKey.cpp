@@ -32,7 +32,7 @@ bool KeyData::CheckEnd()
 	return { KeyData::key[KEY_INPUT_ESCAPE] <= 0 };
 }
 
-int KeyData::Get(int KeyCode)
+const int KeyData::Get(const int KeyCode)
 {
 	return KeyData::key[KeyCode];
 }

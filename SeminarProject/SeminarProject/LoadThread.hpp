@@ -15,7 +15,7 @@ private:
 	LoadScreen* p_loadScreen;		// ロード画面のポインタ
 
 
-	void MyNextLoad(std::string path, int& file, ELOADFILE type);		// 非同期を行うメソッド
+	void MyNextLoad(const std::string path, int& file, const ELOADFILE type);		// 非同期を行うメソッド
 
 	   
 public:
@@ -23,11 +23,11 @@ public:
 	~LoadThread();		// デストラクタ
 
 
-	void Process(int max, std::string* path, ELOADFILE* type);		// 行う
+	void Process(const int max, const std::string* path, const ELOADFILE* type);		// 行う
 
 
-	std::vector<int> GetFile();		// ロードしたものを渡す
+	const std::vector<int> GetFile() const;		// ロードしたものを渡す
 
 
-	int GetNum();			// ロードを終えた数
+	const int GetNum() const;			// ロードを終えた数
 };

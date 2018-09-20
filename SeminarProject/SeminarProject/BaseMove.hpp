@@ -63,12 +63,12 @@ protected:
 	void ShadowNoMoveDrawAfter();
 
 	// 座標を更新し続ける
-	void ShadowArea(VECTOR charaArea);
+	void ShadowArea(const VECTOR charaArea);
 	// ---------------------------------------------------------
 
 
 	// 二つのモデルの距離
-	int GetDistance(VECTOR alpha, VECTOR beta);
+	int GetDistance(const VECTOR alpha, const VECTOR beta);
 
 
 public:
@@ -76,11 +76,11 @@ public:
 	virtual ~BaseMove();		// デストラクタ
 
 	virtual void Draw() = 0;										// 描画
-	virtual void Process(unsigned __int8 controllNumber) = 0;		// プロセス
+	virtual void Process(const unsigned __int8 controllNumber) = 0;		// プロセス
 
-	static bool GetEndFlag();		// 終了ゲッター
-	static ESceneNumber GetScene();	// 今のシーンゲッター
+	static const bool GetEndFlag();		// 終了ゲッター
+	static const ESceneNumber GetScene();	// 今のシーンゲッター
 
-	void SetScene(ESceneNumber scene);	// 今のシーンセッター
+	void SetScene(const ESceneNumber scene);	// 今のシーンセッター
 };
 

@@ -3,9 +3,9 @@
 using namespace MY_XINPUT;
 
 // コンストラクタ
-Camera::Camera(VECTOR charaarea, int collStageHandle)
+Camera::Camera(const VECTOR charaarea, const int collStageHandle)
 {
-	stageHandle = collStageHandle;
+	stageHandle = MV1DuplicateModel(collStageHandle);
 
 	cameraArea = VGet(0, 350, 500);
 	viewArea = VGet(0, 150, 0);
@@ -24,12 +24,16 @@ Camera::Camera(VECTOR charaarea, int collStageHandle)
 // デストラクタ
 Camera::~Camera()
 {
-
+	if (stageHandle != -1)
+	{
+		MV1DeleteModel(stageHandle);
+		stageHandle = 0;
+	}
 }
 
 
 // メインプロセス
-void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
+void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumber)
 {
 	charaArea = charaarea;					// キャラの位置を更新し続ける
 
@@ -37,14 +41,14 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 	if (KeyData::Get(KEY_INPUT_LEFT) >= 1
 		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_X) < 0)
 	{
-		RLrotate(speed, &cameraArea);	// 回転処理
+		RLrotate(speed, cameraArea);	// 回転処理
 		angle += speed;
 	}
 	// 右に回転中
 	if (KeyData::Get(KEY_INPUT_RIGHT) >= 1
 		|| InputPad::GetPadThumbData(controllNumber, STICK_RIGHT_X) > 0)
 	{
-		RLrotate(-speed, &cameraArea);	// 回転処理
+		RLrotate(-speed, cameraArea);	// 回転処理
 		angle -= speed;
 	}
 
@@ -75,15 +79,15 @@ void Camera::Process(VECTOR charaarea, unsigned __int8 controllNumber)
 }
 
 // ang角回転する
-void Camera::RLrotate(float speed, VECTOR* p_cameraArea)
+void Camera::RLrotate(const float speed, VECTOR& p_cameraArea)
 {
-	float tempX = p_cameraArea->x;
-	p_cameraArea->x = tempX * cosf(speed) + p_cameraArea->z *sinf(speed);
-	p_cameraArea->z = -tempX * sinf(speed) + p_cameraArea->z * cosf(speed);
+	float tempX = p_cameraArea.x;
+	p_cameraArea.x = tempX * cosf(speed) + p_cameraArea.z *sinf(speed);
+	p_cameraArea.z = -tempX * sinf(speed) + p_cameraArea.z * cosf(speed);
 }
 
 // カメラのアングルを渡すゲッター
-float Camera::GetAngle()
+const float Camera::GetAngle() const
 {
 	return angle;
 }
