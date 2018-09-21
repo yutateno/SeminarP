@@ -13,6 +13,7 @@ protected:
 	// 動きに関して
 	float walkSpeed;	// 移動スピード
 	float animSpeed;	// モーションスピード
+	int fallCount;		// 当たり判定モデル全てから落ちているかどうか
 
 
 	// モデルに関して

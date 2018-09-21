@@ -21,16 +21,31 @@ private:
 
 
 	// 動きに関して
+	bool walkNow;
 	void MoveProcess(unsigned __int8 controllNumber);
 
 
 	// 攻撃に関して
-	bool attackNow;
-	bool attackNext;
-	float attackFrame;
-	int attackNumber;
-	int preAttackNumber;
-	void AttackProcess(unsigned __int8 controllNumber);
+	bool attackNow;											// 今攻撃しているかどうか
+	bool attackNext;										// 次のコンボへつなげるかどうか
+	float attackFrame;										// 今の攻撃のフレーム数
+	int attackNumber;										// 攻撃の番号
+	int preAttackNumber;									// 直前の攻撃の番号
+	void AttackProcess(unsigned __int8 controllNumber);		// 攻撃のプロセス
+
+
+	// ジャンプに関して
+	bool jumpNow;
+	bool jumpUpNow;
+	float jumpPower;
+	float gravity;
+	float flyJumpPower;
+	float fallJumpPower;
+	void JumpProcess(unsigned __int8 controllNumber);
+
+
+	// 行動によってアニメーションの管理
+	void AnimProcess();
 
 
 public:

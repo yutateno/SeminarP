@@ -115,7 +115,7 @@ MainMove2::~MainMove2()
 // 描画
 void MainMove2::Draw()
 {
-	DrawGraph(0, 0, backGround, false);
+	//DrawGraph(0, 0, backGround, false);
 
 
 	ShadowDraw();
@@ -143,8 +143,8 @@ void MainMove2::Draw()
 // メインプロセス
 void MainMove2::Process(const unsigned __int8 controllNumber)
 {
-	GetDrawScreenGraph(0, 0, 1920, 1080, backGround);						// 現在の画面をキャプチャする
-	GraphFilter(backGround, DX_GRAPH_FILTER_GAUSS, 8, 1400);				// 現在の画面にガウスフィルタかけてぼかす
+	//GetDrawScreenGraph(0, 0, 1920, 1080, backGround);						// 現在の画面をキャプチャする
+	//GraphFilter(backGround, DX_GRAPH_FILTER_GAUSS, 8, 1400);				// 現在の画面にガウスフィルタかけてぼかす
 
 	p_character->Process(controllNumber, p_camera->GetAngle());		// キャラクターのプロセスを呼ぶ
 

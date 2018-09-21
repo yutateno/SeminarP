@@ -255,6 +255,8 @@ void BasicCreature::ActorHit(int stageHandle)
 
 		maxYHit = 0.0f;			// ‰Šú‰»‚·‚é
 
+		fallCount++;			// •‚‚¢‚Ä‚¢‚é‚Æ‚·‚é
+
 		for (int i = 0; i != floorNum; ++i)
 		{
 			mainPoly = floorPoly[i];			// ¡’²‚×‚éƒ|ƒŠƒSƒ“î•ñ‚ğ“n‚·
@@ -278,15 +280,17 @@ void BasicCreature::ActorHit(int stageHandle)
 			hitFlag = true;
 		}
 
-		// “–‚½‚Á‚½‚©‚Ç‚¤‚©‚Åˆ—
+		// °‚É“–‚½‚Á‚½‚©‚Ç‚¤‚©‚Åˆ—
 		if (hitFlag)
 		{
 			area.y = maxYHit;
+
+			fallCount = 0;
 		}
 	}
-	else		// •‚‚¢‚Ä‚¢‚½‚ç
+	else	// °‚ÉG‚ê‚Ä‚¢‚È‚¢
 	{
-		area.y -= 1.5f;
+		area.y -= 0.75f;
 	}
 
 	// ŒŸo‚µ‚½î•ñ‚ğ‰ğ•ú‚·‚é
@@ -317,6 +321,8 @@ BasicCreature::BasicCreature(const int collStageHandle) :BasicObject(collStageHa
 	motionBlendTime = 0.0f;
 	preAttach = -1;
 	preMotionPlayTime = 0.0f;
+
+	fallCount = 0;
 
 	angle = 0.0f;
 }

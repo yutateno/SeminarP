@@ -10,26 +10,30 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 	if (moveFlag)
 	{
 		animSpeed = 1.0f;
-		if (direXAngle == 0.0f)
+		if (direXAngle == 0.0f || direXAngle == DX_PI_F / 2.0f || direXAngle == -DX_PI_F / 2.0f)
 		{
-			if (walkSpeed < 20.0f)
+			if (walkSpeed < 50.0f)
 			{
-				walkSpeed += 2.5f;
+				walkNow = true;
+				walkSpeed += 5.0f;
 			}
 			else
 			{
-				walkSpeed = 20.0f;
+				walkNow = false;
+				walkSpeed = 50.0f;
 			}
 		}
 		else	// 斜め方向
 		{
-			if (walkSpeed < 12.0f)
+			if (walkSpeed < 35.0f)
 			{
-				walkSpeed += 3.0f;
+				walkNow = true;
+				walkSpeed += 5.0f;
 			}
 			else
 			{
-				walkSpeed = 12.0f;
+				walkNow = false;
+				walkSpeed = 35.0f;
 			}
 		}
 	}
@@ -38,10 +42,12 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		animSpeed = 0.5f;
 		if (walkSpeed > 0.0f)
 		{
+			walkNow = true;
 			walkSpeed -= 5.0f;
 		}
 		else
 		{
+			walkNow = false;
 			walkSpeed = 0.0f;
 		}
 	}
@@ -54,7 +60,6 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = 0.0f;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::dash);
 	}
 	// 左スティックが後ろに押されたら後退する
 	if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
@@ -64,7 +69,6 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		direXAngle = 0.0f;
 		direZAngle = DX_PI_F;
 		moveFlag = true;
-		Player_PlayAnim(MOTION::dash);
 	}
 
 	// 左スティックが左に押されたら左に移動する
@@ -78,7 +82,6 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::dash);
 	}
 	// 左スティックが右に押されたら右に移動する
 	else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
@@ -91,7 +94,6 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			direXAngle = -direXAngle;
 		}
 		moveFlag = true;
-		Player_PlayAnim(MOTION::dash);
 	}
 	// キャラの前後の向きを気持ちよくするため
 	else
@@ -99,7 +101,6 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) == 0)
 		{
 			moveFlag = false;
-			Player_PlayAnim(MOTION::idle);
 		}
 	}
 }
@@ -114,15 +115,12 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		// 最初の時
 		if (attackFrame == 0)
 		{
-			walkSpeed = 60.0f;									// 移動速度を変更
 			animSpeed = 0.4f;									// アニメーション速度を変更
 			
 			
 			// 移動プロセスから流用して前方に移動させる
 			area.x += sinf(angle + direXAngle) * -walkSpeed;
 			area.z += cosf(angle + direXAngle) * -walkSpeed;
-			direXAngle = 0.0f;
-			direZAngle = 0.0f;
 
 
 			attackNow = true;					// 攻撃しているフラッグを立てる
@@ -143,10 +141,8 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		if (attackNext)
 		{
 			// 前方に移動する
-			area.x += sinf(angle + direXAngle) * -walkSpeed;
-			area.z += cosf(angle + direXAngle) * -walkSpeed;
-			direXAngle = 0.0f;
-			direZAngle = 0.0f;
+			area.x += sinf(angle + direXAngle) * -walkSpeed * (1 + (-2 * (direZAngle / DX_PI_F)));
+			area.z += cosf(angle + direXAngle) * -walkSpeed * (1 + (-2 * (direZAngle / DX_PI_F)));
 
 
 			// 直前の攻撃モーションで次のモーションを決める
@@ -154,11 +150,13 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 			{
 			// 最初の攻撃時
 			case MOTION::action1:
+				animSpeed = 0.4f;									// アニメーション速度を変更
 				attackNumber = MOTION::action2;
 				preAttackNumber = attackNumber;
 				break;
 			// 二コンボ目の攻撃時
 			case MOTION::action2:
+				animSpeed = 0.4f;									// アニメーション速度を変更
 				attackNumber = MOTION::action3;
 				preAttackNumber = attackNumber;
 				break;
@@ -168,9 +166,10 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 				attackNumber = MOTION::action1;
 				preAttackNumber = attackNumber;
 				walkSpeed = 0.0f;
-				Player_PlayAnim(MOTION::idle);
 				break;
 			}
+
+
 			attackFrame = 0;		// 攻撃のフレームを消す
 			attackNext = false;		// 次の攻撃するかどうかを倒す
 		}
@@ -178,7 +177,6 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		else
 		{
 			walkSpeed = 0.0f;
-			Player_PlayAnim(MOTION::idle);
 			attackNow = false;					// 攻撃フラッグを倒す
 			attackFrame = 0;
 			attackNumber = MOTION::action1;
@@ -191,8 +189,19 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 	// 攻撃フラッグが立ったら
 	if (attackNow)
 	{
+		if (walkSpeed < 60.0f)
+		{
+			walkSpeed += 20.0f;
+		}
+		else
+		{
+			walkSpeed = 60.0f;
+		}
+
+
 		attackFrame += animSpeed;
-		Player_PlayAnim(attackNumber);
+
+
 		// 左スティックが前に押されたら前を向く
 		if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y) > 0)
 		{
@@ -202,7 +211,6 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		// 左スティックが後ろに押されたら後ろを向く
 		if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_Y))
 		{
-			walkSpeed = -60.0f;
 			direXAngle = 0.0f;
 			direZAngle = DX_PI_F;
 		}
@@ -226,10 +234,116 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 			}
 		}
 	}
-	// 攻撃フラッグが倒れていたら
+}
+
+
+// ジャンプに関するプロセス
+void CharacterSword::JumpProcess(unsigned __int8 controllNumber)
+{
+	// 浮いてない状態でジャンプするコマンドを押したら
+	if (InputPad::GetPadButtonData(controllNumber, BUTTON_A) == 1
+		&& !jumpNow)
+	{
+		jumpNow = true;					// 飛んでいる
+		jumpUpNow = true;				// 上に上がっている
+		jumpPower = flyJumpPower;		// 飛ぶ速度を加える
+	}
+
+
+	// 足元に何もなかったら
+	if (fallCount > 1)
+	{
+		// 飛ぶコマンドで飛んでいなかったら
+		if (!jumpNow)
+		{
+			jumpNow = true;				// 飛んでいる
+
+			jumpPower = fallJumpPower;	// 落下速度を加える
+		}
+	}
+
+
+	// 飛んでいる
+	if (jumpNow)
+	{
+		walkSpeed = 10.0f;
+		animSpeed = 1.0f;
+		jumpPower -= gravity;			// 落下重力を加え続ける
+		area.y += jumpPower;			// Y座標に加え続ける
+		
+		
+		// ジャンプにて最頂点に到達したら
+		if (jumpPower <= 0.0f)
+		{
+			jumpUpNow = false;			// 落下に切り替える
+
+			// 地面に触れたら
+			if (fallCount <= 1)
+			{
+				jumpNow = false;
+				jumpPower = 0;
+				jumpUpNow = false;
+			}
+		}
+		else
+		{
+			// 地面に触れてなかったら
+			if (fallCount > 1)
+			{
+				jumpUpNow = false;		// 階段から落ちてる
+			}
+			else
+			{
+				jumpUpNow = true;		// 通常ジャンプにてジャンプした
+			}
+		}
+	}
+}
+
+
+// アニメーションのプロセス
+void CharacterSword::AnimProcess()
+{
+	// 飛んでいる
+	if (jumpNow)
+	{
+		// 上昇している
+		if (jumpUpNow)
+		{
+			Player_PlayAnim(MOTION::jump);
+		}
+		else
+		{
+			Player_PlayAnim(MOTION::fall);
+		}
+	}
 	else
 	{
-		
+		// 攻撃している
+		if (attackNow)
+		{
+			Player_PlayAnim(attackNumber);
+		}
+		else
+		{
+			// 動いている
+			if (moveFlag)
+			{
+				// 歩く速度の時
+				if (walkNow)
+				{
+					Player_PlayAnim(MOTION::walk);
+				}
+				else
+				{
+					Player_PlayAnim(MOTION::dash);
+				}
+			}
+			else
+			{
+				Player_PlayAnim(MOTION::idle);
+			}
+		}
 	}
 }
 
@@ -242,7 +356,7 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle,
 
 
 	// ３Ｄモデルの0番目のアニメーションをアタッチする
-	attachNum = MOTION::action1;
+	attachNum = MOTION::idle;
 	attachMotion = MV1AttachAnim(this->modelHandle, attachNum, -1, FALSE);
 
 
@@ -260,6 +374,7 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle,
 	preArea = area;
 	direXAngle = 0.0f;
 	direZAngle = 0.0f;
+	walkNow = false;
 
 
 	// 足元の影に関する
@@ -278,6 +393,15 @@ CharacterSword::CharacterSword(const int modelHandle, const int collStageHandle,
 	attackFrame = 0;
 	attackNumber = MOTION::action1;
 	preAttackNumber = MOTION::action1;
+
+
+	// ジャンプに関して
+	jumpNow = false;
+	jumpUpNow = false;
+	jumpPower = 0.0f;
+	gravity = 0.75f;
+	flyJumpPower = 30.0f;
+	fallJumpPower = 3.0f;
 
 
 	// ステージのコリジョン情報の更新
@@ -338,17 +462,27 @@ void CharacterSword::Process(const unsigned __int8 controllNumber, const float g
 	// 攻撃のプロセス
 	AttackProcess(controllNumber);
 
+	
 	// モーションの実態
 	Player_AnimProcess();
 
 
+	// モーションのプロセス
+	AnimProcess();
+
+
+	// 階段のあたり判定
 	for (int i = 0; i != 10; ++i)
 	{
 		ActorHit(stairsHandle[i]);
 	}
 
+	// ジャンプのプロセス
+	JumpProcess(controllNumber);
+
 	// ステージのあたり判定
 	StageHit();
+
 
 
 	// 第二引数の回転角度をセット
@@ -371,7 +505,7 @@ void CharacterSword::Draw()
 
 	BasicObject::ShadowFoot();
 
-	printfDx("%f\t%f\n", area.x, area.z);
+	printfDx("%f\t%d\n", walkSpeed, fallCount);
 
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
