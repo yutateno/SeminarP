@@ -75,6 +75,16 @@ void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumbe
 	}
 
 	// 第一引数の視点から第二引数のターゲットを見る角度にカメラを設置
+	//SetCameraPositionAndTarget_UpVecY(VAdd(cameraArea, charaArea), VAdd(viewArea, charaArea));
+}
+
+void Camera::SetUp()
+{
+	SetupCamera_Perspective(60.0f * DX_PI_F / 180.0f);
+
+	SetCameraNearFar(100.0f, 10000.0f);	// カメラの描画範囲を指定
+
+	// 第一引数の視点から第二引数のターゲットを見る角度にカメラを設置
 	SetCameraPositionAndTarget_UpVecY(VAdd(cameraArea, charaArea), VAdd(viewArea, charaArea));
 }
 

@@ -71,11 +71,17 @@ Manager::Manager()
 	p_loadThread = NULL;
 
 	p_loadThread = new LoadThread();
+
+
+	SetCreateDrawValidGraphMultiSample(4, 4);			// 4x4のアンチエイリアシングモードにする
+	antiAliasScreen = MakeScreen(1920, 1080, false);	// アンチエイリアシング用の画面を作成
+	SetCreateDrawValidGraphMultiSample(0, 0);			// 元に戻す
 }
 
 
 Manager::~Manager()
 {
+	DeleteGraph(antiAliasScreen);
 	POINTER_RELEASE(p_baseMove);
 	POINTER_RELEASE(p_loadThread);
 }
@@ -108,9 +114,20 @@ void Manager::Update(const unsigned __int8 controllNumber)
 		}
 		else
 		{
+			// アンチエイリアス画面に対して描画処理を行う
+			SetDrawScreen(antiAliasScreen);
+			ClearDrawScreen();
+			p_baseMove->CameraProcess();
 			p_baseMove->Draw();
 			p_baseMove->Process(controllNumber);
 			e_nowScene = p_baseMove->GetScene();
+
+
+			// アンチエイリアス画面に描画したものを裏画面に書き込む
+			SetDrawScreen(DX_SCREEN_BACK);
+			DrawGraph(0, 0, antiAliasScreen, false);
+			p_baseMove->CameraProcess();				// SetDrawScreenを行うとカメラの設定がなくなるので再設定を行う
+			ScreenFlip();
 		}
 	}
 	else

@@ -81,4 +81,5 @@ public:
 
 	void Draw();										// •`‰æ
 	void Process(const unsigned __int8 controllNumber);		// ƒvƒƒZƒX
+	void CameraProcess();
 };

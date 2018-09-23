@@ -410,6 +410,13 @@ void MainMove1::Process(const unsigned __int8 controllNumber)
 }
 
 
+void MainMove1::CameraProcess()
+{
+	p_camera->SetUp();
+}
+
+
+
 #ifdef _DEBUG
 void MainMove1::DebugKeyControll()
 {

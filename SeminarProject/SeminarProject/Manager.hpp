@@ -33,6 +33,10 @@ private:
 
 
 
+	int antiAliasScreen;
+
+
+
 public:
 	Manager();			// コンストラクタ
 	~Manager();			// デストラクタ

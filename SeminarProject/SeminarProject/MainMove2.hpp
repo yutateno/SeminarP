@@ -44,5 +44,6 @@ public:
 	
 	void Draw();
 	void Process(const unsigned __int8 controllNumber);
+	void CameraProcess();
 };
 

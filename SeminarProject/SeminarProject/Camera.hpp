@@ -27,5 +27,8 @@ public:
 	void Process(const VECTOR charaarea, const unsigned __int8 controllNumber);		// キャラの位置を引数に取ったプロセス
 
 
+	void SetUp();
+
+
 	const float GetAngle() const;				// キャラクターのアングル
 };

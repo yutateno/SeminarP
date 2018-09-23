@@ -81,6 +81,7 @@ public:
 
 	virtual void Draw() = 0;										// 描画
 	virtual void Process(const unsigned __int8 controllNumber) = 0;		// プロセス
+	virtual void CameraProcess() = 0;
 
 	static const bool GetEndFlag();		// 終了ゲッター
 	static const ESceneNumber GetScene();	// 今のシーンゲッター

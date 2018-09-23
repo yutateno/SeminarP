@@ -157,3 +157,9 @@ void MainMove2::Process(const unsigned __int8 controllNumber)
 
 	BaseMove::ShadowArea(p_character->GetArea());
 }
+
+
+void MainMove2::CameraProcess()
+{
+	p_camera->SetUp();		// カメラのプロセスを呼ぶ
+}
