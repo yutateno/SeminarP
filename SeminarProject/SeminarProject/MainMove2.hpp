@@ -9,7 +9,10 @@
 
 #include <random>
 
-
+/*
+オブジェクトを集めるシーン
+箱を壊してドロップアイテムを得る、得たらフィールドの特定の地点で使用してオブジェクトを生成する。
+*/
 class MainMove2 : public BaseMove
 {
 private:

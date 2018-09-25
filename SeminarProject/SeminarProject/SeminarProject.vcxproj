@@ -160,6 +160,10 @@
     <ClCompile Include="DropItemMove1.cpp" />
     <ClCompile Include="EnemyMove1.cpp" />
     <ClCompile Include="EnemyMove2.cpp" />
+    <ClCompile Include="MainMove3.cpp" />
+    <ClCompile Include="MainMove4.cpp" />
+    <ClCompile Include="MainMove5.cpp" />
+    <ClCompile Include="MainMove6.cpp" />
     <ClCompile Include="OrdinaryPerson.cpp" />
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="InputPad.cpp" />
@@ -186,6 +190,10 @@
     <ClInclude Include="DropItemMove1.hpp" />
     <ClInclude Include="EnemyMove1.hpp" />
     <ClInclude Include="EnemyMove2.hpp" />
+    <ClInclude Include="MainMove3.hpp" />
+    <ClInclude Include="MainMove4.hpp" />
+    <ClInclude Include="MainMove5.hpp" />
+    <ClInclude Include="MainMove6.hpp" />
     <ClInclude Include="OrdinaryPerson.hpp" />
     <ClInclude Include="InputKey.hpp" />
     <ClInclude Include="InputPad.hpp" />

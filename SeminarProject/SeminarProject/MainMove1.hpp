@@ -9,6 +9,10 @@
 #include <random>
 
 
+/*
+光を集めるシーン
+浮いている玉を集めて光を手に入れる
+*/
 class MainMove1 : public BaseMove
 {
 private:

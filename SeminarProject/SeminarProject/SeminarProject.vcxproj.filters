@@ -141,6 +141,18 @@
     <ClCompile Include="StageStreetLight.cpp">
       <Filter>ソース ファイル\Actor\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="MainMove3.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMove4.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMove5.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMove6.cpp">
+      <Filter>ソース ファイル\MoveLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp">
@@ -211,6 +223,18 @@
     </ClInclude>
     <ClInclude Include="StageStreetLight.hpp">
       <Filter>ヘッダー ファイル\Actor\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove3.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove4.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove5.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMove6.hpp">
+      <Filter>ヘッダー ファイル\MoveLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
