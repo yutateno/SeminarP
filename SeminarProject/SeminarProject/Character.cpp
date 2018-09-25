@@ -72,7 +72,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * walkSpeed;
 		area.z += sinf(-angle) * walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-(BASIC::MAX_STICK_MINUS);
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, false);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -85,7 +85,7 @@ void Character::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * -walkSpeed;
 		area.z += sinf(-angle) * -walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)(BASIC::MAX_STICK_PLUS);
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, true);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;

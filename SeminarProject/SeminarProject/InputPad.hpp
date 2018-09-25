@@ -60,6 +60,9 @@ namespace MY_XINPUT	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		const unsigned __int8 STICK_LEFT_X	 = 2;
 		const unsigned __int8 STICK_LEFT_Y	 = 3;
 
+		const int MAX_STICK_PLUS = 32767;
+		const int MAX_STICK_MINUS = -32768;
+
 
 		// バイブレーション
 		const unsigned __int16 VIB_MAX = 65535;
@@ -141,6 +144,7 @@ namespace MY_XINPUT	// XINPUT_STATEがあいまいとなるので一括スコープ逃げ
 		static const int GetPadButtonData(const unsigned __int8 use_padnum, const unsigned __int8 use_button);			// コントローラのボタン操作
 		static const int GetPadTriggerData(const unsigned __int8 use_padnum, const bool use_Is_triggerLeft);				// コントローラのトリガー操作
 		static const int GetPadThumbData(const unsigned __int8 use_padnum, const unsigned __int8 use_stick);				// コントローラのスティック操作
+		static const short GetPadThumbMax(const bool stickLightNow, const bool stickXAxisNow, const bool stickPlusNow);
 	};
 }
 

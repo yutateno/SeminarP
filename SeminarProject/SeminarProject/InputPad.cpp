@@ -167,7 +167,14 @@ void InputPad::EverUpdate()
 	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX > stickDeadZone.LEFT_RIGHT
 		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX < stickDeadZone.LEFT_LEFT)		// スティックを操作したら
 	{
-		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX;
+		if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX > 0)
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_LEFT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX - InputPad::stickDeadZone.LEFT_RIGHT;
+		}
+		else
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_LEFT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLX - InputPad::stickDeadZone.LEFT_LEFT;
+		}
 	}
 	else		// スティックを操作していない
 	{
@@ -177,7 +184,14 @@ void InputPad::EverUpdate()
 	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY > stickDeadZone.LEFT_UP
 		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY < stickDeadZone.LEFT_DOWN)		// スティックを操作したら
 	{
-		InputPad::stick[InputPad::playerPadNum][STICK_LEFT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY;
+		if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY > 0)
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_LEFT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY - InputPad::stickDeadZone.LEFT_UP;
+		}
+		else
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_LEFT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbLY - InputPad::stickDeadZone.LEFT_DOWN;
+		}
 	}
 	else		// スティックを操作していない
 	{
@@ -187,7 +201,14 @@ void InputPad::EverUpdate()
 	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX > stickDeadZone.RIGHT_RIGHT
 		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX < stickDeadZone.RIGHT_LEFT)		// スティックを操作したら
 	{
-		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX;
+		if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX > 0)
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX - InputPad::stickDeadZone.RIGHT_RIGHT;
+		}
+		else
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_X] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRX - InputPad::stickDeadZone.RIGHT_LEFT;
+		}
 	}
 	else		// スティックを操作していない
 	{
@@ -197,7 +218,14 @@ void InputPad::EverUpdate()
 	if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY > stickDeadZone.RIGHT_UP
 		|| InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY < stickDeadZone.RIGHT_DOWN)		// スティックを操作したら
 	{
-		InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY;
+		if (InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY > 0)
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY - InputPad::stickDeadZone.RIGHT_UP;
+		}
+		else
+		{
+			InputPad::stick[InputPad::playerPadNum][STICK_RIGHT_Y] = InputPad::state[InputPad::playerPadNum].Gamepad.sThumbRY - InputPad::stickDeadZone.RIGHT_DOWN;
+		}
 	}
 	else		// スティックを操作していない
 	{
@@ -262,6 +290,61 @@ const int InputPad::GetPadTriggerData(const unsigned __int8 use_padnum, const bo
 const int InputPad::GetPadThumbData(const unsigned __int8 use_padnum, const unsigned __int8 use_stick)
 {
 	return InputPad::stick[use_padnum][use_stick];
+}
+
+// 
+const short MY_XINPUT::InputPad::GetPadThumbMax(const bool stickLightNow, const bool stickXAxisNow, const bool stickPlusNow)
+{
+	if (stickLightNow)
+	{
+		if (stickXAxisNow)
+		{
+			if (stickPlusNow)
+			{
+				return MAX_STICK_PLUS - InputPad::stickDeadZone.RIGHT_RIGHT;
+			}
+			else
+			{
+				return -(MAX_STICK_MINUS - InputPad::stickDeadZone.RIGHT_LEFT);
+			}
+		}
+		else
+		{
+			if (stickPlusNow)
+			{
+				return MAX_STICK_PLUS - InputPad::stickDeadZone.RIGHT_UP;
+			}
+			else
+			{
+				return -(MAX_STICK_MINUS - InputPad::stickDeadZone.RIGHT_DOWN);
+			}
+		}
+	}
+	else
+	{
+		if (stickXAxisNow)
+		{
+			if (stickPlusNow)
+			{
+				return MAX_STICK_PLUS - InputPad::stickDeadZone.LEFT_RIGHT;
+			}
+			else
+			{
+				return -(MAX_STICK_MINUS - InputPad::stickDeadZone.LEFT_LEFT);
+			}
+		}
+		else
+		{
+			if (stickPlusNow)
+			{
+				return MAX_STICK_PLUS - InputPad::stickDeadZone.LEFT_UP;
+			}
+			else
+			{
+				return -(MAX_STICK_MINUS - InputPad::stickDeadZone.LEFT_DOWN);
+			}
+		}
+	}
 }
 
 // スティックのデッドゾーン設定

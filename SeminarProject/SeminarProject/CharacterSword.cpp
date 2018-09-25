@@ -76,7 +76,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * walkSpeed;
 		area.z += sinf(-angle) * walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-(BASIC::MAX_STICK_MINUS);
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, false);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -88,7 +88,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 	{
 		area.x += cosf(-angle) * -walkSpeed;
 		area.z += sinf(-angle) * -walkSpeed;
-		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)(BASIC::MAX_STICK_PLUS);
+		direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, true);
 		if (direZAngle != 0.0f)
 		{
 			direXAngle = -direXAngle;
@@ -218,7 +218,7 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		// 左スティックが左に押されたら左を向く
 		if (0 > InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X))
 		{
-			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)-(BASIC::MAX_STICK_MINUS);
+			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, false);
 			if (direZAngle != 0.0f)
 			{
 				direXAngle = -direXAngle;
@@ -227,7 +227,7 @@ void CharacterSword::AttackProcess(unsigned __int8 controllNumber)
 		// 左スティックが右に押されたら右を向く
 		else if (InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) > 0)
 		{
-			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)(BASIC::MAX_STICK_PLUS);
+			direXAngle = ((float)InputPad::GetPadThumbData(controllNumber, STICK_LEFT_X) * (DX_PI_F / 2.0f)) / (float)InputPad::GetPadThumbMax(false, true, true);
 			if (direZAngle != 0.0f)
 			{
 				direXAngle = -direXAngle;
