@@ -9,10 +9,10 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 	// ÉXÉÄÅ[ÉYÇ…ìÆÇ©ÇπÇÈ
 	if (moveFlag)
 	{
-		animSpeed = 1.0f;
+		animSpeed = 0.75f;
 		if (direXAngle == 0.0f || direXAngle == DX_PI_F / 2.0f || direXAngle == -DX_PI_F / 2.0f)
 		{
-			if (walkSpeed < 50.0f)
+			if (walkSpeed < 30.0f)
 			{
 				walkNow = true;
 				walkSpeed += 5.0f;
@@ -20,12 +20,12 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			else
 			{
 				walkNow = false;
-				walkSpeed = 50.0f;
+				walkSpeed = 30.0f;
 			}
 		}
 		else	// éŒÇﬂï˚å¸
 		{
-			if (walkSpeed < 35.0f)
+			if (walkSpeed < 20.0f)
 			{
 				walkNow = true;
 				walkSpeed += 5.0f;
@@ -33,7 +33,7 @@ void CharacterSword::MoveProcess(unsigned __int8 controllNumber)
 			else
 			{
 				walkNow = false;
-				walkSpeed = 35.0f;
+				walkSpeed = 20.0f;
 			}
 		}
 	}

@@ -12,7 +12,8 @@ private:
 
 
 	// ƒ‚[ƒVƒ‡ƒ“‚ÉŠÖ‚µ‚Ä
-	enum MOTION { idle, action1, action2, action3, skyAction1, skyAction2, skyAction3, dash, walk, jump, fall };
+	enum MOTION { idle, action1, action2, action3, skyAction1, skyAction2, skyAction3, dash, walk, jump, fall
+				, damage, death, gunAction, gunActionWalk, nagiharai, handUp};
 
 
 	// ŠK’i‚ÉŠÖ‚µ‚Ä
