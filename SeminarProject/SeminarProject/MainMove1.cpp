@@ -315,15 +315,10 @@ MainMove1::MainMove1(const std::vector<int> v_file)
 // デストラクタ
 MainMove1::~MainMove1()
 {
-	StopSoundMem(soundBG);
-	DeleteSoundMem(soundBG);
-
+	SOUND_RELEASE(soundBG);
 	for (int i = 0; i != lightNum; ++i)
 	{
-		if (lightHandle[i] != -1 || lightHandle[i] != 0)
-		{
-			DeleteLightHandle(lightHandle[i]);
-		}
+		LIGHT_RELEASE(lightHandle[i]);
 	}
 	for (int i = 0; i < enemyNum; ++i)
 	{

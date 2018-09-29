@@ -179,7 +179,6 @@
     <ClCompile Include="StageStreetLight.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseMacro.hpp" />
     <ClInclude Include="BaseMove.hpp" />
     <ClInclude Include="Basic.hpp" />
     <ClInclude Include="BasicCreature.hpp" />

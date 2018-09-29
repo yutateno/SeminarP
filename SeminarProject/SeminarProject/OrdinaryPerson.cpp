@@ -146,10 +146,7 @@ OrdinaryPerson::OrdinaryPerson(const int modelHandle, const int collStageHandle,
 
 OrdinaryPerson::~OrdinaryPerson()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 

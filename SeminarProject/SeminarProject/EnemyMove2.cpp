@@ -18,10 +18,7 @@ EnemyMove2::EnemyMove2(const int collStageHandle, const VECTOR area, const int m
 
 EnemyMove2::~EnemyMove2()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 void EnemyMove2::Draw()

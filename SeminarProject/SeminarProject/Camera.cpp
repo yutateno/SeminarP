@@ -24,11 +24,7 @@ Camera::Camera(const VECTOR charaarea, const int collStageHandle)
 // デストラクタ
 Camera::~Camera()
 {
-	if (stageHandle != -1)
-	{
-		MV1DeleteModel(stageHandle);
-		stageHandle = 0;
-	}
+	MODEL_RELEASE(stageHandle);
 }
 
 

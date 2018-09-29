@@ -176,9 +176,6 @@
     <ClInclude Include="Basic.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BaseMacro.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="BasicCreature.hpp">
       <Filter>ヘッダー ファイル\Actor\Creature</Filter>
     </ClInclude>

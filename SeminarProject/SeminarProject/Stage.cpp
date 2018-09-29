@@ -14,10 +14,7 @@ Stage::Stage(const int drawStageHandle)
 // デストラクタ
 Stage::~Stage()
 {
-	if (drawStageHandle != -1)
-	{
-		MV1DeleteModel(drawStageHandle);
-	}
+	MODEL_RELEASE(drawStageHandle);
 }
 
 

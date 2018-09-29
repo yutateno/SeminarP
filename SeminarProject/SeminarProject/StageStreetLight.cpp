@@ -18,10 +18,7 @@ StageStreetLight::StageStreetLight(const int draw, const int collStageHandle, co
 
 StageStreetLight::~StageStreetLight()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 void StageStreetLight::Draw()

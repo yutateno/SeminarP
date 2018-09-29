@@ -19,10 +19,7 @@ StageStairs::StageStairs(const int draw, const int collStageHandle, const VECTOR
 
 StageStairs::~StageStairs()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 void StageStairs::Draw()

@@ -5,9 +5,9 @@ using namespace std;
 // ファイルサイズを調べる
 unsigned int LoadFile::file_size(ifstream &fin)
 {
-	unsigned int pos = fin.tellg(); // 現在位置保存
+	unsigned int pos = static_cast<unsigned int>(fin.tellg()); // 現在位置保存
 
-	unsigned int size = fin.seekg(0, ios::end).tellg(); // 最後にシークして位置取得→サイズ
+	unsigned int size = static_cast<unsigned int>(fin.seekg(0, ios::end).tellg()); // 最後にシークして位置取得→サイズ
 
 	fin.seekg(pos); // 元の位置に戻す
 

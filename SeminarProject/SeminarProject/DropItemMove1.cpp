@@ -21,10 +21,7 @@ DropItemMove1::DropItemMove1(const int draw, const int collStageHandle) : BasicO
 
 DropItemMove1::~DropItemMove1()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 void DropItemMove1::Draw()

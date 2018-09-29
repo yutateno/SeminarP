@@ -103,14 +103,8 @@ BasicObject::BasicObject(const int collStageHandle)
 
 BasicObject::~BasicObject()
 {
-	if (shadowHandle != -1)
-	{
-		DeleteGraph(shadowHandle);
-	}
-	if (stageHandle != -1)
-	{
-		MV1DeleteModel(stageHandle);
-	}
+	GRAPHIC_RELEASE(shadowHandle);
+	MODEL_RELEASE(stageHandle);
 }
 
 

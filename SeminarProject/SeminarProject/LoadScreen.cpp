@@ -10,14 +10,8 @@ LoadScreen::LoadScreen()
 
 LoadScreen::~LoadScreen()
 {
-	if (draw != -1)
-	{
-		DeleteGraph(draw);
-	}
-	if (endDraw != -1)
-	{
-		DeleteGraph(endDraw);
-	}
+	GRAPHIC_RELEASE(draw);
+	GRAPHIC_RELEASE(endDraw);
 }
 
 void LoadScreen::Process(const int num, const int max)

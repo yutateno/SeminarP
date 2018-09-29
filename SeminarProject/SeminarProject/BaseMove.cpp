@@ -139,9 +139,9 @@ BaseMove::BaseMove()
 BaseMove::~BaseMove()
 {
 	// シャドウマップの削除
-	DeleteShadowMap(shadowMapNoMoveHandle);
-	DeleteShadowMap(shadowMapAnotherCharaHandle);
-	DeleteShadowMap(shadowMapCharaHandle);
+	SHADOW_MAP_RELEASE(shadowMapNoMoveHandle);
+	SHADOW_MAP_RELEASE(shadowMapAnotherCharaHandle);
+	SHADOW_MAP_RELEASE(shadowMapCharaHandle);
 }
 
 const bool BaseMove::GetEndFlag()

@@ -89,6 +89,14 @@ MainMove2::MainMove2(const std::vector<int> v_file)
 	}
 
 
+	skyBoxUp = 0;
+	skyBoxUp = MV1DuplicateModel(v_file[EFILE::skyBox]);
+	MV1SetScale(skyBoxUp, VGet(170.0f, 170.0f, 170.0f));
+	skyBoxUnder = MV1DuplicateModel(skyBoxUp);
+	MV1SetScale(skyBoxUnder, VGet(170.0f, 170.0f, 170.0f));
+	MV1SetRotationXYZ(skyBoxUnder, VGet(DX_PI_F, 0.0f, 0.0f));
+
+
 	BaseMove::ShadowNoMoveSetUpBefore();
 	p_stage->Draw();
 	BaseMove::ShadowNoMoveSetUpAfter();
@@ -97,6 +105,8 @@ MainMove2::MainMove2(const std::vector<int> v_file)
 
 MainMove2::~MainMove2()
 {
+	MODEL_RELEASE(skyBoxUnder);
+	MODEL_RELEASE(skyBoxUp);
 	for (int i = 0; i != 30; ++i)
 	{
 		POINTER_RELEASE(p_stageStreetLight[i]);
@@ -116,6 +126,17 @@ MainMove2::~MainMove2()
 void MainMove2::Draw()
 {
 	//DrawGraph(0, 0, backGround, false);
+
+	// ライティングを無効にする
+	SetUseLighting(FALSE);
+	// Ｚバッファを有効にする
+	SetUseZBuffer3D(TRUE);
+	MV1DrawModel(skyBoxUp);
+	MV1DrawModel(skyBoxUnder);
+	// ライティングを有効にする
+	SetUseLighting(TRUE);
+	// Ｚバッファを無効にする
+	SetUseZBuffer3D(FALSE);
 
 
 	ShadowDraw();
@@ -156,6 +177,10 @@ void MainMove2::Process(const unsigned __int8 controllNumber)
 
 
 	BaseMove::ShadowArea(p_character->GetArea());
+
+
+	MV1SetPosition(skyBoxUp, p_character->GetArea());
+	MV1SetPosition(skyBoxUnder, p_character->GetArea());
 }
 
 

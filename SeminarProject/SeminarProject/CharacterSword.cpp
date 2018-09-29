@@ -417,17 +417,9 @@ CharacterSword::~CharacterSword()
 {
 	for (int i = 0; i != 10; ++i)
 	{
-		if (stairsHandle[i] != -1)
-		{
-			MV1DeleteModel(stairsHandle[i]);
-			stairsHandle[i] = 0;
-		}
+		MODEL_RELEASE(stairsHandle[i]);
 	}
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-		modelHandle = 0;
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 void CharacterSword::SetStairsArea(const VECTOR stairsArea, const int num)

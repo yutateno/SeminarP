@@ -59,12 +59,14 @@ Manager::Manager()
 	move2str[3] = "media\\kaidan\\kaidan.myn";
 	move2str[4] = "media\\kaidan\\kaidan_hantei.myn";
 	move2str[5] = "media\\街灯\\Gaitou.myn";
+	move2str[6] = "media\\スカイボックス\\SkyDome.myn";
 	load2[0] = ELOADFILE::mv1model;
 	load2[1] = ELOADFILE::mv1model;
 	load2[2] = ELOADFILE::mv1model;
 	load2[3] = ELOADFILE::mv1model;
 	load2[4] = ELOADFILE::mv1model;
 	load2[5] = ELOADFILE::mv1model;
+	load2[6] = ELOADFILE::mv1model;
 
 
 	p_baseMove = NULL;
@@ -81,7 +83,7 @@ Manager::Manager()
 
 Manager::~Manager()
 {
-	DeleteGraph(antiAliasScreen);
+	GRAPHIC_RELEASE(antiAliasScreen);
 	POINTER_RELEASE(p_baseMove);
 	POINTER_RELEASE(p_loadThread);
 }

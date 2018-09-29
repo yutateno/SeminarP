@@ -151,10 +151,7 @@ Character::Character(const int modelHandle, const int collStageHandle) : BasicCr
 // デストラクタ
 Character::~Character()
 {
-	if (modelHandle != -1)
-	{
-		MV1DeleteModel(modelHandle);
-	}
+	MODEL_RELEASE(modelHandle);
 }
 
 

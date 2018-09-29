@@ -16,7 +16,7 @@
 class MainMove2 : public BaseMove
 {
 private:
-	enum EFILE { stage, characterAttack, block, stairs, stairsColl, streetLight };			// ロードで渡されるファイル
+	enum EFILE { stage, characterAttack, block, stairs, stairsColl, streetLight, skyBox };			// ロードで渡されるファイル
 
 
 	// ステージ
@@ -35,6 +35,11 @@ private:
 
 	// カメラ
 	Camera* p_camera;					// カメラのポインタ
+
+
+
+	int skyBoxUp;
+	int skyBoxUnder;
 
 
 

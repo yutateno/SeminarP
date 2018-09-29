@@ -330,8 +330,5 @@ BasicCreature::BasicCreature(const int collStageHandle) :BasicObject(collStageHa
 // デストラクタ
 BasicCreature::~BasicCreature()
 {
-	if (stageHandle != -1)
-	{
-		MV1DeleteModel(stageHandle);
-	}
+	MODEL_RELEASE(stageHandle);
 }
