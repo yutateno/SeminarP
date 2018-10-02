@@ -43,7 +43,7 @@ void BasicCreature::Player_AnimProcess()
 	// ƒuƒŒƒ“ƒh—¦‚ª‚PˆÈ‰º‚Ìê‡‚Í‚P‚É‹ß‚Ã‚¯‚é
 	if (motionBlendTime < 1.0)
 	{
-		motionBlendTime += 0.1f;
+		motionBlendTime += 0.075f;
 		if (motionBlendTime >= 1.0f)
 		{
 			motionBlendTime = 1.0f;

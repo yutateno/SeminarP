@@ -21,10 +21,13 @@
 //#define _CHARACTER_DEBUG
 
 // ムーブ１クラスのデバッグ
-#define _MOVE1_DEBUG
+//#define _MOVE1_DEBUG
 
 // ムーブ１で落ちてる剣のクラスのデバッグ
 //#define _DROPITEM1_DEBUG
+
+// カメラのデバッグ
+#define _CAMERA_DEBG
 
 
 
