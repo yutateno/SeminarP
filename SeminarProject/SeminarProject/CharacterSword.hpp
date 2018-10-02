@@ -62,5 +62,8 @@ public:
 
 
 	void PositionReset();
+
+
+	void SetArea(const VECTOR area);
 };
 

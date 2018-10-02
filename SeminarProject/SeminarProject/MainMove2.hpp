@@ -37,13 +37,10 @@ private:
 	Camera* p_camera;					// カメラのポインタ
 
 
-
-	int skyBoxUp;
-	int skyBoxUnder;
-
-
-
 	void ShadowDraw();
+
+
+	//void AttackProcess();
 
 public:
 	MainMove2(const std::vector<int> v_file);

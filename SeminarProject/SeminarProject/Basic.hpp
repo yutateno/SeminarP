@@ -23,11 +23,17 @@
 // ムーブ１クラスのデバッグ
 //#define _MOVE1_DEBUG
 
+// ムーブ２クラスのデバッグ
+//#define _MOVE2_DEBUG
+
 // ムーブ１で落ちてる剣のクラスのデバッグ
 //#define _DROPITEM1_DEBUG
 
 // カメラのデバッグ
-#define _CAMERA_DEBG
+//#define _CAMERA_DEBG
+
+// シーン移動デバッグ
+//#define _SCENE_MOVE_DEBUG
 
 
 

@@ -14,5 +14,7 @@ public:
 
 	void Draw();
 	void Process();
+
+	void SetArea(const VECTOR area);
 };
 

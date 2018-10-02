@@ -37,7 +37,7 @@ Camera::~Camera()
 void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumber)
 {
 	VECTOR TestPosition = cameraArea;
-	static int zoom = 0;
+	//static int zoom = 0;
 
 	charaArea = VAdd(charaarea, VGet(0.0f, 80.0f, 0.0f));					// キャラの位置を更新し続ける
 
@@ -78,64 +78,64 @@ void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumbe
 		}
 	}
 
-	MV1_COLL_RESULT_POLY_DIM HRes;
-	int HitNum;
+	//MV1_COLL_RESULT_POLY_DIM HRes;
+	//int HitNum;
 
-	// 注視点からカメラの座標までの間にステージのポリゴンがあるか調べる
-	HRes = MV1CollCheck_Capsule(this->stageHandle, -1, VAdd(TestPosition, charaArea), charaArea, 10.0f);
-	HitNum = HRes.HitNum;
-	MV1CollResultPolyDimTerminate(HRes);
-	if (HitNum != 0)
-	{
-		TestPosition = VAdd(TestPosition, VAdd(VGet(0, 10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), -1)));	// ズームイン処理をさせる
-		zoom++;
-		cameraArea = TestPosition;
+	//// 注視点からカメラの座標までの間にステージのポリゴンがあるか調べる
+	//HRes = MV1CollCheck_Capsule(this->stageHandle, -1, VAdd(TestPosition, charaArea), charaArea, 10.0f);
+	//HitNum = HRes.HitNum;
+	//MV1CollResultPolyDimTerminate(HRes);
+	//if (HitNum != 0)
+	//{
+	//	//TestPosition = VAdd(TestPosition, VAdd(VGet(0, 10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), -1)));	// ズームイン処理をさせる
+	//	//zoom++;
+	//	cameraArea = TestPosition;
 
-		//float NotHitLength;
-		//float HitLength;
-		//float TestLength;
+	//	//float NotHitLength;
+	//	//float HitLength;
+	//	//float TestLength;
 
-		//// あったら無い位置までプレイヤーに近づく
+	//	//// あったら無い位置までプレイヤーに近づく
 
-		//// ポリゴンに当たらない距離をセット
-		//NotHitLength = 0.0f;
+	//	//// ポリゴンに当たらない距離をセット
+	//	//NotHitLength = 0.0f;
 
-		//// ポリゴンに当たる距離をセット
-		//HitLength = sqrt((charaArea.x - cameraArea.x) * (charaArea.x - cameraArea.x) + (charaArea.z - cameraArea.z) * (charaArea.z - cameraArea.z));;
-		//do
-		//{
-		//	// 当たるかどうかテストする距離をセット( 当たらない距離と当たる距離の中間 )
-		//	TestLength = NotHitLength + (HitLength - NotHitLength) / 2.0f;
-		//	
-		//	// 新しい座標で壁に当たるかテスト
-		//	HRes = MV1CollCheck_Capsule(this->stageHandle, -1, this->charaArea, TestPosition, 10.0f);
-		//	HitNum = HRes.HitNum;
-		//	MV1CollResultPolyDimTerminate(HRes);
-		//	if (HitNum != 0)
-		//	{
-		//		// 当たったら当たる距離を TestLength に変更する
-		//		HitLength = TestLength;
-		//	}
-		//	else
-		//	{
-		//		// 当たらなかったら当たらない距離を TestLength に変更する
-		//		NotHitLength = TestLength;
-		//	}
+	//	//// ポリゴンに当たる距離をセット
+	//	//HitLength = sqrt((charaArea.x - cameraArea.x) * (charaArea.x - cameraArea.x) + (charaArea.z - cameraArea.z) * (charaArea.z - cameraArea.z));;
+	//	//do
+	//	//{
+	//	//	// 当たるかどうかテストする距離をセット( 当たらない距離と当たる距離の中間 )
+	//	//	TestLength = NotHitLength + (HitLength - NotHitLength) / 2.0f;
+	//	//	
+	//	//	// 新しい座標で壁に当たるかテスト
+	//	//	HRes = MV1CollCheck_Capsule(this->stageHandle, -1, this->charaArea, TestPosition, 10.0f);
+	//	//	HitNum = HRes.HitNum;
+	//	//	MV1CollResultPolyDimTerminate(HRes);
+	//	//	if (HitNum != 0)
+	//	//	{
+	//	//		// 当たったら当たる距離を TestLength に変更する
+	//	//		HitLength = TestLength;
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		// 当たらなかったら当たらない距離を TestLength に変更する
+	//	//		NotHitLength = TestLength;
+	//	//	}
 
-		//	// HitLength と NoHitLength が十分に近づいていなかったらループ
-		//} while (HitLength - NotHitLength > 0.1f);
-	}
-	else
-	{
-		if (zoom > 0)
-		{
-			TestPosition = VAdd(TestPosition, VAdd(VGet(0, -10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), 1)));	// ズームアウト処理をさせる
-			zoom--;
-		}
-		cameraArea = TestPosition;
-	}
+	//	//	// HitLength と NoHitLength が十分に近づいていなかったらループ
+	//	//} while (HitLength - NotHitLength > 0.1f);
+	//}
+	//else
+	//{
+	//	if (zoom > 0)
+	//	{
+	//		TestPosition = VAdd(TestPosition, VAdd(VGet(0, -10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), 1)));	// ズームアウト処理をさせる
+	//		zoom--;
+	//	}
+	//	cameraArea = TestPosition;
+	//}
 
-	//cameraArea = TestPosition;
+	cameraArea = TestPosition;
 
 #ifdef _CAMERA_DEBG
 	printfDx("%d\n", HitNum);

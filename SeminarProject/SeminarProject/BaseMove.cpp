@@ -91,6 +91,35 @@ int BaseMove::GetDistance(const VECTOR alpha, const VECTOR beta)
 	return (int)distance;
 }
 
+void BaseMove::SkyBoxDraw()
+{
+	// ライティングを無効にする
+	SetUseLighting(FALSE);
+	// Ｚバッファを有効にする
+	SetUseZBuffer3D(TRUE);
+	MV1DrawModel(skyBoxUp);
+	MV1DrawModel(skyBoxUnder);
+	// ライティングを有効にする
+	SetUseLighting(TRUE);
+	// Ｚバッファを無効にする
+	SetUseZBuffer3D(FALSE);
+}
+
+void BaseMove::SkyBoxProcess(const VECTOR characterArea)
+{
+	MV1SetPosition(skyBoxUp, characterArea);
+	MV1SetPosition(skyBoxUnder, characterArea);
+}
+
+void BaseMove::SetInitSkyBox(const int skyBoxUp)
+{
+	this->skyBoxUp = MV1DuplicateModel(skyBoxUp);
+	MV1SetScale(this->skyBoxUp, VGet(170.0f, 170.0f, 170.0f));
+	this->skyBoxUnder = MV1DuplicateModel(this->skyBoxUp);
+	MV1SetScale(this->skyBoxUnder, VGet(170.0f, 170.0f, 170.0f));
+	MV1SetRotationXYZ(this->skyBoxUnder, VGet(DX_PI_F, 0.0f, 0.0f));
+}
+
 BaseMove::BaseMove()
 {
 	SetLightEnable(TRUE);
@@ -134,6 +163,11 @@ BaseMove::BaseMove()
 	SetShadowMapLightDirection(shadowMapCharaHandle, lightDire);
 	SetShadowMapLightDirection(shadowMapAnotherCharaHandle, lightDire);
 	SetShadowMapLightDirection(shadowMapNoMoveHandle, lightDire);
+
+
+	// スカイボックスに関して
+	skyBoxUnder = -1;
+	skyBoxUp = -1;
 }
 
 BaseMove::~BaseMove()
@@ -142,6 +176,10 @@ BaseMove::~BaseMove()
 	SHADOW_MAP_RELEASE(shadowMapNoMoveHandle);
 	SHADOW_MAP_RELEASE(shadowMapAnotherCharaHandle);
 	SHADOW_MAP_RELEASE(shadowMapCharaHandle);
+
+	// スカイボックスの削除
+	MODEL_RELEASE(skyBoxUnder);
+	MODEL_RELEASE(skyBoxUp);
 }
 
 const bool BaseMove::GetEndFlag()

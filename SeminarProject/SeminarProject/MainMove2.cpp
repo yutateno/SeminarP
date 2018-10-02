@@ -50,6 +50,56 @@ void MainMove2::ShadowDraw()
 	BaseMove::ShadowCharaDrawAfter();
 }
 
+
+//void MainMove2::AttackProcess()
+//{
+//	VECTOR ChkChToChVec;
+//	VECTOR PushVec;
+//	VECTOR ChPosition;
+//	float Length;
+//
+//	// 移動後の ch の座標を算出
+//	ChPosition = p_enemy->GetArea();
+//
+//	// 当たっていなかったら何もしない
+//	if (HitCheck_Capsule_Capsule(
+//		p_character->GetArea(), VAdd(p_character->GetArea(), VGet(0.0f, 160.0f, 0.0f)), 50.0f,
+//		p_enemy->GetArea(), VAdd(p_enemy->GetArea(), VGet(0.0f, 10.0f, 0.0f)), 10.0f) == TRUE)
+//	{
+//		// 当たっていたら ch が chk から離れる処理をする
+//
+//		// chk_ch から ch へのベクトルを算出
+//		ChkChToChVec = VSub(p_character->GetArea(), p_enemy->GetArea());
+//
+//		// Ｙ軸は見ない
+//		ChkChToChVec.y = 0.0f;
+//
+//		// 二人の距離を算出
+//		Length = VSize(ChkChToChVec);
+//
+//		// chk_ch から ch へのベクトルを正規化( ベクトルの長さを 1.0f にする )
+//		PushVec = VScale(ChkChToChVec, 1.0f / Length);
+//
+//		// 押し出す距離を算出、もし二人の距離から二人の大きさを引いた値に押し出し力を足して離れてしまう場合は、ぴったりくっつく距離に移動する
+//		if (Length - (50.0f + 10.0f) + 30.0f > 0.0f)
+//		{
+//			float TempY;
+//
+//			TempY = ChPosition.y;
+//			p_enemy->SetArea(VAdd(p_enemy->GetArea(), VScale(PushVec, (50.0f + 10.0f))));
+//
+//			// Ｙ座標は変化させない
+//			p_enemy->SetArea(VGet(p_enemy->GetArea().x, TempY, p_enemy->GetArea().z));
+//		}
+//		else
+//		{
+//			// 押し出し
+//			p_enemy->SetArea(VAdd(ChPosition, VScale(PushVec, 60.0f)));
+//		}
+//	}
+//}
+
+
 MainMove2::MainMove2(const std::vector<int> v_file)
 {
 	// ポインタNULL初期化
@@ -82,20 +132,15 @@ MainMove2::MainMove2(const std::vector<int> v_file)
 	}
 
 
+	// スカイボックス読み込み
+	BaseMove::SetInitSkyBox(v_file[EFILE::skyBox]);
+
+
 	// 階段のあたり判定
 	for (int i = 0; i != 10; ++i)
 	{
 		p_character->SetStairsArea(p_stageStairs[i]->GetArea(), i);
 	}
-
-
-	skyBoxUp = 0;
-	skyBoxUp = MV1DuplicateModel(v_file[EFILE::skyBox]);
-	MV1SetScale(skyBoxUp, VGet(170.0f, 170.0f, 170.0f));
-	skyBoxUnder = MV1DuplicateModel(skyBoxUp);
-	MV1SetScale(skyBoxUnder, VGet(170.0f, 170.0f, 170.0f));
-	MV1SetRotationXYZ(skyBoxUnder, VGet(DX_PI_F, 0.0f, 0.0f));
-
 
 	BaseMove::ShadowNoMoveSetUpBefore();
 	p_stage->Draw();
@@ -105,8 +150,6 @@ MainMove2::MainMove2(const std::vector<int> v_file)
 
 MainMove2::~MainMove2()
 {
-	MODEL_RELEASE(skyBoxUnder);
-	MODEL_RELEASE(skyBoxUp);
 	for (int i = 0; i != 30; ++i)
 	{
 		POINTER_RELEASE(p_stageStreetLight[i]);
@@ -127,16 +170,8 @@ void MainMove2::Draw()
 {
 	//DrawGraph(0, 0, backGround, false);
 
-	// ライティングを無効にする
-	SetUseLighting(FALSE);
-	// Ｚバッファを有効にする
-	SetUseZBuffer3D(TRUE);
-	MV1DrawModel(skyBoxUp);
-	MV1DrawModel(skyBoxUnder);
-	// ライティングを有効にする
-	SetUseLighting(TRUE);
-	// Ｚバッファを無効にする
-	SetUseZBuffer3D(FALSE);
+	
+	BaseMove::SkyBoxDraw();
 
 
 	ShadowDraw();
@@ -145,7 +180,8 @@ void MainMove2::Draw()
 	p_character->Draw();
 
 
-#ifdef _MOVE1_DEBUG
+#ifdef _MOVE2_DEBUG
+	printfDx("%f\t%f\t%f\n", p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
 #ifdef _SEARCH_MODEL_DEBUG
 	for (int i = 0; i < enemyNum; ++i)
 	{
@@ -157,7 +193,7 @@ void MainMove2::Draw()
 	}
 #endif
 	//printfDx("NUM:%d\tCOUNT:%d\tX:%f\tY:%f\tZ:%f\n", catchEnemyNum, lightEventCount, p_character->GetArea().x, p_character->GetArea().y, p_character->GetArea().z);
-#endif // _MOVE1_DEBUG
+#endif // _MOVE2_DEBUG
 }
 
 
@@ -178,9 +214,9 @@ void MainMove2::Process(const unsigned __int8 controllNumber)
 
 	BaseMove::ShadowArea(p_character->GetArea());
 
+	//AttackProcess();
 
-	MV1SetPosition(skyBoxUp, p_character->GetArea());
-	MV1SetPosition(skyBoxUnder, p_character->GetArea());
+	BaseMove::SkyBoxProcess(p_character->GetArea());
 }
 
 

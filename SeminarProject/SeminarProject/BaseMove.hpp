@@ -5,7 +5,8 @@
 // シーンの動き
 enum class ESceneNumber
 {
-	STARTLOAD, FIRSTMOVE, SECONDLOAD, SECONDMOVE
+	STARTLOAD, FIRSTMOVE, SECONDLOAD, SECONDMOVE, THORDLOAD, THORDMOVE, FORTHLOAD, FORTHMOVE, FIFTHLOAD, FIFTHMOVE
+	,SIXTHLOAD, SIXTHMOVE, TITLELOAD, TITLEMOVE
 };
 
 
@@ -29,6 +30,8 @@ private:
 	VECTOR lightDire;						// ライトのディレクション方向
 	// ---------------------------------------------------------
 
+	// スカイボックスに関して
+	int skyBoxUp, skyBoxUnder;
 
 protected:
 	// 高負荷覚悟で試したいので試す
@@ -73,6 +76,12 @@ protected:
 
 	// 二つのモデルの距離
 	int GetDistance(const VECTOR alpha, const VECTOR beta);
+
+
+	// スカイボックスに関して
+	void SkyBoxDraw();
+	void SkyBoxProcess(const VECTOR characterArea);
+	void SetInitSkyBox(const int skyBoxUp);
 
 
 public:

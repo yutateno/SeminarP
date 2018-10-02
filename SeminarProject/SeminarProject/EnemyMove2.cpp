@@ -31,3 +31,8 @@ void EnemyMove2::Draw()
 void EnemyMove2::Process()
 {
 }
+
+void EnemyMove2::SetArea(const VECTOR area)
+{
+	this->area = area;
+}
