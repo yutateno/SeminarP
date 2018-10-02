@@ -51,53 +51,56 @@ void MainMove2::ShadowDraw()
 }
 
 
-//void MainMove2::AttackProcess()
-//{
-//	VECTOR ChkChToChVec;
-//	VECTOR PushVec;
-//	VECTOR ChPosition;
-//	float Length;
-//
-//	// 移動後の ch の座標を算出
-//	ChPosition = p_enemy->GetArea();
-//
-//	// 当たっていなかったら何もしない
-//	if (HitCheck_Capsule_Capsule(
-//		p_character->GetArea(), VAdd(p_character->GetArea(), VGet(0.0f, 160.0f, 0.0f)), 50.0f,
-//		p_enemy->GetArea(), VAdd(p_enemy->GetArea(), VGet(0.0f, 10.0f, 0.0f)), 10.0f) == TRUE)
-//	{
-//		// 当たっていたら ch が chk から離れる処理をする
-//
-//		// chk_ch から ch へのベクトルを算出
-//		ChkChToChVec = VSub(p_character->GetArea(), p_enemy->GetArea());
-//
-//		// Ｙ軸は見ない
-//		ChkChToChVec.y = 0.0f;
-//
-//		// 二人の距離を算出
-//		Length = VSize(ChkChToChVec);
-//
-//		// chk_ch から ch へのベクトルを正規化( ベクトルの長さを 1.0f にする )
-//		PushVec = VScale(ChkChToChVec, 1.0f / Length);
-//
-//		// 押し出す距離を算出、もし二人の距離から二人の大きさを引いた値に押し出し力を足して離れてしまう場合は、ぴったりくっつく距離に移動する
-//		if (Length - (50.0f + 10.0f) + 30.0f > 0.0f)
-//		{
-//			float TempY;
-//
-//			TempY = ChPosition.y;
-//			p_enemy->SetArea(VAdd(p_enemy->GetArea(), VScale(PushVec, (50.0f + 10.0f))));
-//
-//			// Ｙ座標は変化させない
-//			p_enemy->SetArea(VGet(p_enemy->GetArea().x, TempY, p_enemy->GetArea().z));
-//		}
-//		else
-//		{
-//			// 押し出し
-//			p_enemy->SetArea(VAdd(ChPosition, VScale(PushVec, 60.0f)));
-//		}
-//	}
-//}
+void MainMove2::AttackProcess()
+{
+	/*VECTOR ChkChToChVec;
+	VECTOR PushVec;
+	VECTOR ChPosition;
+	float Length;*/
+
+	// 当たっていなかったら何もしない
+	if (HitCheck_Capsule_Capsule(
+		p_character->GetArea(), VAdd(p_character->GetArea(), VGet(0.0f, 160.0f, 0.0f)), 50.0f,
+		p_enemy->GetArea(), VAdd(p_enemy->GetArea(), VGet(0.0f, 100.0f, 0.0f)), 50.0f))
+	{
+		VECTOR check = VSub(p_character->GetArea(), p_character->GetPreArea());
+		check.y = 0.0f;
+		float length = VSize(check);
+		VECTOR position = VScale(check, 1.0f / length);
+		p_enemy->SetArea(VAdd(p_enemy->GetArea(), VScale(position, 50.0f)));
+
+		//// 当たっていたら ch が chk から離れる処理をする
+
+		//// chk_ch から ch へのベクトルを算出
+		//ChkChToChVec = VSub(p_character->GetArea(), p_enemy->GetArea());
+
+		//// Ｙ軸は見ない
+		//ChkChToChVec.y = 0.0f;
+
+		//// 二人の距離を算出
+		//Length = VSize(ChkChToChVec);
+
+		//// chk_ch から ch へのベクトルを正規化( ベクトルの長さを 1.0f にする )
+		//PushVec = VScale(ChkChToChVec, 1.0f / Length);
+
+		//// 押し出す距離を算出、もし二人の距離から二人の大きさを引いた値に押し出し力を足して離れてしまう場合は、ぴったりくっつく距離に移動する
+		//if (Length - (50.0f + 50.0f) + 50.0f > 0.0f)
+		//{
+		//	float TempY;
+
+		//	TempY = ChPosition.y;
+		//	p_enemy->SetArea(VAdd(p_enemy->GetArea(), VScale(PushVec, (50.0f + 50.0f))));
+
+		//	// Ｙ座標は変化させない
+		//	p_enemy->SetArea(VGet(p_enemy->GetArea().x, TempY, p_enemy->GetArea().z));
+		//}
+		//else
+		//{
+		//	// 押し出し
+		//	p_enemy->SetArea(VAdd(ChPosition, VScale(PushVec, 50.0f)));
+		//}
+	}
+}
 
 
 MainMove2::MainMove2(const std::vector<int> v_file)
@@ -214,7 +217,7 @@ void MainMove2::Process(const unsigned __int8 controllNumber)
 
 	BaseMove::ShadowArea(p_character->GetArea());
 
-	//AttackProcess();
+	AttackProcess();
 
 	BaseMove::SkyBoxProcess(p_character->GetArea());
 }

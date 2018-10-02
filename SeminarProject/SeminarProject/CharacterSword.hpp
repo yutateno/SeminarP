@@ -64,6 +64,6 @@ public:
 	void PositionReset();
 
 
-	void SetArea(const VECTOR area);
+	const VECTOR GetPreArea() const;
 };
 

@@ -489,9 +489,9 @@ void CharacterSword::PositionReset()
 	area = VGet(0.0f, 0.0f, 0.0f);
 }
 
-void CharacterSword::SetArea(const VECTOR area)
+const VECTOR CharacterSword::GetPreArea() const
 {
-	this->area = area;
+	return preArea;
 }
 
 
@@ -502,11 +502,7 @@ void CharacterSword::Draw()
 
 	BasicObject::ShadowFoot();
 
-#ifdef _MODEL_DEBUG
+#ifdef _SWORD_CHARA_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
-#endif // _MODEL_DEBUG
-#ifdef _CHARACTER_DEBUG
-	printfDx("%f\t%d\n", walkSpeed, fallCount);
-	printfDx("XAngle:%f\tZAngle%f\t左:%d\t上:%d\n", direXAngle, direZAngle, InputPad::GetPadThumbData(0, STICK_LEFT_X), InputPad::GetPadThumbData(0, STICK_LEFT_Y));
-#endif // _CHARACTER_DEBUG
+#endif // _SWORD_CHARA_DEBUG
 }

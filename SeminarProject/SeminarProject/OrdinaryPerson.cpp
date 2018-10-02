@@ -181,9 +181,6 @@ void OrdinaryPerson::Draw()
 #ifdef _MODEL_DEBUG
 	DrawCapsule3D(area, VAdd(area, VGet(0.0f, modelHeight, 0.0f)), modelWigth, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), false);		// 当たり判定を確認用の表示テスト
 #endif // _MODEL_DEBUG
-#ifdef _CHARACTER_DEBUG
-	printfDx("XAngle:%f\tZAngle%f\t左:%d\t上:%d\n", direXAngle, direZAngle, InputPad::GetPadThumbData(0, STICK_LEFT_X), InputPad::GetPadThumbData(0, STICK_LEFT_Y));
-#endif // _CHARACTER_DEBUG
 #ifdef _DEBUG
 	//printfDx("X : %f\tZ : %f\tNX : %f\tNZ : %f\n", direXAngle, direZAngle, nextDireXAngle, nextDireZAngle);
 #endif // _DEBUG

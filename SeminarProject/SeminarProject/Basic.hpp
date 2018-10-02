@@ -35,6 +35,12 @@
 // シーン移動デバッグ
 //#define _SCENE_MOVE_DEBUG
 
+// ムーブ２敵
+#define _ENEMY2_DEBUG
+
+// 剣持った主人公デバッグ
+#define _SWORD_CHARA_DEBUG
+
 
 
 // マクロ

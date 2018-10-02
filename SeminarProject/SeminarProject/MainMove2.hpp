@@ -40,7 +40,7 @@ private:
 	void ShadowDraw();
 
 
-	//void AttackProcess();
+	void AttackProcess();
 
 public:
 	MainMove2(const std::vector<int> v_file);
