@@ -87,7 +87,7 @@ void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumbe
 	MV1CollResultPolyDimTerminate(HRes);
 	if (HitNum != 0)
 	{
-		TestPosition = VAdd(TestPosition, VAdd(VGet(0, 1.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), -1)));	// ズームイン処理をさせる
+		TestPosition = VAdd(TestPosition, VAdd(VGet(0, 10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), -1)));	// ズームイン処理をさせる
 		zoom++;
 		cameraArea = TestPosition;
 
@@ -129,7 +129,7 @@ void Camera::Process(const VECTOR charaarea, const unsigned __int8 controllNumbe
 	{
 		if (zoom > 0)
 		{
-			TestPosition = VAdd(TestPosition, VAdd(VGet(0, -1.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), 1)));	// ズームアウト処理をさせる
+			TestPosition = VAdd(TestPosition, VAdd(VGet(0, -10.0f, 0), VScale(VNorm(VGet(TestPosition.x, 0, TestPosition.z)), 1)));	// ズームアウト処理をさせる
 			zoom--;
 		}
 		cameraArea = TestPosition;
