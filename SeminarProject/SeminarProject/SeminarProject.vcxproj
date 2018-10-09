@@ -202,6 +202,7 @@
     <ClInclude Include="MainMove1.hpp" />
     <ClInclude Include="MainMove2.hpp" />
     <ClInclude Include="Manager.hpp" />
+    <ClInclude Include="Parameter.hpp" />
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="StageStairs.hpp" />
     <ClInclude Include="StageStreetLight.hpp" />

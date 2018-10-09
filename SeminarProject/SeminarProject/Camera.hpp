@@ -1,6 +1,5 @@
 #pragma once
 #include "Basic.hpp"
-#include "InputPad.hpp"
 
 
 class Camera

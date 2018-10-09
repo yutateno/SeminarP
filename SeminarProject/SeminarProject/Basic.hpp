@@ -2,7 +2,9 @@
 
 // インクルードファイル
 #include "InputKey.hpp"
+#include "InputPad.hpp"
 #include <math.h>
+#include "Parameter.hpp"
 
 
 

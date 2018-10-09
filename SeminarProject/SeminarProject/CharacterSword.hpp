@@ -1,5 +1,4 @@
 #pragma once
-#include "InputPad.hpp"
 #include "BasicCreature.hpp"
 
 

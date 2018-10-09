@@ -233,5 +233,8 @@
     <ClInclude Include="MainMove6.hpp">
       <Filter>ヘッダー ファイル\MoveLevel</Filter>
     </ClInclude>
+    <ClInclude Include="Parameter.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
