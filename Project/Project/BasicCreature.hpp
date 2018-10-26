@@ -2,36 +2,51 @@
 #include "BasicObject.hpp"
 
 
+/// 動くアクターの親
 class BasicCreature : public BasicObject
 {
 protected:
-	// 位置について
-	VECTOR preArea;	// 移動前の直前のキャラ位置
-	float angle;	// アングル
+	// 位置について----------------------
+	/// 移動前の直前のキャラ位置
+	VECTOR preArea;	
+	/// アングル
+	float angle;	
 
 
-	// 動きに関して
-	float walkSpeed;	// 移動スピード
-	float animSpeed;	// モーションスピード
-	int fallCount;		// 当たり判定モデル全てから落ちているかどうか
+	// 動きに関して----------------------------------------
+	/// 移動スピード
+	float walkSpeed;	
+	/// モーションスピード
+	float animSpeed;	
+	/// 当たり判定モデル全てから落ちているかどうか
+	int fallCount;		
 
 
-	// モデルに関して
-	float modelWigth;	// モデルの横幅
+	// モデルに関して-----
+	/// モデルの横幅
+	float modelWigth;	
 
 
-	// モーションに関して
-	int attachMotion;			// モーションのアタッチ
-	int attachNum;				// 現在のモーション番号
-	float totalTime;			// モーションの総合時間
-	void Player_PlayAnim(int attach);		// モーション変更
-	void Player_AnimProcess();				// モーション動作
+	// モーションに関して---------------------------
+	/// モーションのアタッチ
+	int attachMotion;			
+	/// 現在のモーション番号
+	int attachNum;			
+	/// モーションの総合時間
+	float totalTime;			
+	/// モーション変更
+	void Player_PlayAnim(int attach);		
+	/// モーション動作
+	void Player_AnimProcess();				
 
 
-	// 当たり判定
-	bool moveFlag;						// 動いているかどうか
-	void StageHit();					// 当たり判定を行う
-	void ActorHit(int stageHandle);		// 当たり判定を行う
+	// 当たり判定-----------------------------
+	/// 動いているかどうか
+	bool moveFlag;						
+	/// 当たり判定を行う
+	void StageHit();					
+	/// 当たり判定を行う
+	void ActorHit(int stageHandle);		
 
 
 private:

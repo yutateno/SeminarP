@@ -1,4 +1,6 @@
 #pragma once
+/// 全体的に使うインクルードファイルとマクロの定義
+
 
 // インクルードファイル
 #include "InputKey.hpp"
