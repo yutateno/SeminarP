@@ -20,7 +20,7 @@ enum class ELOADFILE { graph, soundmem, fbxmodel, mv1model };
 class LoadFile
 {
 private:
-	static const int rad = 0x2546;						// 復号キー
+	static const int rad = 0xFFFF;						// 復号キー
 	static unsigned int file_size(std::ifstream &fin);	// ファイル読み込み
 
 public:
